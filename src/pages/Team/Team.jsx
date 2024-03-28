@@ -108,14 +108,15 @@ function Team() {
       {/* year wise team details */}
 
       <div id="teamdata" className="h-full bg-[#dd9c9c] ">
-        <div className="buttons space-x-3 space-y-3 font-hammersmith font-bold p-3 text-red-500  ">
+        <div className="buttons space-x-3 space-y-3 font-hammersmith font-bold p-3 ">
           {teaminfo.map((teaminfo) => (
             <button
               className="w-[20%] md:w-[10%]"
               key={teaminfo.year}
               style={{
                 backgroundColor:
-                  teaminfo.type === teamdetails ? "lightblue" : "white",
+                  teaminfo.type === teamdetails ? "#782626" : "white",
+                color: teaminfo.type===teamdetails ? "white":"#782626",
                 fontSize: "100%",
                 borderRadius: "10px",
               }}
