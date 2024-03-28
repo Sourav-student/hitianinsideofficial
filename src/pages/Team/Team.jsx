@@ -92,7 +92,7 @@ function Team() {
         {/* header section    */}
         <div className=" w-[80%] ">
           <p className=" text-[6vw] font-[500] font-hammersmith md:text-[6vw]">
-            The Maroon Sqad Family
+            The Maroon Squad Family
           </p>
           <p className=" font-hammersmith text-[60%] md:text-[100%] ">
             {/* somewhere between better and best are there. */}
