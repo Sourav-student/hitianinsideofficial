@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-
 // all images are there, add only path and it will be active
 import aditi from "../../assets/images/best_of_almanac/Aditi_bera_IT.jpg"
 import aditya from "../../assets/images/best_of_almanac/Aditya_Raj_IT.jpg"

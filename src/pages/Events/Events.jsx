@@ -152,10 +152,6 @@ function Events() {
 
       </section>
 
-
-
-
-
         {/* <div className="events-list"> */}
 
         {Elist.map((index) => (

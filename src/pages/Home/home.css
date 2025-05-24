@@ -6,6 +6,10 @@
    padding: 0;
 }
 
+body{
+   overflow-x: hidden;
+}
+
 .comeExplore{
    font-family: 'Geo', sans-serif;
    word-spacing: 4px;

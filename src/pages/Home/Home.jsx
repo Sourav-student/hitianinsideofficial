@@ -87,7 +87,7 @@ function Home() {
           </p>
         </div>
         <div className="button mt-10">
-          <Link to="about">
+          <Link to="/about">
             <button className="text-[#FFB5B5] font-semibold bg-[#650808] text-[1.3rem] w-[169px] h-[48px] rounded-[50px] hover:scale-125 transition-all duration-700 font-hammersmith">
               Know More
             </button>
