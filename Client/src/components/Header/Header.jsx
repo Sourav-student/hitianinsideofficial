@@ -6,7 +6,7 @@ import './header.css'
 
 const navLinks = [
   {
-    path: "/home",
+    path: "/",
     display: "Home",
   },
   {
@@ -30,6 +30,11 @@ const navLinks = [
     path: "/about",
     display: "About",
   },
+
+  {
+    path: "/profile",
+    display: "Profile",
+  }
 ];
 
 function Header() {
@@ -44,9 +49,9 @@ function Header() {
   return (
     <>
       <div>
-        <nav className="border-gray-200 bg-[#650808] dark:bg-[#650808] dark:border-[#650808] ">
+        <nav className="border-gray-200 bg-[#650808] dark:bg-[#650808] dark:border-[#650808]">
           <div className="max-w-screen-xl flex flex-wrap md:flex-nowrap items-center justify-between mx-auto p-4">
-            <a href="/" className="flex items-center ps-2 md:ps-5">
+            <NavLink to="/" className="flex items-center ps-2 md:ps-5">
               <img
                 src={logo} alt="INSIDE LOGO"
                 className="h-8 mr-3"
@@ -54,7 +59,7 @@ function Header() {
               <span className="self-center text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white">
                 HITian Inside
               </span>
-            </a>
+            </NavLink>
             <button
               // data-collapse-toggle="navbar-solid-bg"
               type="button"
@@ -96,11 +101,9 @@ function Header() {
                   </svg>
               }
             </button>
-
             <div className={navbarOpen} id="navbar-solid-bg" >
               <ul className="flex flex-col justify-end font-medium mt-4 rounded-lg bg-[#650808] md:flex-row md:space-x-4 md:mt-0 md:border-0 md:bg-transparent dark:bg-[#650808] md:dark:bg-transparent dark:border-gray-700">
                 {
-
                   navLinks.map((link, index) => (
                     <li key={index}>
                       <NavLink
@@ -115,13 +118,11 @@ function Header() {
                       </NavLink>
                     </li>
                   ))}
-
-
               </ul>
             </div>
           </div>
-        </nav>
-      </div>
+        </nav >
+      </div >
     </>
   );
 }
