@@ -7,28 +7,29 @@ const api = axios.create({
 })
 
 //google Auth 
-const googleAuth = (code) => api.get(`/auth/google?code=${code}`)
+const googleAuth = (code) => {
+  return api.get(`/auth/google?code=${code}`)
+}
 
 export default googleAuth;
 
 //submit contact us to backend
 export const contactFormSubmit = (data) => {
-  api.post("/api/form", data);
+  return api.post("/api/form", data);
 }
 
 //submit artwork to backend
 export const artworkFormSubmit = (data) => {
-  api.post("/api/artwork", data, {
+  return api.post("/api/artwork", data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
-
 }
 
 //submit photo to backend
 export const photoFormSubmit = (data) => {
-  api.post("/api/photography", data, {
+  return api.post("/api/photography", data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -37,15 +38,15 @@ export const photoFormSubmit = (data) => {
 
 //submit poem to backend
 export const poemFormSubmit = (data) => {
-  api.post("/api/poem", data);
+  return api.post("/api/poem", data);
 }
 
 //submit video to backend
 export const videoFormSubmit = (data) => {
-  api.post("/api/video", data);
+  return api.post("/api/video", data);
 }
 
 //submit story to backend
 export const storyFormSubmit = (data) => {
-  api.post("/api/story", data);
+  return api.post("/api/story", data);
 }
