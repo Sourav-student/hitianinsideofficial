@@ -9,16 +9,6 @@ import { toast } from "react-toastify"
 
 const SignIn = () => {
 
-  const [userInfo, setUserInfo] = useState({
-    email: '',
-    name: '',
-    image: '',
-    token: '',
-    admin: false
-  })
-
-  console.log(userInfo)
-
   const setIsAccount = useContext(isAccountContext);
   const navigate = useNavigate();
 
@@ -30,7 +20,6 @@ const SignIn = () => {
         const { email, name, image, admin } = await result.data.user;
         const token = await result.data.token;
         //newUser
-        setUserInfo({ email, name, image, token, admin });
         localStorage.setItem('user-info', JSON.stringify({email, name, image, token, admin}))
         setIsAccount(true)
         navigate('/');
@@ -47,11 +36,6 @@ const SignIn = () => {
     onError: responseGoogle,
     flow: 'auth-code'
   })
-
-  //user information stored in localstorage
-  // useEffect(() => {
-  //   localStorage.setItem('user-info', JSON.stringify(userInfo));
-  // }, [userInfo])
 
   return (
     <div className="w-full h-[100vh] absolute top-0 z-50 bg-[#650808] flex flex-col justify-center items-center text-white">
