@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import GoogleAuthWrapper from '../components/GoogleAuthWrapper/GoogleAuthWrapper' //google sign up
 
+//user + admin both can access
 import Home from '../pages/Home/Home'
 import Almanac from '../pages/Almanac/Almanac'
 import Events from '../pages/Events/Events'
