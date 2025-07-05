@@ -208,4 +208,4 @@ const VideoSubmition = () => {
   )
 }
 
-export default VideoSubmition
+export default VideoSubmition;
