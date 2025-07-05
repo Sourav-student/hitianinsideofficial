@@ -49,19 +49,19 @@ function Routers() {
           path='/almanac/almanac-form'
           element={<AlmanacForm />} />
         <Route exact
-          path='/almanac/artwork-form-submit/artwork-form-submit'
+          path='/almanac/almanac-form/artwork-form-submit'
           element={<ArtSubmition />} />
         <Route exact
-          path='/almanac/artwork-form-submit/photo-form-submit'
+          path='/almanac/almanac-form/photo-form-submit'
           element={<PhotoSubmition />} />
         <Route exact
-          path='/almanac/artwork-form-submit/story-form-submit'
+          path='/almanac/almanac-form/story-form-submit'
           element={<StorySubmition />} />
         <Route exact
-          path='/almanac/artwork-form-submit/video-form-submit'
+          path='/almanac/almanac-form/video-form-submit'
           element={<VideoSubmition />} />
         <Route exact
-          path='/almanac/artwork-form-submit/poem-form-submit'
+          path='/almanac/almanac-form/poem-form-submit'
           element={<PoemSubmition />} />
         <Route exact path='*' element={<PageNotFound />}></Route>
         <Route exact path='/matches-scorecard' element={<MatchesScores />} />
