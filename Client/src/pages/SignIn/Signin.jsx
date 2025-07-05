@@ -20,10 +20,11 @@ const SignIn = () => {
         const { email, name, image, admin } = await result.data.user;
         const token = await result.data.token;
         //newUser
-        localStorage.setItem('user-info', JSON.stringify({email, name, image, token, admin}))
+        localStorage.setItem('user-info', JSON.stringify({ email, name, image, token, admin }))
         setIsAccount(true)
         navigate('/');
         toast.success("sign in successfully");
+        window.location.reload();
       }
     } catch (error) {
       toast.error("server error, try again later");
