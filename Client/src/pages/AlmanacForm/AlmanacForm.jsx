@@ -25,20 +25,20 @@ const AlmanacForm = () => {
       formSubmitionLink: "/almanac/almanac-form/poem-form-submit",
       aosSegment: "fade-up",
     },
-    {
-      img_url: aditi,
-      Almanacname: "Reels/Videos",
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
-      formSubmitionLink: "/almanac/almanac-form/video-form-submit",
-      aosSegment: "fade-up",
-    },
-    {
-      img_url: aditi,
-      Almanacname: "Story and Experiences",
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
-      formSubmitionLink: "/almanac/almanac-form/story-form-submit",
-      aosSegment: "fade-up",
-    },
+    // {
+    //   img_url: aditi,
+    //   Almanacname: "Reels/Videos",
+    //   content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
+    //   formSubmitionLink: "/almanac/almanac-form/video-form-submit",
+    //   aosSegment: "fade-up",
+    // },
+    // {
+    //   img_url: aditi,
+    //   Almanacname: "Story and Experiences",
+    //   content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
+    //   formSubmitionLink: "/almanac/almanac-form/story-form-submit",
+    //   aosSegment: "fade-up",
+    // },
   ]
   return (
     <div>

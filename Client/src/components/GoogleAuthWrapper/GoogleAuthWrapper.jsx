@@ -1,4 +1,4 @@
-import SignIn from '../../pages/SignIn/Signin'
+import SignIn from '../../pages/SignIn/Signin';
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const GoogleAuthWrapper = () => {

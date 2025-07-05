@@ -15,7 +15,6 @@ const authSchema = new mongoose.Schema({
   },
   admin: {
     type:Boolean,
-    default: false
   }
 }, { timestamps: true });
 

@@ -7,15 +7,17 @@ import { isAccountContext } from "../../context/context";
 import logo from "../../assets/images/logo.png";
 import { toast } from "react-toastify"
 
-const LogIn = () => {
-  
+const SignIn = () => {
+
   const [userInfo, setUserInfo] = useState({
     email: '',
     name: '',
-    image : '',
-    admin : false,
-    token : ''
+    image: '',
+    token: '',
+    admin: false
   })
+
+  console.log(userInfo)
 
   const setIsAccount = useContext(isAccountContext);
   const navigate = useNavigate();
@@ -27,11 +29,9 @@ const LogIn = () => {
         const result = await googleAuth(authResult['code']);
         const { email, name, image, admin } = await result.data.user;
         const token = await result.data.token;
-
-        setUserInfo({
-          email, name, image, admin, token
-        })
-
+        //newUser
+        setUserInfo({ email, name, image, token, admin });
+        localStorage.setItem('user-info', JSON.stringify({email, name, image, token, admin}))
         setIsAccount(true)
         navigate('/');
         toast.success("sign in successfully");
@@ -48,9 +48,10 @@ const LogIn = () => {
     flow: 'auth-code'
   })
 
-  useEffect(() => {
-    localStorage.setItem('uset-info', userInfo);
-  }, [userInfo])
+  //user information stored in localstorage
+  // useEffect(() => {
+  //   localStorage.setItem('user-info', JSON.stringify(userInfo));
+  // }, [userInfo])
 
   return (
     <div className="w-full h-[100vh] absolute top-0 z-50 bg-[#650808] flex flex-col justify-center items-center text-white">
@@ -71,10 +72,11 @@ const LogIn = () => {
       </div>
 
       <div>
-        <button className="my-5 p-3 bg-[#e25454] font-bold rounded-full flex items-center gap-2 shadow-lg hover:shadow-2xl hover:scale-110"><div className="bg-[#e77b7b] p-2 rounded-full"><BiLogoGoogle className="h-6 w-6" /></div> <p className="text-xl" onClick={googleLogin}>Sign in with Google</p></button>
+        <button className="my-5 p-3 bg-[#e25454] font-bold rounded-full flex items-center gap-2 shadow-lg hover:shadow-2xl hover:scale-110"
+          onClick={googleLogin}><div className="bg-[#e77b7b] p-2 rounded-full"><BiLogoGoogle className="h-6 w-6" /></div> <p className="text-xl">Sign in with Google</p></button>
       </div>
     </div>
   )
 }
 
-export default LogIn
+export default SignIn;

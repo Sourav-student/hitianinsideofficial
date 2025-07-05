@@ -29,9 +29,9 @@ function Routers() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('user-info'));
-    setIsAdmin(userData.admin);
-  }, [isAdmin]);
+    const userData = JSON.parse(localStorage.getItem('user-info')) || {};
+    setIsAdmin(userData?.admin || false);
+  }, []);
 
   return (
     <div>
