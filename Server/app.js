@@ -1,15 +1,18 @@
 import express from 'express';
 import dotenv from 'dotenv'
-dotenv.config();
 import cors from 'cors';
 import path from 'path';
-import postRouter from './routers/postRouter.js';
-import getRouter from './routers/getRouter.js';
-import authRouter from './routers/authRouter.js';
+import userGetRouter from './routers/userRouters/userGetRouters.js';
+import authRouter from './routers/authRouter/authRouter.js';
+import userPostRouter from './routers/userRouters/userPostRouters.js';
+import adminPostRouter from './routers/adminRouters/adminPostRouters.js';
+import adminPatchRouter from './routers/adminRouters/adminPatchRouters.js';
+import adminDeleteRouter from './routers/adminRouters/adminDeleteRouters.js'
 import { dbConn } from './utils/dbConnection.js';
 
-const PORT = process.env.PORT
 const app = express();
+dotenv.config();
+const PORT = process.env.PORT
 
 dbConn();
 
@@ -21,9 +24,12 @@ app.use(cors({
 }));
 app.use('/uploads', express.static(path.resolve('uploads')));
 app.use(express.json());
-app.use(postRouter);
-app.use(getRouter);
+app.use(userGetRouter);
+app.use(userPostRouter);
 app.use(authRouter);
+app.use(adminPostRouter);
+app.use(adminPatchRouter);
+app.use(adminDeleteRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running at PORT ${PORT}`)

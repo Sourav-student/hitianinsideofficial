@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { artworkFormSubmit } from '../../api/api';
+import { artworkFormSubmit } from '../../api/userapis';
+import { toast } from 'react-toastify'
 
 const ArtSubmition = () => {
 
@@ -26,131 +27,196 @@ const ArtSubmition = () => {
   //Artwork Form Submition
   const handleSubmit = async () => {
     try {
-      if (formData.contactNo.length !== 10) {
-        alert("Invalid number!!");
+
+      //form validation
+      if (formData.name === '' || formData.contactNo === '' || formData.file === null || formData.rollNo === '') {
+        toast.warning("Fill the form first!!");
         return;
       }
-      
+
+      //Check contact number is valid or not
+      if (formData.contactNo.length !== 10) {
+        toast.warning("Invalid number!!");
+        return;
+      }
+
       setSubmitting(true);
-      await artworkFormSubmit(formData);
-      setSubmitting(false);
-      alert("Submitted successfully!");
+
+      //response from backend
+      const res = await artworkFormSubmit(formData);
+      toast.success(res.data.message);
+
+      //reset form
+      setFormData({
+        name: '',
+        year: '1st Year',
+        department: 'Applied Electronics and Instrumentation Engineering',
+        rollNo: '',
+        contactNo: '',
+        instaID: '',
+        file: null,
+        desc: ''
+      })
     } catch (error) {
-      setSubmitting(false);
-      alert("Failed to submit. Try again.");
+      //error message
+      toast.error("Failed to submit. Try again.");
+    } finally {
+       setSubmitting(false);
     }
   };
 
 
   return (
     <>
-      <h1 className='text-white text-2xl m-4'>Submit your Artwork here and be the part of our Almanac</h1>
-      <div className='flex flex-col justify-center items-center w-full h-full bg-[#650808] text-white text-left mb-3'>
-        {/* name */}
+      <h1 className="text-white text-3xl font-semibold text-center mt-6 mb-8">
+        Submit Your Artwork and Be Part of Our Almanac
+      </h1>
+
+      <div className="flex flex-col justify-center items-center w-full px-4 bg-[#650808] text-white py-6 rounded-lg shadow-lg">
+        {/* Name */}
         <div className={inpDivStyle}>
-          <label htmlFor="Name" className={labelStyle}>Name </label>
-          <input type="text"
+          <label htmlFor="name" className={labelStyle}>Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
             value={formData.name}
-            name='name'
-            placeholder='Enter here'
+            placeholder="Enter your full name"
             className={inpStyle}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required />
+            required
+          />
         </div>
 
-        {/* year */}
+        {/* Year */}
         <div className={inpDivStyle}>
-          <label htmlFor="Year" className={labelStyle}>Year </label>
-          <select name="year"
+          <label htmlFor="year" className={labelStyle}>Year</label>
+          <select
             id="year"
+            name="year"
             value={formData.year}
-            className='bg-[#d83939] rounded-lg border-0 w-full h-[35px] p-1'
+            className="bg-[#d83939] text-white rounded-lg w-full h-10 p-2"
             onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-            required>
-            <option value="1st Year" className='bg-[#d83939] rounded-lg border-0'>1st Year</option>
-            <option value="2nd Year" className='bg-[#d83939] rounded-lg border-0'>2nd Year</option>
-            <option value="3rd Year" className='bg-[#d83939] rounded-lg border-0'>3rd Year</option>
-            <option value="4th Year" className='bg-[#d83939] rounded-lg border-0'>4th Year</option>
+            required
+          >
+            <option value="" disabled>Select Year</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
           </select>
         </div>
 
-        {/* dept */}
+        {/* Department */}
         <div className={inpDivStyle}>
-          <label htmlFor="Dept" className={labelStyle}>Department </label>
-          <select name="department"
-            id="year"
+          <label htmlFor="department" className={labelStyle}>Department</label>
+          <select
+            id="department"
+            name="department"
             value={formData.department}
-            className='bg-[#d83939] rounded-lg border-0 w-full h-[35px] p-1'
+            className="bg-[#d83939] text-white rounded-lg w-full h-10 p-2"
             onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-            required>
+            required
+          >
+            <option value="" disabled>Select Department</option>
             {depts.map((dept, index) => (
-              <option value={dept} key={index} className='bg-[#d83939] rounded-lg border-0'>{dept}</option>
+              <option value={dept} key={index}>{dept}</option>
             ))}
           </select>
         </div>
 
-        {/* roll   */}
+        {/* Roll Number */}
         <div className={inpDivStyle}>
-          <label htmlFor="Roll" className={labelStyle}>Roll Number <br />(type - 24/CSE/189)</label>
-          <input type="text"
-            name='rollNum'
+          <label htmlFor="rollNum" className={labelStyle}>
+            Roll Number <span className="text-sm text-gray-300">(e.g., 24/CSE/189)</span>
+          </label>
+          <input
+            id="rollNum"
+            type="text"
+            name="rollNum"
             value={formData.rollNo}
-            placeholder='Enter here'
+            placeholder="Enter your roll number"
             className={inpStyle}
             onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
-            required />
+            required
+          />
         </div>
 
-        {/* contact   */}
+        {/* Contact Number */}
         <div className={inpDivStyle}>
-          <label htmlFor="Contact" className={labelStyle}>Contact Number <br />(Preferably WhatsApp Number)</label>
-          <input type="text"
-            name='contactNum'
+          <label htmlFor="contactNo" className={labelStyle}>
+            Contact Number <span className="text-sm text-gray-300">(Preferably WhatsApp)</span>
+          </label>
+          <input
+            id="contactNo"
+            type="tel"
+            name="contactNum"
             value={formData.contactNo}
-            placeholder='Enter here'
-            onChange={(e) => setFormData({ ...formData, contactNo: e.target.value })}
+            placeholder="Enter contact number"
             className={inpStyle}
-            required />
+            onChange={(e) => setFormData({ ...formData, contactNo: e.target.value })}
+            required
+          />
         </div>
 
-        {/* insta  */}
+        {/* Instagram Handle */}
         <div className={inpDivStyle}>
-          <label htmlFor="Insta" className={labelStyle}>Instagram Handle or Profile Link(if any)</label>
-          <input type="text"
-            name='insta'
-            placeholder='Enter here'
+          <label htmlFor="insta" className={labelStyle}>
+            Instagram Handle or Profile Link <span className="text-sm text-gray-300">(optional)</span>
+          </label>
+          <input
+            id="insta"
+            type="text"
+            name="insta"
+            placeholder="e.g., @yourhandle or link"
             className={inpStyle}
             value={formData.instaID}
-            onChange={(e) => setFormData({ ...formData, instaID: e.target.value })} />
+            onChange={(e) => setFormData({ ...formData, instaID: e.target.value })}
+          />
         </div>
 
-        {/* upload */}
+        {/* Upload Art */}
         <div className={inpDivStyle}>
-          <label htmlFor="Roll" className={labelStyle}>Upload a high quality picture of your art.</label>
-          <input type="file"
-            name='file'
-            placeholder='Enter here'
-            className={inpStyle}
-            accept='image/*'
+          <label htmlFor="file" className={labelStyle}>Upload High-Quality Art Image</label>
+          <input
+            id="file"
+            type="file"
+            name="file"
+            accept="image/*"
+            className="w-full text-white bg-transparent border-2 border-dashed border-white rounded-lg p-2"
             onChange={(e) => setFormData({ ...formData, file: e.target.files[0] })}
-            required />
+            required
+          />
         </div>
 
-        {/* Description (Caption)(Optional) */}
+        {/* Caption */}
         <div className={inpDivStyle}>
-          <label htmlFor="Roll" className={labelStyle}>Description (Caption)(Optional)</label>
-          <input type="text"
-            name='caption'
+          <label htmlFor="caption" className={labelStyle}>
+            Caption or Description <span className="text-sm text-gray-300">(optional)</span>
+          </label>
+          <textarea
+            id="caption"
+            name="caption"
             value={formData.desc}
-            placeholder='Enter here'
+            placeholder="Add a caption for your artwork"
+            className={`${inpStyle} h-20 resize-none`}
             onChange={(e) => setFormData({ ...formData, desc: e.target.value })}
-            className={inpStyle} />
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="w-full flex justify-center mt-6">
+          <button
+            className="py-3 px-6 bg-[#e04444] hover:bg-[#ff0000] text-white font-bold rounded-lg transition-all duration-300"
+            onClick={handleSubmit}
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit"}
+          </button>
         </div>
       </div>
-      <button className='mb-6 py-2 px-4 bg-[#e04444] hover:bg-[#ff0000] text-white font-semibold rounded-lg' onClick={handleSubmit} disabled={submitting}>
-        Submit
-      </button>
     </>
+
   )
 }
 

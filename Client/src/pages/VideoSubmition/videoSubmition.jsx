@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { videoFormSubmit } from '../../api/api';
+import { videoFormSubmit } from '../../api/userapis';
+import { toast } from 'react-toastify';
 
-const ArtSubmition = () => {
+const VideoSubmition = () => {
 
   const [formData, setFormData] = useState({
     name: '',
@@ -23,20 +24,29 @@ const ArtSubmition = () => {
   const labelStyle = "text-xl p-1 font-semibold flex mb-1"
   const inpStyle = "bg-[#d83939] rounded-lg border-0 w-full"
 
-  //Artwork Form Submition
+  //video Form Submition
   const handleSubmit = async () => {
     try {
-      if (formData.contactNo.length !== 10) {
-        alert("Invalid number!!");
+       if (formData.name === '' || formData.contactNo === '' || formData.file === null || formData.rollNo === '' || formData.video === '' || formData.desc === '') {
+        toast.warning("Fill the form first!!");
         return;
       }
 
+      //contact number validation
+      if (formData.contactNo.length !== 10) {
+        toast.warning("Invalid number!!");
+        return;
+      }
       setSubmitting(true);
-      await videoFormSubmit(formData);
-      alert("Submit successfully!!");
-      setSubmitting(false);
+
+      // response from backend
+      const result = await videoFormSubmit(formData);
+      toast.success(result.data.message);
+
     } catch (error) {
-      alert("Failed to submit. Try again.");
+      // response error
+      toast.error("Failed to submit. Try again.");
+    } finally {
       setSubmitting(false);
     }
   };
@@ -44,116 +54,158 @@ const ArtSubmition = () => {
 
   return (
     <>
-      <h1 className='text-white text-2xl m-4'>Submit your Reels/Videos here and be the part of our Almanac</h1>
-      <div className='flex flex-col justify-center items-center w-full h-full bg-[#650808] text-white text-left mb-3'>
-        {/* name */}
+      <h1 className="text-white text-3xl font-semibold text-center mt-6 mb-8">
+        Submit Your Reels/Videos and Be Part of Our Almanac
+      </h1>
+
+      <div className="flex flex-col justify-center items-center w-full px-4 bg-[#650808] text-white py-6 rounded-lg shadow-lg">
+
+        {/* Name */}
         <div className={inpDivStyle}>
-          <label htmlFor="Name" className={labelStyle}>Name </label>
-          <input type="text"
+          <label htmlFor="name" className={labelStyle}>Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
             value={formData.name}
-            name='name'
-            placeholder='Enter here'
+            placeholder="Enter your full name"
             className={inpStyle}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required />
+            required
+          />
         </div>
 
-        {/* year */}
+        {/* Year */}
         <div className={inpDivStyle}>
-          <label htmlFor="Year" className={labelStyle}>Year </label>
-          <select name="year"
+          <label htmlFor="year" className={labelStyle}>Year</label>
+          <select
             id="year"
+            name="year"
             value={formData.year}
-            className='bg-[#d83939] rounded-lg border-0 w-full h-[35px] p-1'
+            className="bg-[#d83939] rounded-lg w-full h-10 p-2"
             onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-            required>
-            <option value="1st Year" className='bg-[#d83939] rounded-lg border-0'>1st Year</option>
-            <option value="2nd Year" className='bg-[#d83939] rounded-lg border-0'>2nd Year</option>
-            <option value="3rd Year" className='bg-[#d83939] rounded-lg border-0'>3rd Year</option>
-            <option value="4th Year" className='bg-[#d83939] rounded-lg border-0'>4th Year</option>
+            required
+          >
+            <option value="" disabled>Select Year</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
           </select>
         </div>
 
-        {/* dept */}
+        {/* Department */}
         <div className={inpDivStyle}>
-          <label htmlFor="Dept" className={labelStyle}>Department </label>
-          <select name="department"
-            id="year"
+          <label htmlFor="department" className={labelStyle}>Department</label>
+          <select
+            id="department"
+            name="department"
             value={formData.department}
-            className='bg-[#d83939] rounded-lg border-0 w-full h-[35px] p-1'
+            className="bg-[#d83939] rounded-lg w-full h-10 p-2"
             onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-            required>
+            required
+          >
+            <option value="" disabled>Select Department</option>
             {depts.map((dept, index) => (
-              <option value={dept} key={index} className='bg-[#d83939] rounded-lg border-0'>{dept}</option>
+              <option key={index} value={dept}>{dept}</option>
             ))}
           </select>
         </div>
 
-        {/* roll   */}
+        {/* Roll Number */}
         <div className={inpDivStyle}>
-          <label htmlFor="Roll" className={labelStyle}>Roll Number <br />(type - 24/CSE/189)</label>
-          <input type="text"
-            name='rollNum'
+          <label htmlFor="rollNum" className={labelStyle}>
+            Roll Number <span className="text-sm text-gray-300">(e.g., 24/CSE/189)</span>
+          </label>
+          <input
+            type="text"
+            id="rollNum"
+            name="rollNo"
             value={formData.rollNo}
-            placeholder='Enter here'
+            placeholder="Enter roll number"
             className={inpStyle}
             onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
-            required />
+            required
+          />
         </div>
 
-        {/* contact   */}
+        {/* Contact Number */}
         <div className={inpDivStyle}>
-          <label htmlFor="Contact" className={labelStyle}>Contact Number <br />(Preferably WhatsApp Number)</label>
-          <input type="text"
-            name='contactNum'
+          <label htmlFor="contactNo" className={labelStyle}>
+            Contact Number <span className="text-sm text-gray-300">(Preferably WhatsApp)</span>
+          </label>
+          <input
+            type="text"
+            id="contactNo"
+            name="contactNo"
             value={formData.contactNo}
-            placeholder='Enter here'
+            placeholder="Enter contact number"
+            className={inpStyle}
             onChange={(e) => setFormData({ ...formData, contactNo: e.target.value })}
-            className={inpStyle}
-            required />
+            required
+          />
         </div>
 
-        {/* insta  */}
+        {/* Instagram / Profile / Video Link */}
         <div className={inpDivStyle}>
-          <label htmlFor="Insta" className={labelStyle}>Instagram Handle or Provideo Link(if any)</label>
-          <input type="text"
-            name='insta'
-            placeholder='Enter here'
-            className={inpStyle}
+          <label htmlFor="instaID" className={labelStyle}>
+            Instagram Handle or Profile/Video Link (optional)
+          </label>
+          <input
+            type="text"
+            id="instaID"
+            name="instaID"
             value={formData.instaID}
-            onChange={(e) => setFormData({ ...formData, instaID: e.target.value })} />
+            placeholder="e.g., @yourhandle or YouTube/Instagram link"
+            className={inpStyle}
+            onChange={(e) => setFormData({ ...formData, instaID: e.target.value })}
+          />
         </div>
 
-        {/* upload */}
+        {/* Google Drive Video Link */}
         <div className={inpDivStyle}>
-          <label htmlFor="Roll" className={labelStyle}>Upload Google Drive link of the video</label>
-          <p className='mb-2'>Kindly share the access of your video link to everyone</p>
-          <input type="text"
-            name='video'
+          <label htmlFor="video" className={labelStyle}>Google Drive Link of Your Video</label>
+          <p className="mb-2 text-sm text-gray-200">Make sure the link is accessible to everyone.</p>
+          <input
+            type="text"
+            id="video"
+            name="video"
             value={formData.video}
-            placeholder='Enter here'
+            placeholder="Paste Google Drive link"
             className={inpStyle}
             onChange={(e) => setFormData({ ...formData, video: e.target.value })}
-            required />
+            required
+          />
         </div>
 
-        {/* Description (Caption)(Optional) */}
+        {/* Description */}
         <div className={inpDivStyle}>
-          <label htmlFor="Roll" className={labelStyle}>Description about your video</label>
-          <input type="text"
-            name='caption'
+          <label htmlFor="desc" className={labelStyle}>Description About Your Video</label>
+          <input
+            type="text"
+            id="desc"
+            name="desc"
             value={formData.desc}
-            placeholder='Enter here'
-            onChange={(e) => setFormData({ ...formData, desc: e.target.value })}
+            placeholder="Describe your reel/video"
             className={inpStyle}
-            required />
+            onChange={(e) => setFormData({ ...formData, desc: e.target.value })}
+            required
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="w-full flex justify-center mt-6">
+          <button
+            className="py-3 px-6 bg-[#e04444] hover:bg-[#ff0000] text-white font-bold rounded-lg transition-all duration-300"
+            onClick={handleSubmit}
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit"}
+          </button>
         </div>
       </div>
-      <button className='mb-6 py-2 px-4 bg-[#e04444] hover:bg-[#ff0000] text-white font-semibold rounded-lg' disabled={submitting} onClick={handleSubmit}>
-        Submit
-      </button>
     </>
   )
 }
 
-export default ArtSubmition
+export default VideoSubmition

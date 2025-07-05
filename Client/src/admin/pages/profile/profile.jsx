@@ -1,19 +1,27 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { isAccountContext } from '../../context/context';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { isAccountContext } from '../../../context/context';
 
-const Profile = () => {
+const AdminProfile = () => {
 
+  //class for style
+  const btnClass = "bg-[#bb1d1d] hover:bg-[#e01414] py-2 px-4 rounded-lg font-semibold";
+
+  //navigate feature
   const navigate = useNavigate();
+
+  //handle states
   const [userInfo, setUserInfo] = useState(null);
   const setIsAccount = useContext(isAccountContext);
 
+  //use useEffect to fetch data from local storage
   useEffect(() => {
     const data = localStorage.getItem('user-info');
     const userData = JSON.parse(data);
     setUserInfo(userData);
   }, [])
 
+  //Implement logged out feature
   const handleLogout = () => {
     localStorage.removeItem('user-info');
     navigate('/signin')
@@ -32,16 +40,30 @@ const Profile = () => {
         </div>
       </div>
       <div className='w-full p-6'>
-        <div className='flex w-full justify-center'>
-          <p className='text-lg max-w-[600px] text-center'>🎉 Welcome to the official HITian Inside website!
-            You’re now a valued member of our growing community. We’re thrilled to have you on board - congratulations and get ready to explore, connect, and contribute!
-          </p>
+        <div>
+          <h2 className='text-xl font-semibold'>Hello Admin {userInfo?.name}</h2>
+          <p>I am really happy to see you again.</p>
         </div>
       </div>
 
-      <button className='bg-[#bb1d1d] hover:bg-[#e01414] py-2 px-4 rounded-lg font-semibold w-40' onClick={handleLogout}>Logout</button>
+      <div className='grid grid-cols-2 p-3 gap-3'>
+         <NavLink to='/admin/events'>
+          <button className={btnClass}>Add Event</button>
+          </NavLink>
+         <NavLink to='/admin/homepage'>
+          <button className={btnClass}>Add at Home Page</button>
+         </NavLink>
+         <NavLink to='/admin/almanac'>
+          <button className={btnClass}>Add Almanac</button>
+         </NavLink>
+         <NavLink to='/admin/matches-scorecard'>
+          <button className={btnClass}>Add Scores</button>
+         </NavLink>
+      </div>
+
+      <button className={btnClass} onClick={handleLogout}>Logout</button>
     </div>
   )
 }
 
-export default Profile
+export default AdminProfile;

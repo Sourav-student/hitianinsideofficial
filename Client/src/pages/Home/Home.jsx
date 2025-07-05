@@ -19,8 +19,8 @@ import img4 from "../../assets/images/best_of_almanac/Md Kaif_CSE_CS.jpg";
 import img5 from "../../assets/images/best_of_almanac/Mrinmoyee Sil_CSE.jpg";
 
 // recruitment
-import recruitmentbanner from "../../assets/images/recruitment/recuritment_header.png";
-import recruitmentposter from "../../assets/images/recruitment/Recruitment_poster.png";
+// import recruitmentbanner from "../../assets/images/recruitment/recuritment_header.png";
+// import recruitmentposter from "../../assets/images/recruitment/Recruitment_poster.png";
 
 function Home() {
   useEffect(() => {
@@ -189,7 +189,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="bg-[#660909] col-span-5 md:col-span-2 md:pt-[3rem] pt-[1rem] md:pb-[20rem] pb-[5rem]">
+        <div className="bg-[#660909] col-span-5 md:col-span-2 md:pt-[6rem] pt-[1rem] md:pb-[10rem] pb-[5rem]">
           <p
             className="text-5xl/[2] text-[#FFB5B5] font-semibold flex flex-col "
             data-aos="fade-right"

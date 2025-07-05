@@ -1,50 +1,78 @@
 import { BiLogoGoogle } from "react-icons/bi"
 import { useGoogleLogin } from '@react-oauth/google'
-import googleAuth from "../../api/api"
+import googleAuth from "../../api/googleapi";
 import { useNavigate } from 'react-router-dom';
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { isAccountContext } from "../../context/context";
 import logo from "../../assets/images/logo.png";
+import { toast } from "react-toastify"
 
 const LogIn = () => {
+  
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    name: '',
+    image : '',
+    admin : false,
+    token : ''
+  })
 
   const setIsAccount = useContext(isAccountContext);
   const navigate = useNavigate();
+
+  //Google response
   const responseGoogle = async (authResult) => {
     try {
       if (authResult['code']) {
         const result = await googleAuth(authResult['code']);
         const { email, name, image, admin } = await result.data.user;
         const token = await result.data.token;
-        const obj = { email, name, image, admin, token };
-        localStorage.setItem('user-info', JSON.stringify(obj));
+
+        setUserInfo({
+          email, name, image, admin, token
+        })
+
         setIsAccount(true)
         navigate('/');
+        toast.success("sign in successfully");
       }
     } catch (error) {
-      alert("server error")
+      toast.error("server error, try again later");
     }
   }
 
+  //auth-code
   const googleLogin = useGoogleLogin({
     onSuccess: responseGoogle,
     onError: responseGoogle,
     flow: 'auth-code'
   })
 
+  useEffect(() => {
+    localStorage.setItem('uset-info', userInfo);
+  }, [userInfo])
+
   return (
-    <div className="w-full h-[100vh] absolute top-0 z-50 bg-[#650808] flex flex-col justify-center items-center">
-      <div className="flex items-center ps-2 md:ps-5 cursor-pointer">
-        <img
-          src={logo} alt="INSIDE LOGO"
-          className="h-10 mr-3"
-        />
-        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-          HITian Inside
-        </span>
+    <div className="w-full h-[100vh] absolute top-0 z-50 bg-[#650808] flex flex-col justify-center items-center text-white">
+      <div className="mt-10 text-center">
+        <div className="flex items-center ps-2 md:ps-5 cursor-pointer absolute top-5 left-5">
+          <img
+            src={logo} alt="INSIDE LOGO"
+            className="h-10 mr-3"
+          />
+          <span className="self-center text-2xl font-semibold whitespace-nowrap">
+            HITian Inside
+          </span>
+        </div>
+        <h1 className="text-2xl font-bold">Welcome to the Official e-Media Club of Haldia Institute of Technology!</h1>
+        <p className="max-w-[700px] m-5 text-md font-normal">Unleash your creativity, amplify your voice, and become part of a vibrant community that captures the spirit of our campus through media, design, content, and innovation.Whether you're into photography, videography, writing, design, or digital storytelling - there's a place for you here.</p>
+        <h2 className="text-lg font-semibold">🎯 Join us today and be the voice behind the visuals.</h2>
+        <p className="max-w-[700px] m-5 text-md font-medium shadow-md">📩 Sign up below and take the first step toward something extraordinary.</p>
       </div>
-      <p className="max-w-[500px] m-5 text-xl text-white font-medium">We are the official media club of Haldia Institute of Technology. Become a part if our community by signing up quickly below.</p>
-      <button className="p-3 bg-[#e25454] text-white font-bold rounded-full  flex items-center gap-2 shadow-xl"><div className="bg-[#e77b7b] p-2 rounded-full"><BiLogoGoogle className="h-6 w-6" /></div> <p className="text-xl" onClick={googleLogin}>Sign in with Google</p></button>
+
+      <div>
+        <button className="my-5 p-3 bg-[#e25454] font-bold rounded-full flex items-center gap-2 shadow-lg hover:shadow-2xl hover:scale-110"><div className="bg-[#e77b7b] p-2 rounded-full"><BiLogoGoogle className="h-6 w-6" /></div> <p className="text-xl" onClick={googleLogin}>Sign in with Google</p></button>
+      </div>
     </div>
   )
 }

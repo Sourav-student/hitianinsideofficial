@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { NavLink } from 'react-router-dom';
 
 // all images are there, add only path and it will be active
 import aditi from "../../assets/images/best_of_almanac/Aditi_bera_IT.jpg"
@@ -15,6 +14,7 @@ import satyam from "../../assets/images/best_of_almanac/Satyam_Kumar_ECE.jpg"
 
 import almanac_img from "../../assets/images/almanac-vector.png";
 import almanac_background from "../../assets/images/almanac-img.png";
+import { NavLink } from "react-router-dom";
 // import almanacPoster from "../../assets/images/almanac-poster.jpg";
 // import { NavLink } from "react-router-dom";
 
@@ -77,44 +77,6 @@ const almanacs = [
   },
 ];
 
-const formContents = [
-  {
-    img_url: aditi,
-    Almanacname: "Digital/Traditional Artwork",
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
-    formSubmitionLink: "/almanac/artworkSubmitionForm",
-    aosSegment: "fade-up",
-  },
-  {
-    img_url: kaif,
-    Almanacname: "Photography",
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
-    formSubmitionLink: "/almanac/photoSubmitionForm",
-    aosSegment: "fade-up",
-  },
-  {
-    img_url: pushp,
-    Almanacname: "Poems",
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
-    formSubmitionLink: "/almanac/poemSubmitionForm",
-    aosSegment: "fade-up",
-  },
-  {
-    img_url: satyam,
-    Almanacname: "Reels/Videos",
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
-    formSubmitionLink: "/almanac/videoSubmitionForm",
-    aosSegment: "fade-up",
-  },
-  {
-    img_url: mrin,
-    Almanacname: "Story and Experiences",
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nobis dolorum rerum.",
-    formSubmitionLink: "/almanac/storySubmitionForm",
-    aosSegment: "fade-up",
-  },
-]
-
 
 function Almanac() {
 
@@ -123,67 +85,59 @@ function Almanac() {
   }, [])
 
   return (
-    <div className="bg-[#650808] ">
-      {/* ======== Almanac Section ========= */}
-
-      <div className="ps-[10%] md:ps-[8%] pt-[5%]">
-        <div className="w-[80vw] md:w-[43vw]">
-          <h1 className="text-[3rem] md:text-[5rem] text-[#fdd0d0] font-bold font-hammersmith" data-aos="fade-up">Almanac</h1>
-          <p className="text-[#f2b5b5] font-medium text-[1.2rem] font-hammersmith" data-aos="fade-up">
+    <div className="bg-[#650808] w-full overflow-hidden">
+      {/* ========== Almanac Header Section ========== */}
+      <section className="ps-[8%] pt-[6%]">
+        <div className="max-w-[90%] md:max-w-[50%] relative z-10" data-aos="fade-up">
+          <h1 className="text-[2.8rem] md:text-[4.5rem] text-[#fdd0d0] font-bold font-hammersmith leading-tight">
+            Almanac
+          </h1>
+          <p className="text-[#f2b5b5] font-medium text-[1.2rem] leading-relaxed mt-3 font-hammersmith">
             Bringing to you the platform to unveil your astounding creativity through the official e-media of HIT. A platform to showcase your creativity in the form of your rhythmic poems, thrilling experiences, captured moments, beautiful arts, and animations, and glorify your ingenious talents by getting exposure through our Instagram handle.
           </p>
-          {/* <NavLink to="/Almanac/AlmanacSubmission" >
-          <button type="submit" className="mt-5 text-[#650808] font-bold bg-[#fdd0d0] text-[.9rem] md:text-[1.3rem] w-[120px] h-[38px] md:w-[160px] md:h-[45px] rounded-[50px]
-           hover:scale-125 transition-all duration-700 font-hammersmith" data-aos="fade-up">Submit Here</button>
-          </NavLink> */}
+          <NavLink to="/almanac/almanac-form"><button className="mt-4 bg-[#e22b2b] hover:bg-transparent border-2 py-2 px-4 rounded-lg font-semibold transition-all duration-300 text-white text-lg">Submit</button></NavLink>
         </div>
-      </div>
+        {/* Image Section */}
+        <div className="flex justify-end mt-[5%] md:mt-[-20%]" data-aos="fade-up">
+          <img
+            src={almanac_img}
+            alt="Almanac Visual"
+            className="w-[80%] md:w-[65%] aos-init aos-animate"
+          />
+        </div>
+      </section>
 
-      <div className="flex justify-end mt-[5%] md:mt-[-20%]">
-        <img src={almanac_img} alt="IMAGE" className="w-[80%] md:w-[65%]" data-aos="fade-up" />
-      </div>
+      {/* ========== Best of Almanac Section ========== */}
+      <section
+        className="Almanac-section bg-no-repeat bg-bottom bg-cover"
+        style={{ backgroundImage: `url(${almanac_background})` }}
+      >
+        <div className="bg-[#650808] py-10 text-center">
+          <h1 className="text-[2rem] md:text-[2.5rem] text-[#f5d9d9] font-bold">Best of Almanac</h1>
+        </div>
 
-      {/* formContents */}
-      {
-        formContents.map((formContent, index) => (
-          <div className="bg-[#5f1818] p-3 mb-5 flex flex-wrap justify-around text-white font-semibold shadow-lg hover:shadow-md hover:shadow-[#a2c4e99d]" key={index}>
-            <div>
-              <img src={formContent.img_url} alt={formContent.Almanacname} width={150} height={150} />
-            </div>
-            <div>
-              <h2 className="text-2xl font-semibold">{formContent.Almanacname}</h2>
-              <p className="mt-3">{formContent.content}</p>
-              <NavLink to={formContent.formSubmitionLink}><button className='bg-[#c15b5b] hover:bg-[#ef5555] m-3  py-2 px-4 rounded-xl font-semibold'>Submit</button></NavLink>
-            </div>
-          </div>
-        ))}
-
-      {/* Best of Almanac */}
-      <div className="Almanac-section flex flex-col justify-center bg-no-repeat bg-bottom " style={{ backgroundImage: `url(${almanac_background})` }}>
-        <h1 className="text-[2rem] md:text-[2.5rem] text-[#f5d9d9] pt-10 pb-5 font-bold bg-[#650808]">Best of Almanac</h1>
-
-        <div className=" grid justify-center grid-cols-4 gap-3 pb-10 pe-10 md:pe-16 ps-10 md:ps-16 font-sans">
-          {
-            almanacs.map((almanac, index) => (
-              <div className="Almanac-card  bg-[#d17f7f] bg-opacity-50 col-span-4 ms-auto md:col-span-1 rounded-lg flex flex-col justify-center" key={index}>
-                <div className=" object-contain w-full h-full">
-                  <img
-                    className="w-full h-full p-3"
-                    src={almanac.img_url}
-                    alt="Sunset in the mountains"
-                    data-aos={almanac.aosSegment}
-                  />
-                </div>
-                <div className="px-6 py-2">
-                  <div className="font-bold text-base text-white">{almanac.name}</div>
-                  <div className="font-bold text-base mb-2 text-white">{almanac.roll}</div>
-                </div>
+        <div className="sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 md:px-16 pb-10 flex flex-col items-center">
+          {almanacs.map((almanac, index) => (
+            <div
+              key={index}
+              className="bg-[#d17f7f]/50 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden sm:max-w-[400px] max-sm:w-[90%]"
+            >
+              <img
+                className="w-full h-[220px] p-4"
+                src={almanac.img_url}
+                alt={`Artwork by ${almanac.name}`}
+                data-aos={almanac.aosSegment}
+              />
+              <div className="px-4 py-3">
+                <p className="text-white font-bold text-lg">{almanac.name}</p>
+                <p className="text-white text-sm">{almanac.roll}</p>
               </div>
-            ))
-          }
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
     </div>
+
   );
 }
 

@@ -1,44 +1,53 @@
 // import "./header.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
 import './header.css'
 
-const navLinks = [
-  {
-    path: "/",
-    display: "Home",
-  },
-  {
-    path: "/almanac",
-    display: "Almanac",
-  },
-  {
-    path: "/events",
-    display: "Events",
-  },
-  {
-    path: "/merchandise",
-    display: "Merchandise",
-  },
-  {
-    path: "/team",
-    display: "Team",
-  },
-
-  {
-    path: "/about",
-    display: "About",
-  },
-
-  {
-    path: "/profile",
-    display: "Profile",
-  }
-];
-
 function Header() {
   const [navbarOpen, setNavbarOpen] = useState("hiddenbox");
+
+  //state for admin
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user-info'));
+    setIsAdmin(userData.admin);
+  }, [isAdmin]);
+
+  //navLinks
+  const navLinks = [
+    {
+      path: "/",
+      display: "Home",
+    },
+    {
+      path: "/almanac",
+      display: "Almanac",
+    },
+    {
+      path: "/events" ,
+      display: "Events",
+    },
+    {
+      path: "/merchandise",
+      display: "Merchandise",
+    },
+    {
+      path: "/team",
+      display: "Team",
+    },
+
+    {
+      path: "/about",
+      display: "About",
+    },
+
+    {
+      path: isAdmin? "/admin/profile" : "/profile",
+      display: "Profile",
+    }
+  ];
 
   const changeStyle = () => {
     // console.log(navbarOpen)
@@ -56,7 +65,7 @@ function Header() {
                 src={logo} alt="INSIDE LOGO"
                 className="h-8 mr-3"
               />
-              <span className="self-center text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white">
+              <span className="self-center text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white mb-1">
                 HITian Inside
               </span>
             </NavLink>
@@ -110,8 +119,8 @@ function Header() {
                         to={link.path}
                         className={(navClass) =>
                           navClass.isActive
-                            ? "text-[#FFB5B5] text-[16px] leading-7 font-[400] font-hammersmith "
-                            : "text-white text-[16px] leading-7 font-[100] hover:text-[#FFB5B5] font-hammersmith"
+                            ? "text-[#FFB5B5] text-[17px] leading-7 font-[400] font-hammersmith "
+                            : "text-white text-[17px] leading-7 font-[100] hover:text-[#FFB5B5] font-hammersmith"
                         }
                       >
                         {link.display}

@@ -4,6 +4,7 @@ import Routers from '../routes/Routers'
 import Footer from '../components/Footer/Footer'
 import { isAccountContext } from '../context/context'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, Bounce } from 'react-toastify';
 
 function Layout() {
 
@@ -29,6 +30,18 @@ function Layout() {
         </main>
         <Footer />
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce} />
     </isAccountContext.Provider>
   )
 }
