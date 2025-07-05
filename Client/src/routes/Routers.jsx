@@ -13,9 +13,9 @@ import PageNotFound from '../pages/PageNotFound'
 import Profile from '../pages/Profile/Profile'
 import ArtSubmition from '../pages/ArtSubmition/ArtSubmition'
 import PoemSubmition from '../pages/PoemSubmition/PoemSubmition'
-import VideoSubmition from '../pages/VideoSubmition/VideoSubmition'
+// import VideoSubmition from '../pages/VideoSubmition/VideoSubmition'
 import PhotoSubmition from '../pages/PhotoSubmition/PhotoSubmition'
-import StorySubmition from '../pages/StorySubmition/StorySubmition'
+// import StorySubmition from '../pages/StorySubmition/StorySubmition'
 import AlmanacForm from '../pages/AlmanacForm/AlmanacForm'
 import MatchesScores from '../pages/MatchesScores/MatchesScores'
 
@@ -55,14 +55,14 @@ function Routers() {
           path='/almanac/almanac-form/photo-form-submit'
           element={<PhotoSubmition />} />
         <Route exact
+          path='/almanac/almanac-form/poem-form-submit'
+          element={<PoemSubmition />} />
+        {/* <Route exact
           path='/almanac/almanac-form/story-form-submit'
           element={<StorySubmition />} />
         <Route exact
           path='/almanac/almanac-form/video-form-submit'
-          element={<VideoSubmition />} />
-        <Route exact
-          path='/almanac/almanac-form/poem-form-submit'
-          element={<PoemSubmition />} />
+          element={<VideoSubmition />} />*/}
         <Route exact path='*' element={<PageNotFound />}></Route>
         <Route exact path='/matches-scorecard' element={<MatchesScores />} />
 
