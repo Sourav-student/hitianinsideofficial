@@ -24,7 +24,6 @@ const SignIn = () => {
         setIsAccount(true)
         navigate('/');
         toast.success("sign in successfully");
-        window.location.reload();
       }
     } catch (error) {
       toast.error("server error, try again later");
