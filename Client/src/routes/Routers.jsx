@@ -23,10 +23,10 @@ import MatchesScores from '../pages/MatchesScores/MatchesScores'
 
 //admin pages
 import AdminProfile from '../admin/pages/profile/AdminProfile';
-import AdminEvents from '../admin/pages/events/Event';
+import AdminEvents from '../admin/pages/events/AdminEvent';
 import Scorecard from '../admin/pages/scorecard/Scorecard';
-import AdminAlmanac from '../admin/pages/almanac/Almanac';
-import AdminHome from '../admin/pages/home/Home';
+import AdminAlmanac from '../admin/pages/almanac/AdminAlmanac';
+import AdminHome from '../admin/pages/home/AdminHome';
 import UsersData from '../admin/pages/users/UsersData';
 
 function Routers() {
