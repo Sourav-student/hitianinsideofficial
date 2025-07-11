@@ -7,6 +7,16 @@ const api = axios.create({
   baseURL: REACT_APP_BACKEND_URL
 })
 
+//get the user is admin or not
+export const getAdmin = async (email) => {
+  const response = await api.get('/api/isAdmin',{
+    headers: {
+      Authorization: `Bearer ${email}`,
+    },
+  });
+  return response;
+}
+
 //submit contact us to backend
 export const contactFormSubmit = async (data) => {
   const res = await api.post("/api/form", data);
@@ -55,12 +65,38 @@ export const storyFormSubmit = async (data) => {
 
 //get events
 export const getEvents = async () => {
-  const res = await api.get("/api/admin/events");
+  const res = await api.get("/api/events");
+  return res;
+}
+
+//get almanac
+export const getAlmanacs = async () => {
+  const res = await api.get("/api/almanacs");
+  return res;
+}
+// get Homepage Elements
+export const getHomepageComponents = async () => {
+  const res = await api.get("/api/homepage-elements");
   return res;
 }
 
 //get Scorecard
 export const getCricketScores = async () => {
-  const res = await api.get("/api/admin/cricket-scores");
+  const res = await api.get("/api/cricket-scores");
+  return res;
+}
+
+export const getFootballScores = async () => {
+  const res = await api.get("/api/football-scores");
+  return res;
+}
+
+export const getVollyballScores = async () => {
+  const res = await api.get("/api/vollyball-scores");
+  return res;
+}
+
+export const getBasketballScores = async () => {
+  const res = await api.get("/api/basketball-scores");
   return res;
 }

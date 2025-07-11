@@ -28,8 +28,7 @@ export const googleLogin = async (req, res) => {
       user = await User.create({
         name,
         email,
-        image: picture,
-        admin : false
+        image: picture
       });
     }
 

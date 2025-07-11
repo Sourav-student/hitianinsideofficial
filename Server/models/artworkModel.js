@@ -1,35 +1,39 @@
 import mongoose from "mongoose";
 
 const artworkSchema = new mongoose.Schema({
-  name:{
-    type:String,
-    required:true
+  email: {
+    type: String,
+    required: true
   },
-  year:{
-    type:String,
-    required:true
+  name: {
+    type: String,
+    required: true
   },
-  department:{
-    type:String,
-    required:true
+  year: {
+    type: String,
+    required: true
   },
-  rollNo :{
-    type:String,
-    required:true
+  department: {
+    type: String,
+    required: true
   },
-  contactNo :{
-     type:Number,
-     required:true
+  roll_no: {
+    type: String,
+    required: true
   },
-  instaID:{
-    type:String
+  contact_no: {
+    type: Number,
+    required: true
   },
-  file:{
-    type:String,
-    required:true
+  insta_id: {
+    type: String
   },
-  desc:{
-    type:String
+  file: {
+    type: String,
+    required: true
+  },
+  desc: {
+    type: String
   }
 }, { timestamps: true })
 

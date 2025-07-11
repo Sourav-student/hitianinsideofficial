@@ -31,12 +31,12 @@ userPostRouter.post("/api/form", async (req, res) => {
 // post request of artwork form
 userPostRouter.post("/api/artwork", upload.single('file'), async (req, res) => {
   try {
-    const { name, year, department, rollNo, contactNo, instaID, desc } = req.body;
+    const { email, name, year, department, rollNo, contactNo, instaID, desc } = req.body;
     const file = req.file.path;
 
     //create new document in DB
     await Artwork.create({
-      name, year, department, rollNo, contactNo, instaID, file, desc
+      email, name, year, department, roll_no : rollNo, contact_no : contactNo, insta_id : instaID, file, desc
     })
     
     res.status(200).json({
@@ -53,12 +53,12 @@ userPostRouter.post("/api/artwork", upload.single('file'), async (req, res) => {
 //post request of photography form
 userPostRouter.post("/api/photography", upload.single('file'), async (req, res) =>{
   try {
-    const { name, year, department, rollNo, contactNo, instaID, desc } = req.body;
+    const { email, name, year, department, rollNo, contactNo, instaID, desc } = req.body;
     const file = req.file.path;
 
     //create new document in DB
     await Photos.create({
-      name:name, year, department, rollNo, contactNo, instaID, file, desc
+     email, name, year, department, roll_no : rollNo, contact_no : contactNo, insta_id : instaID, file, desc
     })
     
     res.status(200).json({
@@ -76,11 +76,11 @@ userPostRouter.post("/api/photography", upload.single('file'), async (req, res) 
 //post request of poem form
 userPostRouter.post("/api/poem", async (req, res) => {
   try {
-    const { name, year, department, rollNo, contactNo, instaID, title, poem} = req.body;
+    const { email, name, year, department, rollNo, contactNo, instaID, title, poem} = req.body;
 
     //create new document in DB
     await Poems.create({
-      name, year, department, rollNo, contactNo, instaID, title, poem
+      email, name, year, department, roll_no : rollNo, contact_no : contactNo, insta_id : instaID, title, poem
     })
     
     res.status(200).json({
@@ -101,7 +101,7 @@ userPostRouter.post("/api/video", async (req, res) => {
 
     //create new document in DB
     await Videos.create({
-      name, year, department, rollNo, contactNo, instaID, video, desc
+      name, year, department, roll_no : rollNo, contact_no : contactNo, insta_id : instaID, video, desc
     })
     
     res.status(200).json({
@@ -123,7 +123,7 @@ userPostRouter.post("/api/story", async (req, res) => {
 
     //create new document in DB
     await Storys.create({
-      name, year, department, rollNo, contactNo, instaID, storyType, title, story, video, desc
+      name, year, department, roll_no : rollNo, contact_no : contactNo, insta_id : instaID, story_type : storyType, title, story, video, desc
     })
     
     res.status(200).json({

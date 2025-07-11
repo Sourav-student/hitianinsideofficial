@@ -5,6 +5,7 @@ import { InstagramEmbed } from "react-social-media-embed";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { getEvents } from "../../api/userapis";
+import Loader from "../../components/Loader/Loader"
 
 
 // image list 
@@ -80,7 +81,8 @@ import BhasharTori from '../../assets/eventimage/BhasharTori.jpeg'
 
 function Events() {
 
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   //animation
   useEffect(() => {
@@ -91,15 +93,9 @@ function Events() {
   useEffect(() => {
     const loadEvents = async () => {
       const result = await getEvents();
-      let arr = result.data;
-      //reverse the array
-      for (let i = 0; i < arr.length/2; i++) {
-         let temp = arr[i];
-         arr[i] = arr[arr.length - 1 - i];
-         arr[arr.length - 1 - i] = temp;
-      }
-
+      let arr = result.data.reverse();
       setEvents(arr);
+      setLoading(false);
     }
 
     loadEvents();
@@ -207,26 +203,26 @@ function Events() {
 
         {/* </div> */}
 
-
         <h1 className="event-heading text-[3rem] font-bold text-[#fdd0d0] pt-10 pb-10 font-hammersmith">Our Events</h1>
         <div className="allthrebox Events-cards flex flex-wrap justify-center items-center gap-8 px-3 mb-5 font-sans" data-aos="fade-up">
           {
-            events.map((event, index) => (
-              <div key={index} className="bg-[#d03c19] w-auto h-[600px] max-w-[400px] rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-100">
-                <InstagramEmbed
-                  url={event.instaURL}
-                  className="rounded-t-xl h-[80%]"
-                />
-                <div className="px-6 py-4">
-                  <div className="font-bold text-base mb-2 text-white">
-                    NAME: {event.eventName}
-                  </div>
-                  <div className="font-bold text-base mb-2 text-white">
-                    DATE: {event.date}
+            loading ? <Loader/> :
+              events.map((event, index) => (
+                <div className="bg-[#d03c19] w-auto h-[600px] max-w-[400px] rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-100" key={index}>
+                  <InstagramEmbed
+                    url={event.instaURL}
+                    className="rounded-t-xl h-[80%]"
+                  />
+                  <div className="px-6 py-4">
+                    <div className="font-bold text-base mb-2 text-white">
+                      NAME: {event.eventName}
+                    </div>
+                    <div className="font-bold text-base mb-2 text-white">
+                      DATE: {event.date}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              ))
           }
         </div>
       </section>

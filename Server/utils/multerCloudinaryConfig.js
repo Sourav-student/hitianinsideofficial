@@ -19,7 +19,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'HITianInside-Almanac',
+    folder: 'HITianInside-Album',
     public_id: (req, file) => file.originalname + '-' + Date.now(),
   },
 });

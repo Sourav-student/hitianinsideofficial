@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { poemFormSubmit } from '../../api/userapis';
 import { toast } from 'react-toastify';
 
 const PoemSubmition = () => {
 
   const [formData, setFormData] = useState({
+    email: '',
     name: '',
     year: '1st Year',
     department: 'Applied Electronics and Instrumentation Engineering',
@@ -24,11 +25,18 @@ const PoemSubmition = () => {
   const labelStyle = "text-xl p-1 font-semibold flex mb-1"
   const inpStyle = "bg-[#d83939] rounded-lg border-0 w-full"
 
+  useEffect(() => {
+    // Get user email from localStorage
+    const {email} = JSON.parse(localStorage.getItem('user-info'));
+    if (email) {
+      setFormData({...formData, email: email });
+    }
+  }, []);
+
   //Poem Form Submition
   const handleSubmit = async () => {
     try {
-
-       if (formData.name === '' || formData.contactNo === '' || formData.rollNo === '' || formData.title === '' || formData.poem === '') {
+      if (formData.name === '' || formData.contactNo === '' || formData.rollNo === '' || formData.title === '' || formData.poem === '') {
         toast.warning("Fill the form first!!");
         return;
       }
@@ -42,7 +50,7 @@ const PoemSubmition = () => {
 
       // response from backend
       const result = await poemFormSubmit(formData);
-      alert(result.data.message);
+      toast.success(result.data.message);
 
       //reset form data
       setFormData({
@@ -57,12 +65,11 @@ const PoemSubmition = () => {
       })
 
     } catch (error) {
-      toast.error("Failed to submit. Try again.", error);
-    }finally{
+      toast.error("Failed to submit. Try again later.");
+    } finally {
       setSubmitting(false);
     }
   };
-
 
   return (
     <>

@@ -16,8 +16,8 @@ const CricketScore = () => {
     const printScorecard = async () => {
       const result = await getCricketScores();
       //Separated live and finished matches
-      setLiveCricket(result.data.filter((item) => item.completed === "false"));
-      setCompletedCricket(result.data.filter((item) => item.completed === "true"))
+      setLiveCricket(result.data.filter((item) => item.completed === "no"));
+      setCompletedCricket(result.data.filter((item) => item.completed === "yes"))
     }
 
     printScorecard();
@@ -60,7 +60,7 @@ const CricketScore = () => {
           ))
         }
         {
-          (liveCricket.length === 0) && <p className='text-lg text-[#ffb5b5]'>Currently no live matches</p>
+          (liveCricket.length === 0) && <p className='text-sm text-[#ffb5b5]'>Currently no live matches</p>
         }
       </div>
       <p className='text-xl text-[#ffb5b5] text-left font-semibold p-1'>Completed Matches</p>
@@ -76,8 +76,8 @@ const CricketScore = () => {
                       className='w-12 rounded-full' />
                     <span className="font-bold text-lg">{score.team1Name}</span>
                   </div>
-                  <span className="text-sm">Runs: {score.team1Run} / {score.team2WicketTaken}</span>
-                  <span className="text-sm">Overs: {score.team1Over}</span>
+                  <span className="text-sm">Runs: {score.team1Run} / {score.team1WicketLoss}</span>
+                  <span className="text-sm">Overs: {score.team1OverPlayed}</span>
                 </div>
 
                 <div className="text-center text-lg text-gray-300">vs</div>
@@ -88,8 +88,8 @@ const CricketScore = () => {
                     <img src={score.team2Logo} alt={score.team2Name}
                       className='w-12 rounded-full' />
                   </div>
-                  <span className="text-sm">Runs: {score.team2Run} / {score.team1WicketTaken}</span>
-                  <span className="text-sm">Overs: {score.team2Over}</span>
+                  <span className="text-sm">Runs: {score.team2Run} / {score.team2WicketLoss}</span>
+                  <span className="text-sm">Overs: {score.team2OverPlayed}</span>
                 </div>
               </div>
               <p className="text-red-200 text-sm text-center">Completed</p>
@@ -97,7 +97,7 @@ const CricketScore = () => {
           ))
         }
         {
-          (completedCricket.length === 0) && <p className='text-lg text-[#ffb5b5]'>Currently no live matches</p>
+          (completedCricket.length === 0) && <p className='text-sm text-[#ffb5b5]'>Currently no live matches</p>
         }
       </div>
     </>

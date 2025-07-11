@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const eventsSchema = new mongoose.Schema({
-  instaURL: {
+  insta_url: {
     type: String,
     required: true
   },
-  eventName: {
+  event_name: {
     type: String,
     required: true
   },

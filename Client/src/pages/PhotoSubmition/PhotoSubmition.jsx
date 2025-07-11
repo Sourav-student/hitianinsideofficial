@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { photoFormSubmit } from '../../api/userapis';
 import { toast } from 'react-toastify';
+import { use } from 'react';
 
 const PhotoSubmition = () => {
 
   const [formData, setFormData] = useState({
+    email: '',
     name: '',
     year: '1st Year',
     department: 'Applied Electronics and Instrumentation Engineering',
@@ -23,6 +25,15 @@ const PhotoSubmition = () => {
   const inpDivStyle = "p-5 bg-[#c37173] rounded-xl shadow-lg mb-[22px] w-[600px] max-sm:w-[400px] max-[440px]:w-[300px] max-[320px]:w-auto";
   const labelStyle = "text-xl p-1 font-semibold flex mb-1"
   const inpStyle = "bg-[#d83939] rounded-lg border-0 w-full"
+
+  useEffect(() => {
+    // Get user email from localStorage
+    const {email} = JSON.parse(localStorage.getItem('user-info'));
+    if (email) {
+      setFormData({...formData, email: email });
+    }
+  }, []);
+
 
   //Photo Form Submition
   const handleSubmit = async () => {

@@ -2,14 +2,14 @@ import { BiLogoGoogle } from "react-icons/bi"
 import { useGoogleLogin } from '@react-oauth/google'
 import googleAuth from "../../api/googleapi";
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from "react";
-import { isAccountContext } from "../../context/context";
+import { useContext } from "react";
+import { isAuthenticatedContext } from "../../context/context";
 import logo from "../../assets/images/logo.png";
 import { toast } from "react-toastify"
 
 const SignIn = () => {
 
-  const setIsAccount = useContext(isAccountContext);
+  const {setIsAuthenticated} = useContext(isAuthenticatedContext);
   const navigate = useNavigate();
 
   //Google response
@@ -17,11 +17,11 @@ const SignIn = () => {
     try {
       if (authResult['code']) {
         const result = await googleAuth(authResult['code']);
-        const { email, name, image, admin } = await result.data.user;
+        const { email, name, image } = await result.data.user;
         const token = await result.data.token;
         //newUser
-        localStorage.setItem('user-info', JSON.stringify({ email, name, image, token, admin }))
-        setIsAccount(true)
+        localStorage.setItem('user-info', JSON.stringify({ email, name, image, token}))
+        setIsAuthenticated(true);
         navigate('/');
         toast.success("sign in successfully");
       }

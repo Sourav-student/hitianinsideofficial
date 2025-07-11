@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { artworkFormSubmit } from '../../api/userapis';
 import { toast } from 'react-toastify'
 
 const ArtSubmition = () => {
 
   const [formData, setFormData] = useState({
+    email: '',
     name: '',
     year: '1st Year',
     department: 'Applied Electronics and Instrumentation Engineering',
@@ -24,10 +25,17 @@ const ArtSubmition = () => {
   const labelStyle = "text-xl p-1 font-semibold flex mb-1"
   const inpStyle = "bg-[#d83939] rounded-lg border-0 w-full"
 
+  useEffect(() => {
+    // Get user email from localStorage
+    const {email} = JSON.parse(localStorage.getItem('user-info'));
+    if (email) {
+      setFormData({...formData, email: email });
+    }
+  }, []);
+
   //Artwork Form Submition
   const handleSubmit = async () => {
     try {
-
       //form validation
       if (formData.name === '' || formData.contactNo === '' || formData.file === null || formData.rollNo === '') {
         toast.warning("Fill the form first!!");

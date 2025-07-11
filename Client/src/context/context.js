@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const isAccountContext = createContext(false);
+export const isAuthenticatedContext = createContext(false);

@@ -21,6 +21,7 @@
     "react-social-media-embed": "^2.4.1",
     "react-toastify": "^11.0.5",
     "react-tooltip": "^5.25.1",
+    "styled-components": "^6.1.19",
     "tostify": "^0.0.1",
     "web-vitals": "^2.1.4"
   },

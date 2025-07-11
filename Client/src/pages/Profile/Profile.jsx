@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { isAccountContext } from '../../context/context';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { isAuthenticatedContext } from '../../context/context';
 
 const Profile = () => {
 
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
-  const setIsAccount = useContext(isAccountContext);
+  const { setIsAuthenticated } = useContext(isAuthenticatedContext);
 
   useEffect(() => {
     const data = localStorage.getItem('user-info');
@@ -16,8 +16,8 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('user-info');
+    setIsAuthenticated(false);
     navigate('/signin');
-    setIsAccount(false);
   }
 
   return (
@@ -27,19 +27,23 @@ const Profile = () => {
           <img src={userInfo?.image} alt={userInfo?.name} className='rounded-md' />
         </div>
         <div className='text-left'>
-          <h2 className='text-xl font-semibold'>Name - <span className='font-normal'>{userInfo?.name}</span></h2>
-          <h3 className='text-lg font-semibold'>Email - <span className='font-normal'>{userInfo?.email}</span></h3>
+          <h2 className='text-lg sm:text-xl font-semibold'>Name - <span className='font-normal'>{userInfo?.name}</span></h2>
+          <h3 className='text-sm sm:text-lg font-semibold'>Email - <span className='font-normal'>{userInfo?.email}</span></h3>
         </div>
       </div>
       <div className='w-full p-6'>
         <div className='flex w-full justify-center'>
-          <p className='text-lg max-w-[600px] text-center'>🎉 Welcome to the official HITian Inside website!
-            You’re now a valued member of our growing community. We’re thrilled to have you on board - congratulations and get ready to explore, connect, and contribute!
+          <p className='text-sm sm:text-lg max-w-[600px] text-center'>🎉 Welcome to the official HITian Inside website! You’re now a valued member of our growing community. We’re thrilled to have you on board - congratulations and get ready to explore, connect, and contribute!
           </p>
         </div>
       </div>
 
-      <button className='bg-[#bb1d1d] hover:bg-[#e01414] py-2 px-4 rounded-lg font-semibold w-40' onClick={handleLogout}>Logout</button>
+      <div className='flex gap-8'>
+        <NavLink to="/matches-scorecard">
+          <button className='bg-[#0788e4] hover:bg-[#0760e7] py-2 px-4 rounded-lg font-semibold w-40 max-sm:w-auto'>View Scores</button>
+        </NavLink>
+        <button className='bg-[#bb1d1d] hover:bg-[#e01414] py-2 px-4 rounded-lg font-semibold w-40 max-sm:w-auto' onClick={handleLogout}>Logout</button>
+      </div>
     </div>
   )
 }

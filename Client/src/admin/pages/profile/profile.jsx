@@ -1,18 +1,18 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom';
-import { isAccountContext } from '../../../context/context';
+import { isAuthenticatedContext } from '../../../context/context';
 
 const AdminProfile = () => {
 
   //class for style
-  const btnClass = "bg-[#bb1d1d] hover:bg-[#e01414] py-2 px-4 rounded-lg font-semibold";
+  const btnClass = "bg-[#bb1d1d] hover:bg-[#e01414] p-2 rounded-lg font-semibold w-40";
 
   //navigate feature
   const navigate = useNavigate();
 
   //handle states
   const [userInfo, setUserInfo] = useState(null);
-  const setIsAccount = useContext(isAccountContext);
+  const { setIsAuthenticated } = useContext(isAuthenticatedContext);
 
   //use useEffect to fetch data from local storage
   useEffect(() => {
@@ -24,8 +24,8 @@ const AdminProfile = () => {
   //Implement logged out feature
   const handleLogout = () => {
     localStorage.removeItem('user-info');
-    navigate('/signin')
-    setIsAccount(false);
+    setIsAuthenticated(false);
+    navigate('/signin');
   }
 
   return (
@@ -35,8 +35,8 @@ const AdminProfile = () => {
           <img src={userInfo?.image} alt={userInfo?.name} className='rounded-md' />
         </div>
         <div className='text-left'>
-          <h2 className='text-xl font-semibold'>Name - <span className='font-normal'>{userInfo?.name}</span></h2>
-          <h3 className='text-lg font-semibold'>Email - <span className='font-normal'>{userInfo?.email}</span></h3>
+          <h2 className='text-lg sm:text-xl font-semibold'>Name - <span className='font-normal'>{userInfo?.name}</span></h2>
+          <h3 className='text-sm sm:text-lg font-semibold'>Email - <span className='font-normal'>{userInfo?.email}</span></h3>
         </div>
       </div>
       <div className='w-full p-6'>
@@ -46,22 +46,30 @@ const AdminProfile = () => {
         </div>
       </div>
 
-      <div className='grid grid-cols-2 p-3 gap-3'>
-         <NavLink to='/admin/events'>
+      <div className='grid grid-cols-2 gap-8 max-sm:grid-cols-1'>
+        <NavLink to='/admin/events'>
           <button className={btnClass}>Add Event</button>
-          </NavLink>
-         <NavLink to='/admin/homepage'>
+        </NavLink>
+        <NavLink to='/admin/homepage'>
           <button className={btnClass}>Add at Home Page</button>
-         </NavLink>
-         <NavLink to='/admin/almanac'>
+        </NavLink>
+        <NavLink to='/admin/almanac'>
           <button className={btnClass}>Add Almanac</button>
-         </NavLink>
-         <NavLink to='/admin/matches-scorecard'>
+        </NavLink>
+        <NavLink to='/admin/matches-scorecard'>
           <button className={btnClass}>Add Scores</button>
-         </NavLink>
+        </NavLink>
+        <NavLink to='/admin/users-sent-data'>
+          <button className={btnClass}>users sent data</button>
+        </NavLink>
       </div>
 
-      <button className={btnClass} onClick={handleLogout}>Logout</button>
+      <div className='flex gap-8 mt-5'>
+        <NavLink to="/matches-scorecard">
+          <button className={btnClass}>View Scores</button>
+        </NavLink>
+        <button className='bg-[#0788e4] hover:bg-[#0760e7] py-2 px-4 rounded-lg font-semibold w-40 max-sm:w-auto' onClick={handleLogout}>Logout</button>
+      </div>
     </div>
   )
 }

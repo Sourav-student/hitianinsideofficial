@@ -7,7 +7,8 @@ import authRouter from './routers/authRouter/authRouter.js';
 import userPostRouter from './routers/userRouters/userPostRouters.js';
 import adminPostRouter from './routers/adminRouters/adminPostRouters.js';
 import adminPatchRouter from './routers/adminRouters/adminPatchRouters.js';
-import adminDeleteRouter from './routers/adminRouters/adminDeleteRouters.js'
+import adminDeleteRouter from './routers/adminRouters/adminDeleteRouters.js';
+import adminGetRouter from './routers/adminRouters/adminGetRouter.js'
 import { dbConn } from './utils/dbConnection.js';
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(authRouter);
 app.use(adminPostRouter);
 app.use(adminPatchRouter);
 app.use(adminDeleteRouter);
+app.use(adminGetRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running at PORT ${PORT}`)

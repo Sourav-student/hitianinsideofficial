@@ -13,18 +13,18 @@ const storySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  rollNo: {
+  roll_no: {
     type: String,
     required: true
   },
-  contactNo: {
+  contact_no: {
     type: Number,
     required: true
   },
-  instaID: {
+  insta_id: {
     type: String
   },
-  storyType: {
+  story_type: {
     type: String,
     required: true
   },

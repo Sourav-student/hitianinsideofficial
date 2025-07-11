@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import CricketScore from '../../components/CricketScore/CricketScore';
+import FootballScore from '../../components/FootballScore/FootballScore';
+import VollyballScore from '../../components/VollyballScore/VollyballScore';
+import BasketballScore from '../../components/BasketballScore/BasketballScore'
 
 const MatchesScores = () => {
 
@@ -57,6 +60,15 @@ const MatchesScores = () => {
       <div>
         {
           isCricket && <CricketScore />
+        }
+        {
+          isFootball && <FootballScore/>
+        }
+        {
+          isVollyball && <VollyballScore/>
+        }
+        {
+          isBasketball && <BasketballScore/>
         }
       </div>
     </>

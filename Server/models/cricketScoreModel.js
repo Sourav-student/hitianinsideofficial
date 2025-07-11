@@ -1,56 +1,56 @@
 import mongoose from 'mongoose';
 
 const cricketSchema = new mongoose.Schema({
-  matchType: {
+  match_type: {
     type: String,
     required: true
   },
-  team1Name: {
+  team1_name: {
     type: String,
     required: true,
   },
-  team2Name: {
+  team2_name: {
     type: String,
     required: true
   },
-  team1Logo: {
+  team1_logo: {
     type: String,
     required: true
   },
-  team2Logo: {
+  team2_logo: {
     type: String,
     required: true
   },
-  team1Run: {
+  team1_run: {
     type : Number,
     default: 0
   },
-  team2Run: {
+  team2_run: {
     type : Number,
     default: 0
   },
-  team1OverPlayed: {
+  team1_over_played: {
     type : Number,
     default: 0
   },
-  team2OverPlayed: {
+  team2_over_played: {
     type : Number,
     default: 0
   },
-  team1WicketLoss: {
+  team1_wicket_loss: {
     type : Number,
     default: 0
   },
-  team2WicketLoss: {
+  team2_wicket_loss: {
     type : Number,
     default: 0
   },
 
   completed: {
     type: String,
-    default: "false"
+    default: "no"
   }
 })
 
-const CricketScores = mongoose.model("CricketScores", cricketSchema);
-export default CricketScores;
+const CricketScore = mongoose.model("CricketScores", cricketSchema);
+export default CricketScore;

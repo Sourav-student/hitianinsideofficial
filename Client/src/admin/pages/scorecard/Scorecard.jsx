@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CricketPanel from '../../components/AdminCricketPanel/CricketPanel';
 import CricketScores from '../../components/AddCricketScores/CricketScores';
+import FootballScores from '../../components/AddFootballScores/AddFootballScores';
+import VollyballScores from '../../components/AddVollyballScores/VollyballScores';
+import BasketballScores from '../../components/AddBasketballScores/BasketballScores'
+import FootballPanel from '../../components/AdminFootballPanel/FootballPanel';
 
 const Scorecard = () => {
 
@@ -55,12 +59,32 @@ const Scorecard = () => {
           className={isBasketball ? activeStyle : 'cursor-pointer'}
           onClick={handleBasketball}>Basketball</span>
       </div>
-      <div className='p-3 m-6 flex flex-wrap gap-5 items-center min-h-[40vh]'>
+      <div className='my-3 flex flex-wrap gap-5 items-center min-h-[40vh]'>
         {
           isCricket &&
           <>
             <CricketScores />
             <CricketPanel />
+          </>
+        }
+
+        {
+          isFootball &&
+          <>
+          <FootballScores/>
+          <FootballPanel/>
+          </>
+        }
+        {
+          isVollyball &&
+          <>
+          <VollyballScores/>
+          </>
+        }
+        {
+          isBasketball &&
+          <>
+          <BasketballScores/>
           </>
         }
       </div>

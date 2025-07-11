@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const photosSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true
+  },
   name:{
     type:String,
     required:true
@@ -13,15 +17,15 @@ const photosSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  rollNo :{
+  roll_no :{
     type:String,
     required:true
   },
-  contactNo :{
+  contact_no :{
      type:Number,
      required:true
   },
-  instaID:{
+  insta_id:{
     type:String
   },
   file:{

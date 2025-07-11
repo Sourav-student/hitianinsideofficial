@@ -22,15 +22,21 @@ import img5 from "../../assets/images/best_of_almanac/Mrinmoyee Sil_CSE.jpg";
 // import recruitmentbanner from "../../assets/images/recruitment/recuritment_header.png";
 // import recruitmentposter from "../../assets/images/recruitment/Recruitment_poster.png";
 
+import Banner from '../../components/Banner/Banner';
+
 function Home() {
+
   useEffect(() => {
     AOS.init({ duration: 1700 });
   }, []);
 
   return (
     <div className="min-h-fit">
-      {/* ============ Landing Page ============= */}
 
+      {/* ============ Banner ============= */}
+      <Banner />
+
+      {/* ============ Landing Page ============= */}
       <section className="homepage bg-[#650808] justify-center ">
         {/* recruitment poster  */}
 
@@ -55,7 +61,7 @@ function Home() {
         <img src={name} alt="name" className="name inline w-[30%]" />
 
         {/* /////////////// recruitment snippet ///////////// */}
-       
+
         <img
           data-aos="fade-up"
           src={hit}
@@ -66,7 +72,6 @@ function Home() {
       </section>
 
       {/* About us */}
-
       <section className="aboutus bg-gradient-to-b from-[#FFB5B5] to-[#A95454] ">
         {/* <img src={grad1} alt="gradient" className="gradient1" /> */}
         <h1
@@ -112,7 +117,7 @@ function Home() {
             className=""
           >
             {" "}
-            
+
             <img
               src={recruitmentposter}
               alt="recruitment poster"
