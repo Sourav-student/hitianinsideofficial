@@ -75,7 +75,7 @@ const AdminEvent = () => {
             <Loader /> :
             <div className="allthrebox Events-cards flex flex-wrap justify-center items-center gap-8 px-3 mb-5 font-sans" data-aos="fade-up">
               {
-               events.length > 0 && events.map((event, index) => event?.insta_url ? (
+                events.length > 0 && events.map((event, index) => (
                   <div className="bg-[#d03c19] w-auto rounded-lg h-[800px]" key={index}>
                     <InstagramEmbed
                       url={event.insta_url}
@@ -116,13 +116,13 @@ const AdminEvent = () => {
                       <button className='bg-[#bb1d1d] hover:bg-[#e01414] p-2 rounded-lg font-medium' onClick={() => handleDelete(index)}>Delete</button>
                     </div>
                   </div>
-                ) : null
+                )
                 )}
-                {
-                  events.length === 0 && !loading &&
-                  <div className="text-white text-2xl font-bold">No Events Found</div>
-                }
             </div>
+        }
+        {
+          events.length === 0 && !loading &&
+          <div className="text-white text-2xl font-bold">No Events Found</div>
         }
       </section>
     </div>
