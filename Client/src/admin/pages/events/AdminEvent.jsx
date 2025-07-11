@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Loader from "../../components/Loader/Loader";
 import { InstagramEmbed } from "react-social-media-embed";
 import { toast } from "react-toastify";
 // import { FacebookEmbed } from "react-social-media-embed";
@@ -71,10 +72,10 @@ const AdminEvent = () => {
         <h1 className="text-white text-3xl font-bold m-4">Our Events</h1>
         {
           loading ?
-            <h2 className="w-full text-xl text-[#ffb5b5] text-left  px-3 font-semibold">Loading...</h2> :
+            <Loader /> :
             <div className="allthrebox Events-cards flex flex-wrap justify-center items-center gap-8 px-3 mb-5 font-sans" data-aos="fade-up">
               {
-                events.map((event, index) => (
+               events.length > 0 && events.map((event, index) => event?.insta_url ? (
                   <div className="bg-[#d03c19] w-auto rounded-lg h-[800px]" key={index}>
                     <InstagramEmbed
                       url={event.insta_url}
@@ -115,8 +116,12 @@ const AdminEvent = () => {
                       <button className='bg-[#bb1d1d] hover:bg-[#e01414] p-2 rounded-lg font-medium' onClick={() => handleDelete(index)}>Delete</button>
                     </div>
                   </div>
-                ))
-              }
+                ) : null
+                )}
+                {
+                  events.length === 0 && !loading &&
+                  <div className="text-white text-2xl font-bold">No Events Found</div>
+                }
             </div>
         }
       </section>
