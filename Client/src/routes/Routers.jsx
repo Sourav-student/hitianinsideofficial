@@ -22,7 +22,7 @@ import AlmanacForm from '../pages/AlmanacForm/AlmanacForm'
 import MatchesScores from '../pages/MatchesScores/MatchesScores'
 
 //admin pages
-import AdminProfile from '../admin/pages/profile/Profile';
+import AdminProfile from '../admin/pages/profile/AdminProfile';
 import AdminEvents from '../admin/pages/events/Event';
 import Scorecard from '../admin/pages/scorecard/Scorecard';
 import AdminAlmanac from '../admin/pages/almanac/Almanac';
