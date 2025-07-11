@@ -50,8 +50,8 @@ const AdminProfile = () => {
         <NavLink to='/admin/events'>
           <button className={btnClass}>Add Event</button>
         </NavLink>
-        <NavLink to='/admin/homepage'>
-          <button className={btnClass}>Add at Home Page</button>
+        <NavLink to='/admin/add-poster'>
+          <button className={btnClass}>Add Poster at Homepage</button>
         </NavLink>
         <NavLink to='/admin/almanac'>
           <button className={btnClass}>Add Almanac</button>

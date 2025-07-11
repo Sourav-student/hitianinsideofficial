@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify';
 import { getAdminHomepageData, addHomepageData, deleteHomepageData } from '../../../api/adminapis';
 import Loader from '../../components/Loader/Loader';
+import {Link} from 'react-router-dom';
 
 const AdminHome = () => {
   const [homepageData, setHomepageData] = useState({
     eventPoster: null,
     eventName: '',
-    eventContent: ''
+    eventContent: '',
+    eventFormLink: '',
   })
 
   const [homepageContainer, sethomepageContainer] = useState([]);
@@ -41,10 +43,11 @@ const AdminHome = () => {
       const res = await addHomepageData(homepageData);
       toast.success(res.data.message);
       setHomepageData({
-        file: null,
-        username: '',
-        department: ''
-      })
+        eventPoster: null,
+        eventName: '',
+        eventContent: '',
+        eventFormLink: '',
+      });
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -89,6 +92,17 @@ const AdminHome = () => {
               required />
           </div>
           <div className='flex flex-col'>
+            <label htmlFor="eventform" className='text-left'>Registration Form Link</label>
+            <input
+              type="text"
+              name='eventFormLink'
+              value={homepageData.eventFormLink}
+              onChange={(e) => setHomepageData({ ...homepageData, eventFormLink: e.target.value })}
+              className='bg-red-400 p-2 my-2 w-[250px] border border-dotted rounded-lg text-white shadow-md'
+              placeholder='Enter here'
+              required />
+          </div>
+          <div className='flex flex-col'>
             <label htmlFor="eventContent" className='text-left'>Event Content</label>
             <textarea
               name='eventContent'
@@ -104,7 +118,7 @@ const AdminHome = () => {
             type='submit'
             className='text-red-100 bg-[#c21414] px-4 py-2 m-10 rounded-md text-lg shadow-md hover:bg-[#f00] transition-all'
             onClick={handleAdd} disabled={submit}>
-            {submit ? "Adding homepage Data" : "Add homepage Data"}
+            {submit ? "Adding Poster" : "Add Poster"}
           </button>
         </div>
       </div>
@@ -126,6 +140,7 @@ const AdminHome = () => {
                           alt="homepageData image"
                           className='h-52 w-full' />
                         <h2 className='text-lg font-bold'>{homepageData.event_name}</h2>
+                        <Link to={homepageData.event_form_link} className='font-semibold'>{homepageData.event_form_link}</Link>
                         <h3 className='font-semibold'>{homepageData.event_content}</h3>
                         <hr />
                         <button

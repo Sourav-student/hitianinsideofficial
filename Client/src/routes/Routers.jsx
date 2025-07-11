@@ -26,7 +26,7 @@ import AdminProfile from '../admin/pages/profile/AdminProfile';
 import AdminEvents from '../admin/pages/events/AdminEvent';
 import Scorecard from '../admin/pages/scorecard/Scorecard';
 import AdminAlmanac from '../admin/pages/almanac/AdminAlmanac';
-import AdminHome from '../admin/pages/home/AdminHome';
+import AdminHome from '../admin/pages/homepagePoster/AdminHome';
 import UsersData from '../admin/pages/users/UsersData';
 
 function Routers() {
@@ -99,7 +99,7 @@ function Routers() {
             </AdminRoute>
           } />
 
-        <Route path='/admin/homepage'
+        <Route path='/admin/add-poster'
           element={
             <AdminRoute isAdmin={isAdmin}>
               <AdminHome />

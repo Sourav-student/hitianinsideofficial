@@ -157,11 +157,11 @@ adminPostRouter.post("/api/admin/almanac", upload.single('file'), async (req, re
 //add homepage element
 adminPostRouter.post("/api/admin/homepage-element", upload.single('eventPoster'), async (req, res) => {
    try {
-    const { eventName, eventContent } = req.body;
+    const { eventName, eventContent, eventFormLink } = req.body;
     const eventPoster = req.file.path;
 
     await HomepageElementList.create({
-      event_name: eventName, event_poster: eventPoster, event_content: eventContent
+      event_name: eventName, event_poster: eventPoster, event_content: eventContent, event_form_link: eventFormLink
     })
 
     res.status(200).json({

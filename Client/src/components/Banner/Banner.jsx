@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomepageComponents } from '../../api/userapis';
+import {NavLink} from 'react-router-dom';
 
 const Banner = () => {
   const [homepageComponent, sethomepageComponent] = useState([]);
@@ -42,15 +43,22 @@ const Banner = () => {
   return (
     homepageComponent.length > 0 &&
     <div className='flex flex-col items-center justify-center rounded-xl'>
-      <h1 className="text-2xl font-bold text-red-200 mb-6">Our uncoming Programs</h1>
-      {loading ? <p className='text-lg text-red-200 mb-6'>Loading uncoming progeams</p> :
-        (<div className='overflow-hidden md:w-[60vw] relative rounded-2xl'>
+      <h1 className="text-2xl font-bold text-red-200 mb-6">Our uncoming events</h1>
+      {loading ? <p className='text-lg text-red-200 mb-6'>Loading uncoming events</p> :
+        (<div className='overflow-hidden md:w-[60vw] relative'>
           <div
-            className='h-auto flex transition-transform duration-700 ease-in-out z-0'
+            className='h-auto flex transition-transform duration-700 ease-in-out relative z-0'
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {homepageComponent.map((poster, index) => (
-              <img src={poster.eventPoster} alt={poster.eventName} key={index} className='min-w-full h-[600px] object-fill' />
+              <div className='w-full flex-shrink-0 relative' key={index}>
+                <img src={poster.eventPoster} alt={poster.eventName} key={index} className='min-w-full object-fill rounded-2xl' />
+                <div className='absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-2xl'>
+                  <h2 className='text-xl font-bold'>{poster.eventName}</h2>
+                  <p className='text-sm'>{poster.eventContent}</p>
+                </div>
+                <NavLink to={poster.eventFormLink} className="text-[#650808] mt-2 font-bold bg-[#FFB5B5] text-[0.9rem] rounded-xl p-2 absolute bottom-20 left-[43%] border border-black hover:bg-[#0005] hover:text-white">Register Now</NavLink>
+              </div>
             ))}
           </div>
 
