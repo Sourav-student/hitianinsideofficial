@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomepageComponents } from '../../api/userapis';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Banner = () => {
   const [homepageComponent, sethomepageComponent] = useState([]);
@@ -37,45 +37,75 @@ const Banner = () => {
       handleSlide("right");
     }, 4000);
 
-    return () => clearInterval(interval); // cleanup
+    return () => clearInterval(interval);
   }, [homepageComponent.length]);
 
   return (
     homepageComponent.length > 0 &&
-    <div className='flex flex-col items-center justify-center rounded-xl'>
-      <h1 className="text-2xl font-bold text-red-200 mb-6">Our uncoming events</h1>
-      {loading ? <p className='text-lg text-red-200 mb-6'>Loading uncoming events</p> :
-        (<div className='overflow-hidden md:w-[60vw] relative'>
+    <div className="flex flex-col items-center justify-center rounded-xl py-6 px-4">
+      <h1 className="text-3xl font-bold text-red-200 mb-6 text-center">
+        Our Upcoming Events
+      </h1>
+
+      {loading ? (
+        <div className="animate-pulse w-full md:w-[60vw] h-[300px] bg-red-100/10 rounded-2xl flex items-center justify-center text-red-100 text-lg">
+          Loading upcoming events...
+        </div>
+      ) : (
+        <div className="overflow-hidden md:w-[60vw] relative rounded-2xl shadow-lg">
+          {/* Slide Container */}
           <div
-            className='h-auto flex transition-transform duration-700 ease-in-out relative z-0'
+            className="h-auto flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {homepageComponent.map((poster, index) => (
-              <div className='w-full flex-shrink-0 relative' key={index}>
-                <img src={poster.eventPoster} alt={poster.eventName} key={index} className='min-w-full object-fill rounded-2xl' />
-                <div className='absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-2xl'>
-                  <h2 className='text-xl font-bold'>{poster.eventName}</h2>
-                  <p className='text-sm'>{poster.eventContent}</p>
+              <div
+                className="w-full flex-shrink-0 flex flex-col items-center gap-2"
+                key={index}
+              >
+                <img
+                  src={poster.eventPoster}
+                  alt={poster.eventName}
+                  className="min-w-full h-[300px] object-contain rounded-2xl"
+                />
+
+                <div className="bg-white/10 text-white w-full p-4 rounded-xl shadow-inner backdrop-blur-md text-center">
+                  <h2 className="text-xl font-semibold mb-1">{poster.eventName}</h2>
+                  <p className="text-sm text-gray-200">{poster.eventContent}</p>
                 </div>
-                <NavLink to={poster.eventFormLink} className="text-[#650808] mt-2 font-bold bg-[#FFB5B5] text-[0.9rem] rounded-xl p-2 absolute bottom-20 left-[43%] border border-black hover:bg-[#0005] hover:text-white">Register Now</NavLink>
+
+                {/* Register button */}
+                <NavLink
+                  to={poster.eventFormLink}
+                  className="mt-2 bg-red-700 hover:bg-red-500 text-stone-900 hover:text-white font-semibold px-4 py-2 rounded-full shadow-md transition-all duration-200 border border-black"
+                >
+                  Register Now
+                </NavLink>
               </div>
             ))}
           </div>
 
-          {/* Navigation buttons */}
-          <div className='absolute left-0 flex justify-between items-center w-full top-[40%] max-sm:top-1/3 z-10 px-2'>
+          {/* Navigation Buttons */}
+          <div className="absolute top-1/2 left-0 right-0 flex justify-between px-4 z-10 -translate-y-1/2">
             <button
               onClick={() => handleSlide("left")}
-              className='text-6xl p-3 bg-[#ffe8cf5d] opacity-80 text-black rounded-md cursor-pointer hover:bg-[#f68402] hover:opacity-100 transition-all duration-300 shadow-md max-sm:text-xl'
-            >&lt;</button>
+              className="text-3xl sm:text-5xl bg-white/40 text-black rounded-full p-2 hover:bg-[#f68402] hover:text-white transition-all"
+              aria-label="Previous Slide"
+            >
+              &lt;
+            </button>
             <button
               onClick={() => handleSlide("right")}
-              className='text-6xl p-3 bg-[#ffe8cf5d] opacity-80 text-black rounded-md cursor-pointer hover:bg-[#f68402] hover:opacity-100 transition-all duration-300 shadow-md max-sm:text-xl'
-            >&gt;</button>
+              className="text-3xl sm:text-5xl bg-white/40 text-black rounded-full p-2 hover:bg-[#f68402] hover:text-white transition-all"
+              aria-label="Next Slide"
+            >
+              &gt;
+            </button>
           </div>
-        </div>)}
-    </div>
+        </div>
 
+      )}
+    </div>
   )
 }
 
