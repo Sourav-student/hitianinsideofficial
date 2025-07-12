@@ -207,7 +207,7 @@ function Events() {
         <div className="allthrebox Events-cards flex flex-wrap justify-center items-center gap-8 px-3 mb-5 font-sans" data-aos="fade-up">
           {
             loading ? <Loader/> :
-              events.length > 0 && events.map((event, index) => (
+              events.length > 0 && events.map((event, index) => event.instaURL? (
                 <div className="bg-[#d03c19] w-auto h-[600px] max-w-[400px] rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-100" key={index}>
                   <InstagramEmbed
                     url={event.instaURL}
@@ -222,7 +222,7 @@ function Events() {
                     </div>
                   </div>
                 </div>
-              ))
+              ) : null)
           }
           {
             events.length === 0 && !loading && (

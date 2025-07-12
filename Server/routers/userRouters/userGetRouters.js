@@ -35,7 +35,7 @@ userGetRouter.get("/api/events", async (req, res) => {
   try {
     const data = await EventsList.find();
     const formattedData = data.map((event) => ({
-      "data": event.date,
+      "date": event.date,
       "year": event.year,
       "instaURL": event.insta_url,
       "eventName": event.event_name
