@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { getHomepageComponents } from '../../api/userapis';
-import { NavLink } from 'react-router-dom';
 
 const Banner = () => {
   const [homepageComponent, sethomepageComponent] = useState([]);
@@ -75,12 +74,14 @@ const Banner = () => {
                 </div>
 
                 {/* Register button */}
-                <NavLink
-                  to={poster.eventFormLink}
+                <a
+                  href={poster.eventFormLink}
+                  target='_blank'
+                  rel="noopener noreferrer"
                   className="mt-2 bg-red-700 hover:bg-red-500 text-stone-900 hover:text-white font-semibold px-4 py-2 rounded-full shadow-md transition-all duration-200 border border-black"
                 >
                   Register Now
-                </NavLink>
+                </a>
               </div>
             ))}
           </div>
@@ -89,14 +90,14 @@ const Banner = () => {
           <div className="absolute top-1/2 left-0 right-0 flex justify-between px-4 z-10 -translate-y-1/2">
             <button
               onClick={() => handleSlide("left")}
-              className="text-3xl sm:text-5xl bg-white/40 text-black rounded-full p-2 hover:bg-[#f68402] hover:text-white transition-all"
+              className="text-3xl sm:text-5xl bg-white/40 text-black rounded-full p-2 hover:bg-[#f63702] hover:text-white transition-all"
               aria-label="Previous Slide"
             >
               &lt;
             </button>
             <button
               onClick={() => handleSlide("right")}
-              className="text-3xl sm:text-5xl bg-white/40 text-black rounded-full p-2 hover:bg-[#f68402] hover:text-white transition-all"
+              className="text-3xl sm:text-5xl bg-white/40 text-black rounded-full p-2 hover:bg-[#f62b02] hover:text-white transition-all"
               aria-label="Next Slide"
             >
               &gt;

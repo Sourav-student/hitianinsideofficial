@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify';
 import { getAdminHomepageData, addHomepageData, deleteHomepageData } from '../../../api/adminapis';
 import Loader from '../../components/Loader/Loader';
-import {Link} from 'react-router-dom';
 
 const AdminHome = () => {
   const [homepageData, setHomepageData] = useState({
@@ -140,7 +139,7 @@ const AdminHome = () => {
                           alt="homepageData image"
                           className='h-52 w-full' />
                         <h2 className='text-lg font-bold'>{homepageData.event_name}</h2>
-                        <Link to={homepageData.event_form_link} className='font-semibold'>{homepageData.event_form_link}</Link>
+                        <a href={homepageData.event_form_link} className='font-semibold'>{homepageData.event_form_link}</a>
                         <h3 className='font-semibold'>{homepageData.event_content}</h3>
                         <hr />
                         <button
