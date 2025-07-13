@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { handleChangeCricketScores } from '../../../functions/functions';
+import { handleChangeCricketScores } from '../../../actions/actions';
 import { getAdminCricketScores } from '../../../api/adminapis';
 import { deleteCricketScores } from '../../../api/adminapis';
 import { editCricketScores } from '../../../api/adminapis';

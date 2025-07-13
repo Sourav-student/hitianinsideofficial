@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteFootballScores, editFootballScores, getAdminFootballScores } from '../../../api/adminapis';
-import { handleChangeFootballScores } from '../../../functions/functions';
+import { handleChangeFootballScores } from '../../../actions/actions';
 
 const FootballPanel = () => {
 

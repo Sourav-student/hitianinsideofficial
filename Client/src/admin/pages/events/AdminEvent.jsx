@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import AddEvent from '../../components/AddEvent/AddEvent';
-import { handleChangeEvent } from '../../../functions/functions'
+import { handleChangeEvent } from '../../../actions/actions';
 import { getAdminEvent, editEvent, deleteEvent } from "../../../api/adminapis";
 
 const AdminEvent = () => {

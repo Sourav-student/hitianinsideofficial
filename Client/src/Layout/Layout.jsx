@@ -40,17 +40,18 @@ function Layout() {
           </div>
       }
       <ToastContainer
-        position="top-right"
+        position="top-center"
         autoClose={5000}
-        hideProgressBar={false}
+        hideProgressBar
         newestOnTop={false}
-        closeOnClick={false}
+        closeOnClick
         rtl={false}
-        pauseOnFocusLoss
-        draggable
+        pauseOnFocusLoss={false}
+        draggable={false}
         pauseOnHover
-        theme="light"
-        transition={Bounce} />
+        theme="colored"
+        transition={Bounce}
+      />
     </isAuthenticatedContext.Provider>
   )
 }

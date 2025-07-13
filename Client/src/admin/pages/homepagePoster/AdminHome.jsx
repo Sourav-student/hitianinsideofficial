@@ -139,7 +139,7 @@ const AdminHome = () => {
                           alt="homepageData image"
                           className='h-52 w-full' />
                         <h2 className='text-lg font-bold'>{homepageData.event_name}</h2>
-                        <a href={homepageData.event_form_link} className='font-semibold'>{homepageData.event_form_link}</a>
+                        <a href={homepageData.event_form_link} className='font-semibold'>{homepageData.event_form_link.slice(0, 25)}</a>
                         <h3 className='font-semibold'>{homepageData.event_content}</h3>
                         <hr />
                         <button

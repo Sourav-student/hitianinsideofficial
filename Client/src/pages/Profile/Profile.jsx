@@ -28,7 +28,7 @@ const Profile = () => {
         </div>
         <div className='text-left'>
           <h2 className='text-lg sm:text-xl font-semibold'>Name - <span className='font-normal'>{userInfo?.name}</span></h2>
-          <h3 className='text-sm sm:text-lg font-semibold'>Email - <span className='font-normal'>{userInfo?.email}</span></h3>
+          <h3 className='text-sm sm:text-lg font-semibold overflow-hidden'>Email - <span className='font-normal'>{userInfo?.email}</span></h3>
         </div>
       </div>
       <div className='w-full p-6'>
