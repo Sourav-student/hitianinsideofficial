@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { photoFormSubmit } from '../../api/userapis';
 import { toast } from 'react-toastify';
-import { use } from 'react';
 
 const PhotoSubmition = () => {
 

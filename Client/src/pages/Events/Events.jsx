@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 // import "./Events.css";
 import { InstagramEmbed } from "react-social-media-embed";
 // import { FacebookEmbed } from "react-social-media-embed";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { motion } from "motion/react";
+// import AOS from 'aos';
+// import 'aos/dist/aos.css';
 import { getEvents } from "../../api/userapis";
-import Loader from "../../components/Loader/Loader"
 
 
 // image list 
@@ -22,6 +22,7 @@ import websitedevelopment02 from '../../assets/eventimage/websitedevelopment02.j
 import battleground from '../../assets/eventimage/battleground.jpeg'
 import azadikaamritmahotsav from '../../assets/eventimage/azadikaamritmahotsav.jpeg'
 import BhasharTori from '../../assets/eventimage/BhasharTori.jpeg'
+import EventsSkeleton from "../../components/Events/EventSkeleton";
 
 
 // const Elist = [
@@ -82,24 +83,33 @@ import BhasharTori from '../../assets/eventimage/BhasharTori.jpeg'
 function Events() {
 
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const [loadingPage, setLoadingPage] = useState(true);
 
-  //animation
+  //loading page first
   useEffect(() => {
-    AOS.init({ duration: 1700 })
+    setTimeout(() => {
+      setLoadingPage(false);
+    }, 1500);
   }, [])
+
 
   //load all events
   useEffect(() => {
     const loadEvents = async () => {
       const result = await getEvents();
-      let arr = result.data.reverse();
-      setEvents(arr);
+      setEvents(result.data.data.reverse());
       setLoading(false);
     }
 
     loadEvents();
   }, [])
+
+  if (loadingPage) {
+    return (
+      <EventsSkeleton />
+    )
+  }
 
   return (
     <div className="bg-[#650808] flex justify-center">
@@ -109,129 +119,129 @@ function Events() {
         </h1>
 
         {/* event try grid formation test */}
-
         <section className="box grid grid-cols-4 gap-2 mb-5">
-
           <div className="box1 bg-red-50 w-full  hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img className=" object-fill" src={abhinito23} alt="" />
           </div>
           <div className="box3  bg-red-50 w-full  hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={carrercounteling01} alt="" />
-
           </div>
           <div className="box2  bg-red-50 w-full  hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={creativeart} alt="" />
-
           </div>
           <div className="box4  bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={deepdarpan23} alt="" />
-
           </div>
           <div className="box5  bg-red-50 w-full  hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={glory23} alt="" />
-
           </div>
           <div className="box6  bg-red-50 col-start-2 col-end-4 row-start-2 row-end-4 w-full hover:scale-125   hover:transition-all ease-in-out delay-75 duration-75">
             {/* center  */}
             <img className="" src={navroopam2} alt="" />
           </div>
           <div className="box8  bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
-
             <img src={navroopam3} alt="" />
-
           </div>
           <div className="box9  bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={battleground} alt="" />
-
           </div>
           {/* <div className="box7  bg-red-50 col-start-2 col-end-4 h-28">2</div> */}
           <div className="box10 bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={swarajehind} alt="" />
-
           </div>
           <div className="box11 bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={azadikaamritmahotsav} alt="" />
-
           </div>
           <div className="box12 bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={swarajehind} alt="" />
-
           </div>
           <div className="box13 bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={BhasharTori} alt="" />
           </div>
-
           <div className="box14 bg-red-50 w-full hover:scale-110 hover:transition-all ease-in-out delay-75 duration-75">
             <img src={websitedevelopment02} alt="" />
-
           </div>
-
         </section>
 
-        {/* <div className="events-list"> */}
+        {/* Our Events Section*/}
+        <div className="text-center">
+          <motion.h1
+            className="event-heading text-[3rem] font-bold text-[#fdd0d0] pt-10 pb-10 font-hammersmith"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            Our Events
+          </motion.h1>
 
-        {/* {Elist.map((index) => (
-          <div data-aos="fade-up">
-            <p className="text-start font-bold text-2xl ps-5 pb-5 text-[#fdd0d0] underline decoration-[red] font-hammersmith">
-              {index.year}
-            </p>
-            <div className="allthrebox Events-cards grid grid-cols-3 gap-8 px-3 mb-5 font-sans">
-              {index.list.map((event, indexes) => (
-                <div
-                  key={indexes}
-                  data={event}
-                  className="event-card rounded-lg col-span-3 md:col-span-1 w-full pb-5  h-[90%] bg-[#a81f1f] "
-                >
-                  <InstagramEmbed
-                    url={event.img_url}
-                    className="rounded-t-lg h-[87%] object-cover"
-                  />
+          <div className="allthrebox Events-cards flex flex-wrap justify-center items-center gap-8 px-3 mb-5 font-sans">
+            {loading ? (
+              <div className="w-[90%] max-w-sm mt-6 bg-[#5a0000] rounded-xl overflow-hidden shadow-lg">
+                {/* Reel video skeleton */}
+                <div className="w-full aspect-[9/16] bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] animate-[shimmer_1.5s_infinite_linear]"></div>
 
-                  <div className="px-6 py-4">
-                    <div className="font-bold text-base mb-2 text-white">
-                      NAME: {event.name}
-                    </div>
-                    <div className="font-bold text-base mb-2 text-white">
-                      DATE: {event.date}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))} */}
-
-        {/* </div> */}
-
-        <h1 className="event-heading text-[3rem] font-bold text-[#fdd0d0] pt-10 pb-10 font-hammersmith">Our Events</h1>
-        <div className="allthrebox Events-cards flex flex-wrap justify-center items-center gap-8 px-3 mb-5 font-sans" data-aos="fade-up">
-          {
-            loading ? <Loader/> :
-              events.length > 0 && events.map((event, index) => event.instaURL? (
-                <div className="bg-[#d03c19] w-auto h-[600px] max-w-[400px] rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-100" key={index}>
-                  <InstagramEmbed
-                    url={event.instaURL}
-                    className="rounded-t-xl h-[80%]"
-                  />
-                  <div className="px-6 py-4">
-                    <div className="font-bold text-base mb-2 text-white">
-                      NAME: {event.eventName}
-                    </div>
-                    <div className="font-bold text-base mb-2 text-white">
-                      DATE: {event.date}
+                {/* Reel footer (profile + icons) */}
+                <div className="flex items-center justify-between p-4">
+                  {/* Left: profile pic + name */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] animate-[shimmer_1.5s_infinite_linear]"></div>
+                    <div className="flex flex-col gap-2">
+                      <div className="w-24 h-3 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] animate-[shimmer_1.5s_infinite_linear]"></div>
+                      <div className="w-16 h-3 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] animate-[shimmer_1.5s_infinite_linear]"></div>
                     </div>
                   </div>
+
+                  {/* Right: like/comment icons */}
+                  <div className="flex flex-col gap-3 items-center">
+                    <div className="w-6 h-6 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] animate-[shimmer_1.5s_infinite_linear]"></div>
+                    <div className="w-6 h-6 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] animate-[shimmer_1.5s_infinite_linear]"></div>
+                    <div className="w-6 h-6 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] animate-[shimmer_1.5s_infinite_linear]"></div>
+                  </div>
                 </div>
-              ) : null)
-          }
-          {
-            events.length === 0 && !loading && (
-              <div className="text-white text-2xl font-bold">
-                No Events Found
               </div>
-            )
-          }
+            ) : events.length > 0 ? (
+              events.map((event, index) =>
+                event.insta_url ? (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0px 10px 20px rgba(0,0,0,0.4)"
+                    }}
+                    whileTap={{ scale: 0.94, boxShadow: "0px 10px 20px rgba(0,0,0,0.4)" }}
+                    className="bg-[#d03c19] w-auto h-[600px] max-w-[400px] rounded-xl shadow-lg overflow-hidden transition-all duration-300"
+                  >
+                    <InstagramEmbed
+                      url={event.insta_url}
+                      className="rounded-t-xl h-[80%]"
+                    />
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-base mb-2 text-white">
+                        NAME: {event.event_name}
+                      </div>
+                      <div className="font-bold text-base mb-2 text-white">
+                        DATE: {event.date}
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : null
+              )
+            ) : (
+              <motion.div
+                className="text-white text-2xl font-bold"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                No Events Found
+              </motion.div>
+            )}
+          </div>
         </div>
+
       </section>
     </div>
   );

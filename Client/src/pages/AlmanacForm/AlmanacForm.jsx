@@ -8,7 +8,7 @@ import 'aos/dist/aos.css';
 
 const AlmanacForm = () => {
   
-  const [formContents, setFormContents] = useState([
+  const [formContents] = useState([
     {
       img_url: aditi,
       Almanacname: "Digital/Traditional Artwork",

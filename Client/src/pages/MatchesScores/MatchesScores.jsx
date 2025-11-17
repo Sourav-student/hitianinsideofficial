@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import CricketScore from '../../components/CricketScore/CricketScore';
 import FootballScore from '../../components/FootballScore/FootballScore';
-import VollyballScore from '../../components/VollyballScore/VollyballScore';
-import BasketballScore from '../../components/BasketballScore/BasketballScore'
+import VolleyballScore from "../../components/VolleyballScore/VolleyballScore";
+import BasketballScore from '../../components/BasketballScore/BasketballScore';
 
 const MatchesScores = () => {
 
@@ -11,34 +11,34 @@ const MatchesScores = () => {
   const [isCricket, setIsCricket] = useState(true);
   const [isFootball, setIsFootball] = useState(false);
   const [isBasketball, setIsBasketball] = useState(false);
-  const [isVollyball, setIsVollyball] = useState(false);
+  const [isVolleyball, setIsVolleyball] = useState(false);
 
   const handleCricket = () => {
     setIsCricket(true);
     setIsBasketball(false);
     setIsFootball(false);
-    setIsVollyball(false);
+    setIsVolleyball(false);
   }
 
   const handleBasketball = () => {
     setIsCricket(false);
     setIsBasketball(true);
     setIsFootball(false);
-    setIsVollyball(false);
+    setIsVolleyball(false);
   }
 
   const handleFootball = () => {
     setIsCricket(false);
     setIsBasketball(false);
     setIsFootball(true);
-    setIsVollyball(false);
+    setIsVolleyball(false);
   }
 
-  const handleVollyball = () => {
+  const handleVolleyball = () => {
     setIsCricket(false);
     setIsBasketball(false);
     setIsFootball(false);
-    setIsVollyball(true);
+    setIsVolleyball(true);
   }
 
   return (
@@ -51,8 +51,8 @@ const MatchesScores = () => {
           className={isFootball ? activeStyle : 'cursor-pointer'}
           onClick={handleFootball}>Football</span>
         <span
-          className={isVollyball ? activeStyle : 'cursor-pointer'}
-          onClick={handleVollyball}>Vollyball</span>
+          className={isVolleyball ? activeStyle : 'cursor-pointer'}
+          onClick={handleVolleyball}>Volleyball</span>
         <span
           className={isBasketball ? activeStyle : 'cursor-pointer'}
           onClick={handleBasketball}>Basketball</span>
@@ -65,7 +65,7 @@ const MatchesScores = () => {
           isFootball && <FootballScore/>
         }
         {
-          isVollyball && <VollyballScore/>
+          isVolleyball && <VolleyballScore/>
         }
         {
           isBasketball && <BasketballScore/>

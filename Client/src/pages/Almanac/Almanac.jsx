@@ -1,101 +1,65 @@
 import React, { useState, useEffect } from "react";
 import { getAlmanacs } from "../../api/userapis";
 import AOS from 'aos';
+import { motion } from "motion/react";
 import 'aos/dist/aos.css';
 
-// all images are there, add only path and it will be active
-// import aditi from "../../assets/images/best_of_almanac/Aditi_bera_IT.jpg"
-// import aditya from "../../assets/images/best_of_almanac/Aditya_Raj_IT.jpg"
-// import ashwin from "../../assets/images/best_of_almanac/Ashwini_Kumar_IT.jpg"
-// import durba from "../../assets/images/best_of_almanac/Durba_Chattopadhyay_CHE.jpg"
-// import kaif from "../../assets/images/best_of_almanac/Md Kaif_CSE_CS.jpg"
-// import mrin from "../../assets/images/best_of_almanac/Mrinmoyee Sil_CSE.jpg"
-// import pushp from "../../assets/images/best_of_almanac/Pushp_Ranjan_CSE_CS.jpg"
-// import satyam from "../../assets/images/best_of_almanac/Satyam_Kumar_ECE.jpg"
-
 import almanac_img from "../../assets/images/almanac-vector.png";
-import almanac_background from "../../assets/images/almanac-img.png";
+// import almanac_background from "../../assets/images/almanac-img.png";
 import { NavLink } from "react-router-dom";
+import AlmanacSkeleton from "../../components/Almanac/AlmanacSkeleton";
 
-// const almanacs = [
-//   {
-//     img_url: aditi,
-//     alt: "value",
-//     name: "Aditi bera",
-//     roll: "Information Technology",
-//     aosSegment: "fade-up",
-//   },
-//   {
-//     img_url: aditya,
-//     alt: "value",
-//     name: "Aditya Raj",
-//     roll: "Information Technology",
-//     aosSegment: "fade-up",
-//   },
-//   {
-//     img_url: ashwin,
-//     alt: "value",
-//     name: "Ashwini Kumar",
-//     roll: "Information Technology",
-//     aosSegment: "fade-up",
-//   },
-//   {
-//     img_url: durba,
-//     alt: "value",
-//     name: "Durba Chattopadhyay",
-//     roll: "Chemical",
-//     aosSegment: "fade-up",
-//   },
-//   {
-//     img_url: kaif,
-//     alt: "value",
-//     name: "Md Kaif",
-//     roll: "Cyber Security",
-//     aosSegment: "fade-up",
-//   },
-//   {
-//     img_url: mrin,
-//     alt: "value",
-//     name: "Mrinmoyee sil",
-//     roll: "Computer Science",
-//     aosSegment: "fade-up",
-//   },
-//   {
-//     img_url: pushp,
-//     alt: "value",
-//     name: "Pushp Ranjan",
-//     roll: "Cyber Security",
-//     aosSegment: "fade-up",
-//   },
-//   {
-//     img_url: satyam,
-//     alt: "value",
-//     name: "Satyam Kumar",
-//     roll: "Electronics and communication",
-//     aosSegment: "fade-up",
-//   },
-// ];
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1 },
+};
 
 function Almanac() {
 
   const [almanacs, setAlmanacs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingPage, setLoadingPage] = useState(true);
 
   useEffect(() => {
     AOS.init({ duration: 1700 })
+  }, [])
+
+  //Loading page
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingPage(false);
+    }, 1500);
   }, [])
 
   //get all almanac
   useEffect(() => {
     const getAllAlmanacs = async () => {
       const { data } = await getAlmanacs();
+      console.log(data);
       setAlmanacs(data);
       setLoading(false)
     }
 
     getAllAlmanacs();
   }, [])
+
+  if(loadingPage){
+    return (
+      <>
+       <AlmanacSkeleton/>
+      </>
+    )
+  }
 
   return (
     <div className="bg-[#650808] w-full overflow-hidden">
@@ -127,34 +91,66 @@ function Almanac() {
       {/* ========== Best of Almanac Section ========== */}
       <section
         className="Almanac-section bg-no-repeat bg-bottom bg-cover"
-        style={{ backgroundImage: `url(${almanac_background})` }}
+        // style={{ backgroundImage: `url(${almanac_background})` }}
       >
         <div className="bg-[#650808] py-10 text-center">
           <h1 className="text-[2rem] md:text-[2.5rem] text-[#f5d9d9] font-bold">Best of Almanac</h1>
         </div>
 
-        {loading? <p className="text-2xl text-[#f5d9d9]">Loading Best of Almanac...</p> :
-        (<div className="sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 md:px-16 pb-10 flex flex-col items-center">
-          {almanacs.map((almanac, index) => (
-            <div
-              key={index}
-              className="bg-[#d17f7f]/50 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden sm:max-w-[300px] max-sm:w-[90%]"
-            >
-              <div className="overflow-hidden">
-                <img
-                  className="w-full h-[220px] p-4"
-                  src={almanac.photo}
-                  alt={`Artwork by ${almanac.username}`}
-                  data-aos="fade-up"
-                />
-              </div>
-              <div className="px-4 py-3">
-                <p className="text-white font-bold text-lg">{almanac.username}</p>
-                <p className="text-white text-sm">{almanac.department}</p>
-              </div>
-            </div>
-          ))}
-        </div>)}
+
+        {loading ? (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-2xl text-[#f5d9d9] text-center py-8"
+          >
+            Loading Best of Almanac...
+          </motion.p>
+        ) :  almanacs.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center text-white text-xl py-10"
+          >
+            No Almanac Found
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 md:px-16 pb-10 flex flex-col items-center"
+          >
+            {almanacs.map((almanac, index) => (
+              <motion.div
+                key={index}
+                variants={cardVariants}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255,255,255,0.2)" }}
+                transition={{ type: "spring", stiffness: 200, damping: 12 }}
+                className="relative bg-[#d17f7f]/30 backdrop-blur-md rounded-2xl shadow-md hover:shadow-xl 
+                         transition-shadow duration-300 overflow-hidden border border-white/10 sm:max-w-[300px] max-sm:w-[90%]"
+              >
+                <div className="overflow-hidden relative">
+                  <motion.img
+                    className="w-full h-[220px] object-cover p-3 rounded-t-2xl"
+                    src={almanac.photo}
+                    alt={`Artwork by ${almanac.username}`}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                </div>
+
+                <div className="px-5 py-4">
+                  <p className="text-white font-semibold text-lg tracking-wide">
+                    {almanac.username}
+                  </p>
+                  <p className="text-white/80 text-sm">{almanac.department}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </section>
     </div>
 

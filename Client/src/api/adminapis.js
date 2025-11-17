@@ -119,8 +119,8 @@ export const editFootballScores = async (id, data) => {
 }
 
 //add Vollyballball scores
-export const addVollyballScores = async (data) => {
-  const response = await api.post("/api/admin/vollyball-scores", data, {
+export const addVolleyballScores = async (data) => {
+  const response = await api.post("/api/admin/volleyball-scores", data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     }
@@ -140,7 +140,7 @@ export const addBasketballScores = async (data) => {
   return response;
 }
 
-//get Scorecard
+//get Cricket Scorecard
 export const getAdminCricketScores = async () => {
   const res = await api.get("/api/admin/cricket-scores");
   return res;
@@ -151,8 +151,8 @@ export const getAdminFootballScores = async () => {
   return res;
 }
 
-export const getAdminVollyballScores = async () => {
-  const res = await api.get("/api/admin/vollyball-scores");
+export const getAdminVolleyballScores = async () => {
+  const res = await api.get("/api/admin/volleyball-scores");
   return res;
 }
 

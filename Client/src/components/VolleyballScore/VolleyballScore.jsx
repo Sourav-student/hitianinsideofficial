@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { getVollyballScores } from '../../api/userapis';
+import { getVolleyballScores } from '../../api/userapis';
 
-const VollyballScore = () => {
+const VolleyballScore = () => {
 
-  const [liveVollyball, setLiveVollyball] = useState([]);
-  const [completedVollyball, setCompletedVollyball] = useState([]);
+  const [liveVolleyball, setLiveVolleyball] = useState([]);
+  const [completedVolleyball, setCompletedVolleyball] = useState([]);
 
   useEffect(() => {
     AOS.init({ duration: 1000 })
@@ -14,10 +14,10 @@ const VollyballScore = () => {
 
   useEffect(() => {
     const printScorecard = async () => {
-      const result = await getVollyballScores();
+      const result = await getVolleyballScores();
       //Separated live and finished matches
-      setLiveVollyball(result.data.filter((item) => item.completed === "no"));
-      setCompletedVollyball(result.data.filter((item) => item.completed === "yes"))
+      setLiveVolleyball(result.data.filter((item) => item.completed === "no"));
+      setCompletedVolleyball(result.data.filter((item) => item.completed === "yes"))
     }
 
     printScorecard();
@@ -28,7 +28,7 @@ const VollyballScore = () => {
       <p className='text-xl text-[#ffb5b5] text-left font-semibold p-1'>Live Matches</p>
       <div className='m-3 flex flex-wrap gap-5'>
         {
-          (liveVollyball.length > 0) && liveVollyball.map((score, index) => (
+          (liveVolleyball.length > 0) && liveVolleyball.map((score, index) => (
             <div
               className="w-[320px] sm:w-[380px] bg-white/10 text-white rounded-2xl shadow-lg p-4 my-4 backdrop-blur-md"
               key={index}
@@ -73,13 +73,13 @@ const VollyballScore = () => {
           ))
         }
         {
-          (liveVollyball.length === 0) && <p className='text-sm text-[#ffb5b5]'>Currently no live matches</p>
+          (liveVolleyball.length === 0) && <p className='text-sm text-[#ffb5b5]'>Currently no live matches</p>
         }
       </div>
       <p className='text-xl text-[#ffb5b5] text-left font-semibold p-1'>Completed Matches</p>
       <div className='m-3 flex flex-wrap gap-5'>
         {
-          (completedVollyball.length > 0) && completedVollyball.map((score, index) => (
+          (completedVolleyball.length > 0) && completedVolleyball.map((score, index) => (
             <div
               className="w-[320px] sm:w-[380px] bg-white/10 text-white rounded-2xl shadow-lg p-4 my-4 backdrop-blur-md"
               key={index}
@@ -126,11 +126,11 @@ const VollyballScore = () => {
           ))
         }
         {
-          (completedVollyball.length === 0) && <p className='text-sm text-[#ffb5b5]'>Currently no live matches</p>
+          (completedVolleyball.length === 0) && <p className='text-sm text-[#ffb5b5]'>Currently no live matches</p>
         }
       </div>
     </>
   )
 }
 
-export default VollyballScore;
+export default VolleyballScore;

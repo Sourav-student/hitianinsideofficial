@@ -51,7 +51,7 @@ const AdminProfile = () => {
           <button className={btnClass}>Add Event</button>
         </NavLink>
         <NavLink to='/admin/add-poster'>
-          <button className={btnClass}>Add Poster at Homepage</button>
+          <button className={[btnClass, "font-xs"].join()}>Add Poster at Homepage</button>
         </NavLink>
         <NavLink to='/admin/almanac'>
           <button className={btnClass}>Add Almanac</button>

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { toast } from 'react-toastify'
-import { addVollyballScores } from '../../../api/adminapis'
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { addVolleyballScores } from "../../../api/adminapis";
 
 
 const VollyballScores = () => {
@@ -31,7 +31,7 @@ const VollyballScores = () => {
         return;
       }
       setSubmit(true)
-      const res = await addVollyballScores(vollyballScores);
+      const res = await addVolleyballScores(vollyballScores);
       toast.success(res.data.message);
     } catch (error) {
       toast.error("server error ! try again later");

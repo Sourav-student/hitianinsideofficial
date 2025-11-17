@@ -1,42 +1,51 @@
 // import "./header.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
-import './header.css'
+import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
+import './header.css';
+import { motion } from "motion/react";
 
 function Header() {
-  const [navbarOpen, setNavbarOpen] = useState(false);
+  // const [navbarOpen, setNavbarOpen] = useState(false);
   //navLinks
-  const [navLinks, setNavLinks] = useState([
+  const [navLinks] = useState([
     {
       path: "/",
       display: "Home",
+      icon: <FaHome />
     },
     {
       path: "/almanac",
       display: "Almanac",
+      icon: <FaBookOpen />
     },
     {
       path: "/events",
       display: "Events",
+      icon: <FaCalendarAlt />
     },
     {
       path: "/merchandise",
       display: "Merchandise",
+      icon: <FaShoppingBag />
     },
     {
       path: "/team",
       display: "Team",
+      icon: <FaUsers />
     },
 
     {
       path: "/about",
       display: "About",
+      icon: <FaInfoCircle />
     }
   ])
+
+
   // const [navbarOpen, setNavbarOpen] = useState("hiddenbox");
-  
+
   // //navLinks
   // const navLinks = [
   //   {
@@ -72,9 +81,9 @@ function Header() {
   //   else setNavbarOpen("openbox")
   // }
 
-  const changeStyle = () => {
-    setNavbarOpen(!navbarOpen);
-  };
+  // const changeStyle = () => {
+  //   setNavbarOpen(!navbarOpen);
+  // };
 
   const profile = {
     path: "/profile",
@@ -93,7 +102,14 @@ function Header() {
               </span>
             </NavLink>
 
-            <div className="flex items-center md:hidden">
+
+            {/* GO to about section */}
+            <NavLink to={"/about"} className="border rounded-full md:hidden">
+              <FaInfoCircle size={30} color="white" />
+            </NavLink>
+
+            {/* HAMBERGER SECTION */}
+            {/*<div className="flex items-center md:hidden">
               <button
                 type="button"
                 className="inline-flex items-center p-2 me-3 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-red-400 dark:hover:bg-red-700 dark:focus:ring-red-600"
@@ -113,10 +129,10 @@ function Header() {
               <NavLink to={profile.path} className="border rounded-full">
                 <FaUserCircle size={30} color="white" />
               </NavLink>
-            </div>
+            </div> */}
 
-            {/* Navbar Links */}
-            <div className={`w-full md:w-auto ${navbarOpen ? 'block' : 'hidden'} md:flex items-center gap-5`} id="navbar-solid-bg">
+            {/* Navbar Links for window or tablet*/}
+            <div className={`w-full md:w-auto hidden md:flex items-center gap-5`} id="navbar-solid-bg">
               <ul className="flex flex-col md:flex-row font-medium mt-4 md:mt-0 rounded-lg bg-[#650808] md:bg-transparent dark:bg-[#650808] md:dark:bg-transparent space-y-2 md:space-y-0 md:space-x-4">
                 {navLinks.map((link, index) => (
                   <li key={index}>
@@ -138,6 +154,72 @@ function Header() {
                 <FaUserCircle size={30} color="white" />
               </NavLink>
             </div>
+
+            {/* for phone screen */}
+            <motion.div
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="fixed bottom-0 left-0 w-full bg-[#650808] md:hidden z-50 shadow-[0_-3px_15px_rgba(0,0,0,0.3)] rounded-t-lg"
+            >
+              <ul className="flex justify-around items-center py-2">
+                {navLinks.map((link, index) => (
+                  link.path !== "/about" && <motion.li
+                    key={index}
+                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ y: -3 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) =>
+                        `flex flex-col items-center gap-1 text-[13px] font-hammersmith transition-all duration-200 p-1 sm:p-3 rounded-2xl ${isActive
+                          ? "text-[#1c1c1c] font-[500] bg-[#ff0000]"
+                          : "text-white font-[300] hover:text-[#FFB5B5]"
+                        }`
+                      }
+                    >
+                      <motion.span
+                        className="text-[22px]"
+                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileTap={{ scale: 0.9 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        {link.icon}
+                      </motion.span>
+                      <span>{link.display}</span>
+                    </NavLink>
+                  </motion.li>
+                ))}
+
+                {/* GO to profile */}
+                <motion.li
+                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ y: -3 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <NavLink
+                    to={profile.path}
+                    className={({ isActive }) =>
+                      `flex flex-col items-center gap-1 text-[13px] font-hammersmith transition-all duration-200 p-1 sm:p-3 rounded-2xl ${isActive
+                        ? "text-[#1c1c1c] font-[500] bg-[#ff0000]"
+                        : "text-white font-[300] hover:text-[#FFB5B5]"
+                      }`
+                    }
+                  >
+                    <motion.span
+                      className="text-[22px]"
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <FaUserCircle/>
+                    </motion.span>
+                    <span>Profile</span>
+                  </NavLink>
+                </motion.li>
+              </ul>
+            </motion.div>
           </div>
         </nav>
       </div>

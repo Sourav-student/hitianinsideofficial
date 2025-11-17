@@ -13,8 +13,8 @@ const FootballPanel = () => {
   useEffect(() => {
     const printScorecard = async () => {
       const result = await getAdminFootballScores();
-      setFootballScores(result.data);
-      setOriginalScores(result.data);
+      setFootballScores(result.data.data);
+      setOriginalScores(result.data.data);
       setLoading(false);
     }
 
