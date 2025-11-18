@@ -29,7 +29,7 @@ const EventsHome = () => {
         </div>
       </div>
 
-      <div className="bg-[#660909] col-span-5 md:col-span-2 md:pt-[6rem] pt-[1rem] md:pb-[10rem] pb-[5rem]">
+      <div className="bg-[#660909] col-span-5 md:col-span-2 md:pt-[6rem] pt-[1rem] md:pb-[10rem] pb-[5rem] hidden sm:block">
         <p
           className="text-5xl/[2] text-[#FFB5B5] font-semibold flex flex-col "
           data-aos="fade-right"

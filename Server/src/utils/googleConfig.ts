@@ -1,28 +1,19 @@
 import { google } from "googleapis";
 import dotenv from "dotenv";
 
-// Load environment variables early
 dotenv.config();
 
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CLIENT_SITE_URL } = process.env;
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI } = process.env;
 
-// Validate required env vars
-if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
-  console.error("❌ Missing Google OAuth credentials in .env file");
+if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REDIRECT_URI) {
+  console.error("Missing Google OAuth environment variables.");
   process.exit(1);
 }
 
-/**
- * Creates a new Google OAuth2 client instance.
- * 
- * Redirect URI:
- * - 'postmessage' → used for exchanging one-time codes (mobile/SPA)
- * - `${CLIENT_SITE_URL}/auth/google/callback` → for web-based redirects
- */
 export const oauth2client = new google.auth.OAuth2(
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  "postmessage" // or `${CLIENT_SITE_URL}/auth/google/callback` for web apps
+  GOOGLE_REDIRECT_URI
 );
 
-console.log("Google OAuth2 client configured successfully.");
+console.log("OAuth client READY →", GOOGLE_REDIRECT_URI);

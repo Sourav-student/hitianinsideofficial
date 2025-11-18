@@ -19,7 +19,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const CLIENT_SITE_URL = process.env.CLIENT_SITE_URL || "http://localhost:3000";
+const CLIENT_SITE_URL = process.env.CLIENT_SITE_URL;
 
 dbConn();
 
@@ -47,7 +47,7 @@ app.use("/api/admin", adminGetRouter);
 
 // Root Route
 app.get("/", (req, res) => {
-  res.send("🚀 HITian Inside Server is Running Successfully!");
+  res.send("HITian Inside Server is Running Successfully!");
 });
 
 // 404 Handler
@@ -57,5 +57,5 @@ app.use((req, res) => {
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
