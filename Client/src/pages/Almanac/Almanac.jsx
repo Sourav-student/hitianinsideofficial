@@ -45,7 +45,7 @@ function Almanac() {
   useEffect(() => {
     const getAllAlmanacs = async () => {
       const { data } = await getAlmanacs();
-      console.log(data);
+      // console.log(data);
       setAlmanacs(data);
       setLoading(false)
     }

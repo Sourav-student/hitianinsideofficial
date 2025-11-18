@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { photoFormSubmit } from '../../api/userapis';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { isAuthenticatedContext } from '../../context/context';
 
 const PhotoSubmition = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useContext(isAuthenticatedContext);
+
+  if(!isAuthenticated){
+    navigate("/sign-up");
+  }
 
   const [formData, setFormData] = useState({
     email: '',
@@ -27,9 +35,9 @@ const PhotoSubmition = () => {
 
   useEffect(() => {
     // Get user email from localStorage
-    const {email} = JSON.parse(localStorage.getItem('user-info'));
+    const { email } = JSON.parse(localStorage.getItem('user-info'));
     if (email) {
-      setFormData({...formData, email: email });
+      setFormData({ ...formData, email: email });
     }
   }, []);
 

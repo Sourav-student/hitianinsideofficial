@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { artworkFormSubmit } from '../../api/userapis';
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
+import { isAuthenticatedContext } from '../../context/context';
 
 const ArtSubmition = () => {
+
+  const navigate = useNavigate();
+  const { isAuthenticated } = useContext(isAuthenticatedContext);
+
+  if (!isAuthenticated) {
+    navigate("/sign-up");
+  }
 
   const [formData, setFormData] = useState({
     email: '',
@@ -27,9 +36,9 @@ const ArtSubmition = () => {
 
   useEffect(() => {
     // Get user email from localStorage
-    const {email} = JSON.parse(localStorage.getItem('user-info'));
+    const { email } = JSON.parse(localStorage.getItem('user-info'));
     if (email) {
-      setFormData({...formData, email: email });
+      setFormData({ ...formData, email: email });
     }
   }, []);
 
@@ -69,7 +78,7 @@ const ArtSubmition = () => {
       //error message
       toast.error("Failed to submit. Try again.");
     } finally {
-       setSubmitting(false);
+      setSubmitting(false);
     }
   };
 

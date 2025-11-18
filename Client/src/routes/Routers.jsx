@@ -50,6 +50,7 @@ function Routers() {
       <Routes>
 
         <Route path='/sign-up' element={<GoogleAuthWrapper />} />
+        {/* <Route path='/log-in' element={<LoginPage />} /> */}
 
         {/* user and admin both access */}
         <Route path='/' element={<Home />} />
