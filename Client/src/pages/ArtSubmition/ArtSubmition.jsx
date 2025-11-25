@@ -9,9 +9,11 @@ const ArtSubmition = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(isAuthenticatedContext);
 
-  if (!isAuthenticated) {
-    navigate("/sign-up");
-  }
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/sign-up");
+    }
+  }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -82,6 +84,9 @@ const ArtSubmition = () => {
     }
   };
 
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <>

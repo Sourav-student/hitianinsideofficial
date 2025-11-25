@@ -3,24 +3,24 @@ import Header from '../components/Header/Header';
 import Routers from '../routes/Routers';
 import Footer from '../components/Footer/Footer';
 import { isAuthenticatedContext } from '../context/context';
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ToastContainer, Bounce } from 'react-toastify';
 
 function Layout() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   // const [loading, setLoading] = useState(true);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const userData = JSON.parse(localStorage.getItem('user-info'));
-  //   if (userData?.token) {
-  //     setIsAuthenticated(true);
-  //   } else {
-  //     setIsAuthenticated(false);
-  //     navigate('/sign-up');
-  //   }
-  // }, [navigate])
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user-info'));
+    if (userData?.token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+      navigate('/sign-up');
+    }
+  }, [navigate])
 
   return (
     <isAuthenticatedContext.Provider value={{ setIsAuthenticated, isAuthenticated }}>
