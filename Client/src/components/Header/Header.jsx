@@ -2,7 +2,7 @@
 import { useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
-import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
+import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag, FaUser } from "react-icons/fa";
 import './header.css';
 import { motion } from "motion/react";
 
@@ -97,16 +97,21 @@ function Header() {
 
             <NavLink to="/" className="flex items-center ps-2 md:ps-5">
               <img src={logo} alt="INSIDE LOGO" className="h-8 mr-3" />
-              <span className="self-center text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white mb-1">
+              <span className="self-center text-xl md:text-2xl font-bold whitespace-nowrap text-white mb-1">
                 HITian Inside
               </span>
             </NavLink>
 
 
-            {/* GO to about section */}
-            <NavLink to={"/about"} className="border rounded-full md:hidden">
-              <FaInfoCircle size={30} color="white" />
-            </NavLink>
+            {/* GO to about and profile section */}
+            <div className="flex gap-4 md:hidden justify-center items-center">
+              <NavLink to={"/about"} className="border rounded-full">
+                <FaInfoCircle size={30} color="white" />
+              </NavLink>
+              <NavLink to={"/profile"} className="rounded-full">
+                <FaUser size={30} color="white" />
+              </NavLink>
+            </div>
 
             {/* HAMBERGER SECTION */}
             {/*<div className="flex items-center md:hidden">
@@ -164,7 +169,7 @@ function Header() {
             >
               <ul className="flex justify-around items-center py-2">
                 {navLinks.map((link, index) => (
-                  link.path !== "/about" && <motion.li
+                  link.path !== "/about" && link.path !== "/team" && <motion.li
                     key={index}
                     whileTap={{ scale: 0.9 }}
                     whileHover={{ y: -3 }}
@@ -193,7 +198,7 @@ function Header() {
                 ))}
 
                 {/* GO to profile */}
-                <motion.li
+                {/* <motion.li
                   whileTap={{ scale: 0.9 }}
                   whileHover={{ y: -3 }}
                   transition={{ type: "spring", stiffness: 300 }}
@@ -217,7 +222,7 @@ function Header() {
                     </motion.span>
                     <span>Profile</span>
                   </NavLink>
-                </motion.li>
+                </motion.li> */}
               </ul>
             </motion.div>
           </div>
