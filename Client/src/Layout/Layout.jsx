@@ -18,7 +18,6 @@ function Layout() {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
-      navigate('/sign-up');
     }
   }, [navigate])
 

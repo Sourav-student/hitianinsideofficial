@@ -17,7 +17,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem('user-info');
     setIsAuthenticated(false);
-    navigate('/signin');
+    navigate('/');
   }
 
   return (
