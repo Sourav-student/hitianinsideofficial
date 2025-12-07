@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { toast } from 'react-toastify';
 import { contactFormSubmit } from "../../api/userapis";
 
-const contantUs = () => {
+const ContantUs = () => {
 
   const [formData, setFormData] = useState({
     name: '',
@@ -44,7 +44,7 @@ const contantUs = () => {
   return (
     <div>
       {/* Contact US */}
-      <div className="contactus mt-2 col-span-3 md:col-span-1 max-md:mb-10">
+      <div className="contactus mt-2 col-span-3 md:col-span-1 max-md:mb-10 sm:hidden">
         <h1 className="heading text-[1.5rem] font-bold text-[#f2b5b5]">Contact Us</h1>
         <form className="form mt-2 grid justify-center" ref={ref} onSubmit={
           (e) => {
@@ -85,4 +85,4 @@ const contantUs = () => {
   )
 }
 
-export default contantUs;
+export default ContantUs;

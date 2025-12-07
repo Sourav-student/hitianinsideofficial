@@ -22,7 +22,7 @@ const Profile = () => {
   }
 
   return (
-    <div className='p-4 m-6 mt-10 text-white flex justify-center items-center flex-col'>
+    <div className='min-h-[40vh] p-4 m-6 mt-10 text-white flex justify-center items-center flex-col'>
       {isAuthenticated ? (
         <>
           <div className='flex justify-around items-center flex-wrap gap-4 bg-[#8c0909] w-auto p-6 m-4 rounded-lg shadow-lg border-[1px] border-[#8c0909] hover:border-orange-400'>
