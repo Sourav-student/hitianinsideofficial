@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom';
 import { isAuthenticatedContext } from '../../context/context';
+import ContantUs from '../../components/ContactUs/contantUs';
 
 const Profile = () => {
 
@@ -57,7 +58,7 @@ const Profile = () => {
         <>
           <div className='flex flex-col gap-6 items-center'>
             <p className='text-lg font-semibold'>You are not logged in.</p>
-            <NavLink to="/matches-scorecard">
+            <NavLink to="/scorecards">
               <button className='bg-[#0788e4] hover:bg-[#0760e7] py-2 px-4 rounded-lg font-semibold w-40 max-sm:w-auto'>
                 View Scores
               </button>
@@ -70,6 +71,8 @@ const Profile = () => {
           </div>
         </>
       )}
+
+      <ContantUs/>
     </div>
   );
 

@@ -16,8 +16,8 @@ const VolleyballScore = () => {
     const printScorecard = async () => {
       const result = await getVolleyballScores();
       //Separated live and finished matches
-      setLiveVolleyball(result.data.filter((item) => item.completed === "no"));
-      setCompletedVolleyball(result.data.filter((item) => item.completed === "yes"))
+      setLiveVolleyball(result.data.filter((item) => item.completed === "no").reverse());
+      setCompletedVolleyball(result.data.filter((item) => item.completed === "yes").reverse())
     }
 
     printScorecard();
@@ -35,35 +35,35 @@ const VolleyballScore = () => {
               data-aos="fade-up"
             >
               <h2 className="text-center text-lg font-semibold text-orange-300 mb-3">
-                {score.matchType}
+                {score.match_type}
               </h2>
 
               <div className="flex justify-between items-center border-b border-gray-400 pb-3 mb-3">
                 <div className="flex flex-col items-center w-1/3">
                   <img
-                    src={score.team1Logo}
-                    alt={score.team1Name}
+                    src={score.team1_logo}
+                    alt={score.team1_name}
                     className="w-14 h-14 object-cover rounded-full shadow"
                   />
-                  <span className="font-bold mt-2">{score.team1Name}</span>
+                  <span className="font-bold mt-2">{score.team1_name}</span>
                   <span className="mt-1 text-sm text-yellow-300">
-                    Score: {score.team1Score}
+                    Score: {score.team1_score}
                   </span>
                 </div>
                 <div className="text-center w-1/3">
                   <span className="text-3xl font-bold text-white">
-                    {score.team1Score} - {score.team2Score}
+                    {score.team1_score} - {score.team2_score}
                   </span>
                 </div>
                 <div className="flex flex-col items-center w-1/3">
                   <img
-                    src={score.team2Logo}
-                    alt={score.team2Name}
+                    src={score.team2_logo}
+                    alt={score.team2_name}
                     className="w-14 h-14 object-cover rounded-full shadow"
                   />
-                  <span className="font-bold mt-2">{score.team2Name}</span>
+                  <span className="font-bold mt-2">{score.team2_name}</span>
                   <span className="mt-1 text-sm text-yellow-300">
-                    Score: {score.team2Score}
+                    Score: {score.team2_score}
                   </span>
                 </div>
               </div>
@@ -86,37 +86,37 @@ const VolleyballScore = () => {
               data-aos="fade-up"
             >
               <h2 className="text-center text-lg font-semibold text-orange-300 mb-3">
-                {score.matchType}
+                {score.match_type}
               </h2>
 
               <div className="flex justify-between items-center border-b border-gray-400 pb-3 mb-3">
                 <div className="flex flex-col items-center w-1/3">
                   <img
-                    src={score.team1Logo}
-                    alt={score.team1Name}
+                    src={score.team1_logo}
+                    alt={score.team1_name}
                     className="w-14 h-14 object-cover rounded-full shadow"
                   />
-                  <span className="font-bold mt-2">{score.team1Name}</span>
+                  <span className="font-bold mt-2">{score.team1_name}</span>
                   <span className="mt-1 text-sm text-yellow-300">
-                    Score: {score.team1Score}
+                    Score: {score.team1_score}
                   </span>
                 </div>
 
                 <div className="text-center w-1/3">
                   <span className="text-3xl font-bold text-white">
-                    {score.team1Score} - {score.team2Score}
+                    {score.team1_score} - {score.team2_score}
                   </span>
                 </div>
 
                 <div className="flex flex-col items-center w-1/3">
                   <img
-                    src={score.team2Logo}
-                    alt={score.team2Name}
+                    src={score.team2_logo}
+                    alt={score.team2_name}
                     className="w-14 h-14 object-cover rounded-full shadow"
                   />
-                  <span className="font-bold mt-2">{score.team2Name}</span>
+                  <span className="font-bold mt-2">{score.team2_name}</span>
                   <span className="mt-1 text-sm text-yellow-300">
-                    Score: {score.team2Score}
+                    Score: {score.team2_score}
                   </span>
                 </div>
               </div>

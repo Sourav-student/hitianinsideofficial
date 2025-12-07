@@ -13,14 +13,14 @@ const CricketScore = () => {
     AOS.init({ duration: 1000 });
   }, []);
 
+  const printScorecard = async () => {
+    const result = await getCricketScores();
+
+    setLiveCricket(result.data.filter((item) => item.completed === "no").reverse());
+    setCompletedCricket(result.data.filter((item) => item.completed === "yes").reverse());
+  };
+
   useEffect(() => {
-    const printScorecard = async () => {
-      const result = await getCricketScores();
-
-      setLiveCricket(result.data.filter((item) => item.completed === "no"));
-      setCompletedCricket(result.data.filter((item) => item.completed === "yes"));
-    };
-
     printScorecard();
   }, []);
 

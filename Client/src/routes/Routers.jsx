@@ -59,13 +59,13 @@ function Routers() {
         <Route path='/merchandise' element={<Merchandise />} />
         <Route path='/team' element={<Team />} />
         <Route path='/about' element={<About />} />
+        <Route path='/scorecards' element={<MatchesScores />} />
 
         {/* almanac form pages */}
         <Route path='/almanac/almanac-form' element={<AlmanacForm />} />
         <Route path='/almanac/almanac-form/artwork-form-submit' element={<ArtSubmition />} />
         <Route path='/almanac/almanac-form/photo-form-submit' element={<PhotoSubmition />} />
         <Route path='/almanac/almanac-form/poem-form-submit' element={<PoemSubmition />} />
-        <Route path='/matches-scorecard' element={<MatchesScores />} />
 
         {/* unique one for profile */}
         <Route path='/profile' element={isAdmin ? <AdminProfile /> : <Profile />} />

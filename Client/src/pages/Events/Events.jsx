@@ -24,62 +24,6 @@ import azadikaamritmahotsav from '../../assets/eventimage/azadikaamritmahotsav.j
 import BhasharTori from '../../assets/eventimage/BhasharTori.jpeg'
 import EventsSkeleton from "../../components/Events/EventSkeleton";
 
-
-// const Elist = [
-//   {
-//     year: "2023",
-//     list: [
-//       {
-//         img_url: "https://www.instagram.com/p/CybFEKehBlS/?img_index=1",
-//         alt: "navroopam poster",
-//         name: "Navroopam",
-//         date: "18/08/23",
-//       },
-//       {
-//         img_url: "https://www.instagram.com/p/C01BGughMNv/?img_index=1",
-//         alt: "Shaam-E-Parichay",
-//         name: "Shaam-E-Parichay",
-//         date: "14/12/2023",
-//       },
-//       {
-//         img_url: "https://www.instagram.com/p/Csgad_6IR-1/",
-//         alt: "Saudade",
-//         name: "Saudade",
-//         date: "21/05/2023",
-//       },
-//     ],
-//   },
-
-//   {
-//     year: "2022",
-//     list: [
-//       {
-//         img_url: "https://www.instagram.com/p/CjKoc0KBFnJ/?img_index=1",
-//         alt: "Navroopam poster",
-//         name: "Navroopam",
-//         date: "18/08/23",
-//       },
-//       {
-//         img_url: "https://www.instagram.com/p/CkBgMJ8BoDm/?img_index=1",
-//         alt: "Deepdarpan poster",
-//         name: "Deepdarpan",
-//         date: "18/08/23",
-//       },
-//     ],
-//   },
-//   {
-//     year: "2021",
-//     list: [
-//       {
-//         img_url: "https://www.instagram.com/p/CU4wxYxBonN/?img_index=1",
-//         alt: "Navroopam poster",
-//         name: "Navroopam",
-//         date: "18/08/23",
-//       },
-//     ],
-//   },
-// ];
-
 function Events() {
 
   const [events, setEvents] = useState([]);
@@ -112,7 +56,7 @@ function Events() {
   }
 
   return (
-    <div className="bg-[#650808] flex justify-center">
+    <div className="bg-[#650808] flex justify-center min-h-screen">
       <section className="events-home pb-16 w-full md:w-[80%]">
         <h1 className="event-heading text-[3rem] font-bold text-[#fdd0d0] pt-10 pb-10 font-hammersmith">
           EVENTS

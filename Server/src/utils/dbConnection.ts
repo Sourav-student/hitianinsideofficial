@@ -5,43 +5,41 @@ export const dbConn = async (): Promise<void> => {
     const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
     if (!MONGO_DB_URI) {
-      console.error("❌ MongoDB URI missing in environment variables.");
+      console.error("MongoDB URI missing in environment variables.");
       process.exit(1); // Exit process if critical env missing
     }
 
     // Connect using async/await
     await mongoose.connect(MONGO_DB_URI as string, {
-      // recommended options for stable connection
-      // (these are defaults in newer versions, but safe to include)
       autoIndex: true,
       maxPoolSize: 10,
       serverSelectionTimeoutMS: 5000,
     });
 
-    console.log("✅ MongoDB connected successfully.");
+    console.log("MongoDB connected successfully.");
 
     // Handle disconnections or issues dynamically
     mongoose.connection.on("disconnected", () => {
-      console.warn("⚠️ MongoDB disconnected. Attempting reconnection...");
+      console.warn("MongoDB disconnected. Attempting reconnection...");
     });
 
     mongoose.connection.on("reconnected", () => {
-      console.log("🔁 MongoDB reconnected.");
+      console.log("MongoDB reconnected.");
     });
 
     mongoose.connection.on("error", (err) => {
-      console.error("❌ MongoDB connection error:", err.message);
+      console.error("MongoDB connection error:", err.message);
     });
 
     // Handle app termination (graceful shutdown)
     process.on("SIGINT", async () => {
       await mongoose.connection.close();
-      console.log("🛑 MongoDB connection closed due to app termination.");
+      console.log("MongoDB connection closed due to app termination.");
       process.exit(0);
     });
 
   } catch (error: any) {
-    console.error("❌ Error while connecting to MongoDB:", error.message);
+    console.error("Error while connecting to MongoDB:", error.message);
     process.exit(1);
   }
 };

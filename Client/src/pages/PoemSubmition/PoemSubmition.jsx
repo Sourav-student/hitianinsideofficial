@@ -88,7 +88,7 @@ const PoemSubmition = () => {
 
   return (
     <>
-      <h1 className="text-white text-3xl font-semibold text-center mt-6 mb-8">
+      <h1 className="text-white text-3xl min-h-screen font-semibold text-center mt-6 mb-8">
         Submit Your Poem and Be Part of Our Almanac
       </h1>
 

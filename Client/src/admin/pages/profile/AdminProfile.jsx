@@ -25,7 +25,7 @@ const AdminProfile = () => {
   const handleLogout = () => {
     localStorage.removeItem('user-info');
     setIsAuthenticated(false);
-    navigate('/signin');
+    navigate('/');
   }
 
   return (
@@ -65,7 +65,7 @@ const AdminProfile = () => {
       </div>
 
       <div className='flex gap-8 mt-5'>
-        <NavLink to="/matches-scorecard">
+        <NavLink to="/scorecards">
           <button className={btnClass}>View Scores</button>
         </NavLink>
         <button className='bg-[#0788e4] hover:bg-[#0760e7] py-2 px-4 rounded-lg font-semibold w-40 max-sm:w-auto' onClick={handleLogout}>Logout</button>

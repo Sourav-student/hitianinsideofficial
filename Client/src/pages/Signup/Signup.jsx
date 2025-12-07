@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from "react";
 import { isAuthenticatedContext } from "../../context/context";
 import logo from "../../assets/images/logo.png";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
+import { motion } from "motion/react";
 
 const SignUp = () => {
 
@@ -38,45 +39,70 @@ const SignUp = () => {
   })
 
   return (
-    <div className="w-full h-[100vh] px-4 absolute top-0 z-50 bg-gradient-to-br from-[#4b0606] via-[#650808] to-[#8c0f0f] flex flex-col justify-center items-center text-white overflow-hidden">
+    <div className="relative w-full h-screen bg-gradient-to-br from-[#3b0000] via-[#650808] to-[#a00000] flex items-center justify-center overflow-hidden text-white">
 
-      {/* Floating blobs (decorative) */}
-      <div className="absolute w-72 h-72 bg-[#a31313] opacity-20 rounded-full blur-3xl top-10 left-10 animate-pulse"></div>
-      <div className="absolute w-80 h-80 bg-[#ff4f4f] opacity-10 rounded-full blur-2xl bottom-0 right-0 animate-ping"></div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.25, scale: [0.9, 1.1, 0.9] }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute w-[30rem] h-[30rem] bg-red-600 rounded-full blur-3xl top-[-6rem] left-[-6rem]"
+      ></motion.div>
 
-      {/* Header Logo */}
-      <div className="mt-10 text-center relative z-10">
-        <div className="flex items-center ps-2 md:ps-5 cursor-pointer absolute top-5 left-5 backdrop-blur-md bg-white/10 px-3 py-1 rounded-xl shadow-xl">
-          <img
-            src={logo}
-            alt="INSIDE LOGO"
-            className="h-10 mr-3 drop-shadow-xl"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap">
-            HITian Inside
-          </span>
-        </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.25, scale: [1.1, 0.9, 1.1] }}
+        transition={{ duration: 10, repeat: Infinity }}
+        className="absolute w-[32rem] h-[32rem] bg-[#ff4040] rounded-full blur-3xl bottom-[-8rem] right-[-8rem]"
+      ></motion.div>
 
-        {/* Glassmorphism Card */}
-        <div className="backdrop-blur-md bg-white/10 px-10 py-6 rounded-2xl shadow-2xl border border-white/20 mt-16 animate-[fadeIn_1s_ease]">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-wide drop-shadow-xl">
-            Welcome to the Official e-Media Club of HIT!
-          </h1>
-        </div>
-      </div>
-
-      {/* Google Button */}
-      <div className="relative z-10">
-        <button
-          className="my-10 px-6 py-3 bg-gradient-to-r from-[#ff6b6b] to-[#d42525] font-bold rounded-full flex items-center gap-3 shadow-xl hover:shadow-2xl hover:scale-[1.07] active:scale-95 transition-all duration-300"
-          onClick={googleLogin}
+      {/* Center Glass Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="relative z-10 w-[90%] max-w-xl backdrop-blur-xl bg-white/10 p-10 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.15)] text-center"
+      >
+        <motion.h1
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="text-3xl md:text-4xl font-extrabold tracking-wide"
         >
-          <div className="bg-white/20 p-2 rounded-full">
+          Join the Official e-Media Club
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mt-4 text-lg md:text-xl opacity-90 max-w-sm mx-auto"
+        >
+          A community of creators capturing emotions & crafting digital stories.
+        </motion.p>
+
+        {/* Google Sign in Button */}
+        <motion.button
+          whileHover={{ scale: 1.07, boxShadow: "0px 0px 35px rgba(255,80,80,0.6)" }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 250 }}
+          onClick={googleLogin}
+          className="mt-10 w-full max-w-sm mx-auto flex items-center justify-center gap-4 px-6 py-3 rounded-full bg-gradient-to-r from-[#ff5a5a] to-[#d41717] font-bold text-lg shadow-xl border border-white/20"
+        >
+          <div className="bg-white/20 p-2 rounded-full backdrop-blur-md">
             <BiLogoGoogle className="h-6 w-6" />
           </div>
-          <p className="text-xl tracking-wide">Sign in with Google</p>
-        </button>
-      </div>
+          Sign in with Google
+        </motion.button>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ delay: 0.6 }}
+          className="mt-6 text-sm opacity-80"
+        >
+          By continuing, you agree to our Terms & Privacy Policy
+        </motion.p>
+      </motion.div>
     </div>
   );
 }

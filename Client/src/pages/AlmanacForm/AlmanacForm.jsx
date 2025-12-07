@@ -53,7 +53,7 @@ const AlmanacForm = () => {
   return (
     <div>
       {/* ========== Submission Sections ========== */}
-      <section className="mt-8 px-4 md:px-16">
+      <section className="mt-8 px-4 md:px-16 min-h-screen">
         {formContents.map((formContent, index) => (
           <div
             key={index}

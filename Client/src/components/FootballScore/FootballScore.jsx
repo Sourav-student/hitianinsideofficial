@@ -13,12 +13,13 @@ const FootballScore = () => {
     AOS.init({ duration: 1000 });
   }, []);
 
+  const printScorecard = async () => {
+    const result = await getFootballScores();
+    setLiveFootball(result.data.filter((item) => item.completed === "no").reverse());
+    setCompletedFootball(result.data.filter((item) => item.completed === "yes").reverse());
+  };
+
   useEffect(() => {
-    const printScorecard = async () => {
-      const result = await getFootballScores();
-      setLiveFootball(result.data.filter((item) => item.completed === "no"));
-      setCompletedFootball(result.data.filter((item) => item.completed === "yes"));
-    };
     printScorecard();
   }, []);
 

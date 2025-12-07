@@ -38,7 +38,7 @@ function Home() {
   }
 
   return (
-    <div className="min-h-fit">
+    <div className="min-h-screen">
 
       {/* ============ Banner ============= */}
       <Banner />

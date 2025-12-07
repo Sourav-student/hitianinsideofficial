@@ -17,7 +17,7 @@ const EventsHome = () => {
       <div className="bordeertext md:col-span-3 col-span-5 bg-[#660909] flex flex-col md:flex-row justify-center items-center pt-[3rem] md:pb-[5rem] pb-[1rem]">
         <div className="md:h-[70%%] md:w-[30%] " data-aos="fade-up">
           <InstagramEmbed
-            url="https://www.instagram.com/p/CjKoc0KBFnJ/?img_index=1"
+            url="https://www.instagram.com/p/DO3uLXOjc4P/?img_index=1"
             className="w-[100%] h-full"
           />
         </div>
@@ -29,7 +29,7 @@ const EventsHome = () => {
         </div>
       </div>
 
-      <div className="bg-[#660909] col-span-5 md:col-span-2 md:pt-[6rem] pt-[1rem] md:pb-[10rem] pb-[5rem]">
+      <div className="bg-[#660909] col-span-5 md:col-span-2 md:pt-[6rem] pt-[1rem] md:pb-[10rem] pb-[5rem] max-sm:hidden">
         <p
           className="text-5xl/[2] text-[#FFB5B5] font-semibold flex flex-col "
           data-aos="fade-right"

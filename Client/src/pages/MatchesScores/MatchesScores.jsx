@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import CricketScore from '../../components/CricketScore/CricketScore';
 import FootballScore from '../../components/FootballScore/FootballScore';
 import VolleyballScore from "../../components/VolleyballScore/VolleyballScore";
 import BasketballScore from '../../components/BasketballScore/BasketballScore';
+// import { isAuthenticatedContext } from '../../context/context';
+// import { useNavigate } from 'react-router-dom';
 
 const MatchesScores = () => {
+
+  // const router = useNavigate();
+  
+  // const { isAuthenticated } = useContext(isAuthenticatedContext);
+
+  // if(!isAuthenticated){
+  //     router("/sign-up");
+  //     return;
+  // }
 
   const activeStyle = 'cursor-pointer text-[#ffb5b5] relative pb-2 after:absolute after:bottom-0 after:right-0 after:w-[60%] after:h-[3px] after:bg-[#ffb5b5]';
 

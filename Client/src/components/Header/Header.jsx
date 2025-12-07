@@ -1,10 +1,10 @@
 // import "./header.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
-import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag, FaUser } from "react-icons/fa";
+import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
 import './header.css';
-import { motion } from "motion/react";
+// import { motion } from "motion/react";
 
 function Header() {
   // const [navbarOpen, setNavbarOpen] = useState(false);
@@ -44,46 +44,25 @@ function Header() {
   ])
 
 
-  // const [navbarOpen, setNavbarOpen] = useState("hiddenbox");
+  const [navbarOpen, setNavbarOpen] = useState("hiddenbox");
+  const [profilePic, setprofilePic] = useState('');
 
-  // //navLinks
-  // const navLinks = [
-  //   {
-  //     path: "/",
-  //     display: "Home",
-  //   },
-  //   {
-  //     path: "/almanac",
-  //     display: "Almanac",
-  //   },
-  //   {
-  //     path: "/events",
-  //     display: "Events",
-  //   },
-  //   {
-  //     path: "/merchandise",
-  //     display: "Merchandise",
-  //   },
-  //   {
-  //     path: "/team",
-  //     display: "Team",
-  //   },
-
-  //   {
-  //     path: "/about",
-  //     display: "About",
-  //   }
-  // ];
+  useEffect(() => {
+    const user = localStorage.getItem('user-info');
+    if (user) {
+      setprofilePic(JSON.parse(user).image);
+    }
+  }, [])
 
   // const changeStyle = () => {
   //   // console.log(navbarOpen)
   //   if (navbarOpen !== "hiddenbox") setNavbarOpen("hiddenbox");
-  //   else setNavbarOpen("openbox")
+  // else setNavbarOpen("openbox")
   // }
 
-  // const changeStyle = () => {
-  //   setNavbarOpen(!navbarOpen);
-  // };
+  const changeStyle = () => {
+    setNavbarOpen(!navbarOpen);
+  };
 
   const profile = {
     path: "/profile",
@@ -102,26 +81,15 @@ function Header() {
               </span>
             </NavLink>
 
-
-            {/* GO to about and profile section */}
-            <div className="flex gap-4 md:hidden justify-center items-center">
-              <NavLink to={"/about"} className="border rounded-full">
-                <FaInfoCircle size={30} color="white" />
-              </NavLink>
-              <NavLink to={"/profile"} className="rounded-full">
-                <FaUser size={30} color="white" />
-              </NavLink>
-            </div>
-
             {/* HAMBERGER SECTION */}
-            {/*<div className="flex items-center md:hidden">
+            <div className="flex items-center md:hidden">
               <button
                 type="button"
                 className="inline-flex items-center p-2 me-3 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-red-400 dark:hover:bg-red-700 dark:focus:ring-red-600"
                 onClick={changeStyle}
               >
                 <span className="sr-only">Toggle menu</span>
-                {navbarOpen ? (
+                {!navbarOpen ? (
                   <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path d="M18 6L12 12M12 12L6 18M12 12L18 18M12 12L6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -131,10 +99,14 @@ function Header() {
                   </svg>
                 )}
               </button>
-              <NavLink to={profile.path} className="border rounded-full">
-                <FaUserCircle size={30} color="white" />
+              <NavLink to={profile.path} className="border rounded-full overflow-hidden">
+                {profilePic ?
+                  <img src={profilePic} alt="profile_image" className="w-[35px]" />
+                  :
+                  <FaUserCircle size={30} color="white" />
+                }
               </NavLink>
-            </div> */}
+            </div>
 
             {/* Navbar Links for window or tablet*/}
             <div className={`w-full md:w-auto hidden md:flex items-center gap-5`} id="navbar-solid-bg">
@@ -155,80 +127,32 @@ function Header() {
                 ))}
               </ul>
 
-              <NavLink to={profile.path} className="border rounded-full hidden md:block">
-                <FaUserCircle size={30} color="white" />
+              <NavLink to={profile.path} className="border rounded-full hidden md:block overflow-hidden">
+                {profilePic ?
+                  <img src={profilePic} alt="profile_image" className="w-[25px]" />
+                  :
+                  <FaUserCircle size={23} color="white" />
+                }
               </NavLink>
             </div>
 
-            {/* for phone screen */}
-            <motion.div
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="fixed bottom-0 left-0 w-full bg-[#650808] md:hidden z-50 shadow-[0_-3px_15px_rgba(0,0,0,0.3)] rounded-t-lg"
-            >
-              <ul className="flex justify-around items-center py-2">
-                {navLinks.map((link, index) => (
-                  link.path !== "/about" && link.path !== "/team" && <motion.li
-                    key={index}
-                    whileTap={{ scale: 0.9 }}
-                    whileHover={{ y: -3 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
+            {/* Navbar for Mobile  */}
+            {
+              !navbarOpen && <div className="w-full flex flex-col gap-3 text-lg font-medium pt-2 text-white md:hidden">
+                {
+                  navLinks.map((link, index) => (
                     <NavLink
                       to={link.path}
-                      className={({ isActive }) =>
-                        `flex flex-col items-center gap-1 text-[13px] font-hammersmith transition-all duration-200 p-1 sm:p-3 rounded-2xl ${isActive
-                          ? "text-[#1c1c1c] font-[500] bg-[#ff0000]"
-                          : "text-white font-[300] hover:text-[#FFB5B5]"
-                        }`
-                      }
-                    >
-                      <motion.span
-                        className="text-[22px]"
-                        whileHover={{ scale: 1.2, rotate: 5 }}
-                        whileTap={{ scale: 0.9 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        {link.icon}
-                      </motion.span>
-                      <span>{link.display}</span>
+                      key={index}>
+                      {link.display}
                     </NavLink>
-                  </motion.li>
-                ))}
-
-                {/* GO to profile */}
-                {/* <motion.li
-                  whileTap={{ scale: 0.9 }}
-                  whileHover={{ y: -3 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <NavLink
-                    to={profile.path}
-                    className={({ isActive }) =>
-                      `flex flex-col items-center gap-1 text-[13px] font-hammersmith transition-all duration-200 p-1 sm:p-3 rounded-2xl ${isActive
-                        ? "text-[#1c1c1c] font-[500] bg-[#ff0000]"
-                        : "text-white font-[300] hover:text-[#FFB5B5]"
-                      }`
-                    }
-                  >
-                    <motion.span
-                      className="text-[22px]"
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <FaUserCircle/>
-                    </motion.span>
-                    <span>Profile</span>
-                  </NavLink>
-                </motion.li> */}
-              </ul>
-            </motion.div>
+                  ))
+                }
+              </div>
+            }
           </div>
-        </nav>
-      </div>
-
+        </nav >
+      </div >
     </>
   );
 }

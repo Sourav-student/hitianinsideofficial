@@ -62,7 +62,7 @@ function Almanac() {
   }
 
   return (
-    <div className="bg-[#650808] w-full overflow-hidden">
+    <div className="bg-[#650808] min-h-screen w-full overflow-hidden">
       {/* ========== Almanac Header Section ========== */}
       <section
         className="ps-[8%] pt-[6%]">

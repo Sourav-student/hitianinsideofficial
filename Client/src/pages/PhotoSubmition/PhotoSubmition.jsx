@@ -90,7 +90,7 @@ const PhotoSubmition = () => {
 
   return (
     <>
-      <h1 className="text-white text-2xl m-4">
+      <h1 className="text-white text-2xl m-4 min-h-screen">
         Submit your Photograph here and be a part of our Almanac
       </h1>
 
