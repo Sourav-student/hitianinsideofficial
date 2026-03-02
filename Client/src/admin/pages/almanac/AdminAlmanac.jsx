@@ -125,7 +125,7 @@ const AdminAlmanac = () => {
                         className='p-3 bg-[#ec1901] rounded-lg text-red-200'
                         key={index}>
                         <img src={almanac.photo}
-                          alt="almanac image"
+                          alt="almanac_image"
                           className='h-52 w-full' />
                         <h2 className='text-lg font-bold'>{almanac.username}</h2>
                         <h3 className='font-semibold'>{almanac.department}</h3>

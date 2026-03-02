@@ -136,7 +136,7 @@ const AdminHome = () => {
                         className='p-3 bg-[#ec1901] rounded-lg text-red-200'
                         key={index}>
                         <img src={homepageData.event_poster}
-                          alt="homepageData image"
+                          alt="homepageData_image"
                           className='h-52 w-full' />
                         <h2 className='text-lg font-bold'>{homepageData.event_name}</h2>
                         <a href={homepageData.event_form_link} className='font-semibold'>{homepageData.event_form_link.slice(0, 25)}</a>
