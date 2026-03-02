@@ -1,10 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "type": "module",
   "main": "app.js",
+  "private": true,
   "scripts": {
-    "start": "node app.js"
+    "dev": "nodemon --watch src --ext ts --exec ts-node --project tsconfig.json src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +25,16 @@
     "multer": "^2.0.1",
     "multer-storage-cloudinary": "^4.0.0",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

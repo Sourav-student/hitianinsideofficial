@@ -14,18 +14,18 @@ const AdminAlmanac = () => {
   const [loading, setLoading] = useState(true);
   const [submit, setSubmit] = useState(false);
 
+  const getData = async () => {
+    try {
+      const response = await getAdminAlmanac();
+      setAlmanacData(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     // get almanac
-    const getData = async () => {
-      try {
-        const { data } = await getAdminAlmanac();
-        setAlmanacData(data);
-        setLoading(false);
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    }
-
     getData();
   }, [])
 
@@ -54,12 +54,13 @@ const AdminAlmanac = () => {
 
   //delete event
   const handleDelete = async (id) => {
-     try {
+    try {
       const res = await deleteAlmanac(id);
+      setAlmanacData(almanacData.filter(data => data._id !== id));
       toast.success(res.data.message);
-     } catch (error) {
+    } catch (error) {
       toast.error(error.response.data.message);
-     }
+    }
   }
 
   return (
@@ -74,8 +75,8 @@ const AdminAlmanac = () => {
               name='file'
               onChange={(e) => setAlmanac({ ...almanac, file: e.target.files[0] })}
               accept='image/*'
-              className='p-1 my-2 w-[250px] border border-dotted rounded-2xl shadow-md' 
-              required/>
+              className='p-1 my-2 w-[250px] border border-dotted rounded-2xl shadow-md'
+              required />
           </div>
           <div className='flex flex-col'>
             <label htmlFor="username" className='text-left'>Name</label>
@@ -85,8 +86,8 @@ const AdminAlmanac = () => {
               value={almanac.username}
               onChange={(e) => setAlmanac({ ...almanac, username: e.target.value })}
               className='bg-red-400 p-2 my-2 w-[250px] border border-dotted rounded-lg text-white shadow-md'
-              placeholder='Enter here' 
-              required/>
+              placeholder='Enter here'
+              required />
           </div>
           <div className='flex flex-col'>
             <label htmlFor="department" className='text-left'>department</label>
@@ -96,8 +97,8 @@ const AdminAlmanac = () => {
               value={almanac.department}
               onChange={(e) => setAlmanac({ ...almanac, department: e.target.value })}
               className='bg-red-400 p-2 my-2 w-[250px] border border-dotted rounded-lg text-white shadow-md'
-              placeholder='Enter here' 
-              required/>
+              placeholder='Enter here'
+              required />
           </div>
         </div>
         <div>
@@ -112,35 +113,35 @@ const AdminAlmanac = () => {
 
       {/*get all the almanac */}
       {
-        loading? <Loader/> :
-        <div>
-           <h1 className='text-red-200 text-4xl p-3 w-full text-center font-serif'>Best of Almanac</h1>
-           {
-            almanacData.length > 0 ? 
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 m-5 bg-[#c3712958] p-2 rounded-lg'>
-              {
-                almanacData.map((almanac, index) => (
-                  <div
-                  className='p-3 bg-[#ec1901] rounded-lg text-red-200'
-                  key={index}>
-                    <img src={almanac.photo} 
-                    alt="almanac image"
-                    className='h-52 w-full' />
-                    <h2 className='text-lg font-bold'>{almanac.username}</h2>
-                    <h3 className='font-semibold'>{almanac.department}</h3>
-                    <hr />
-                    <button 
-                    type='submit'
-                    className='text-red-100 bg-[#c21414] px-4 py-2 mt-3 rounded-md text-lg shadow-md hover:bg-[#710505] transition-all'
-                    onClick={() => handleDelete(almanac._id)}>Delete</button>
-                  </div>
-                ))
-              }
-            </div> 
-            : 
-            <p className='text-red-200 text-xl'>No Almanac Found</p>
-           }
-        </div>
+        loading ? <Loader /> :
+          <div>
+            <h1 className='text-red-200 text-4xl p-3 w-full text-center font-serif'>Best of Almanac</h1>
+            {
+              almanacData.length > 0 ?
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 m-5 bg-[#c3712958] p-2 rounded-lg'>
+                  {
+                    almanacData.map((almanac, index) => (
+                      <div
+                        className='p-3 bg-[#ec1901] rounded-lg text-red-200'
+                        key={index}>
+                        <img src={almanac.photo}
+                          alt="almanac image"
+                          className='h-52 w-full' />
+                        <h2 className='text-lg font-bold'>{almanac.username}</h2>
+                        <h3 className='font-semibold'>{almanac.department}</h3>
+                        <hr />
+                        <button
+                          type='submit'
+                          className='text-red-100 bg-[#c21414] px-4 py-2 mt-3 rounded-md text-lg shadow-md hover:bg-[#710505] transition-all'
+                          onClick={() => handleDelete(almanac._id)}>Delete</button>
+                      </div>
+                    ))
+                  }
+                </div>
+                :
+                <p className='text-red-200 text-xl'>No Almanac Found</p>
+            }
+          </div>
       }
     </>
   )

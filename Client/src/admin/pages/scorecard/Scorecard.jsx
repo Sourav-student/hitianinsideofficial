@@ -54,7 +54,7 @@ const Scorecard = () => {
           onClick={handleFootball}>Football</span>
         <span
           className={isVollyball ? activeStyle : 'cursor-pointer'}
-          onClick={handleVollyball}>Vollyball</span>
+          onClick={handleVollyball}>Volleyball</span>
         <span
           className={isBasketball ? activeStyle : 'cursor-pointer'}
           onClick={handleBasketball}>Basketball</span>

@@ -14,7 +14,7 @@ function About() {
 
 
   return (
-    <div className="h-full bg-[#660909] text-[white] font-hammersmith">
+    <div className="h-full min-h-screen bg-[#660909] text-[white] font-hammersmith">
       {/* Working on it on About page */}
       <div
         class="w-full h-[450px] bg-fixed bg-cover bg-center flex justify-center items-center opacity-80"

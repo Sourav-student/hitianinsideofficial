@@ -1,75 +1,63 @@
 // import "./header.css";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
-import './header.css'
+import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
+import './header.css';
+// import { motion } from "motion/react";
 
 function Header() {
-  const [navbarOpen, setNavbarOpen] = useState(false);
+  // const [navbarOpen, setNavbarOpen] = useState(false);
   //navLinks
-  const [navLinks, setNavLinks] = useState([
+  const [navLinks] = useState([
     {
       path: "/",
       display: "Home",
+      icon: <FaHome />
     },
     {
       path: "/almanac",
       display: "Almanac",
+      icon: <FaBookOpen />
     },
     {
       path: "/events",
       display: "Events",
+      icon: <FaCalendarAlt />
     },
     {
       path: "/merchandise",
       display: "Merchandise",
+      icon: <FaShoppingBag />
     },
     {
       path: "/team",
       display: "Team",
+      icon: <FaUsers />
     },
 
     {
       path: "/about",
       display: "About",
+      icon: <FaInfoCircle />
     }
   ])
-  // const [navbarOpen, setNavbarOpen] = useState("hiddenbox");
-  
-  // //navLinks
-  // const navLinks = [
-  //   {
-  //     path: "/",
-  //     display: "Home",
-  //   },
-  //   {
-  //     path: "/almanac",
-  //     display: "Almanac",
-  //   },
-  //   {
-  //     path: "/events",
-  //     display: "Events",
-  //   },
-  //   {
-  //     path: "/merchandise",
-  //     display: "Merchandise",
-  //   },
-  //   {
-  //     path: "/team",
-  //     display: "Team",
-  //   },
 
-  //   {
-  //     path: "/about",
-  //     display: "About",
-  //   }
-  // ];
+
+  const [navbarOpen, setNavbarOpen] = useState("hiddenbox");
+  const [profilePic, setprofilePic] = useState('');
+
+  useEffect(() => {
+    const user = localStorage.getItem('user-info');
+    if (user) {
+      setprofilePic(JSON.parse(user).image);
+    }
+  }, [])
 
   // const changeStyle = () => {
   //   // console.log(navbarOpen)
   //   if (navbarOpen !== "hiddenbox") setNavbarOpen("hiddenbox");
-  //   else setNavbarOpen("openbox")
+  // else setNavbarOpen("openbox")
   // }
 
   const changeStyle = () => {
@@ -88,11 +76,12 @@ function Header() {
 
             <NavLink to="/" className="flex items-center ps-2 md:ps-5">
               <img src={logo} alt="INSIDE LOGO" className="h-8 mr-3" />
-              <span className="self-center text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white mb-1">
+              <span className="self-center text-xl md:text-2xl font-bold whitespace-nowrap text-white mb-1">
                 HITian Inside
               </span>
             </NavLink>
 
+            {/* HAMBERGER SECTION */}
             <div className="flex items-center md:hidden">
               <button
                 type="button"
@@ -100,7 +89,7 @@ function Header() {
                 onClick={changeStyle}
               >
                 <span className="sr-only">Toggle menu</span>
-                {navbarOpen ? (
+                {!navbarOpen ? (
                   <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path d="M18 6L12 12M12 12L6 18M12 12L18 18M12 12L6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -110,13 +99,17 @@ function Header() {
                   </svg>
                 )}
               </button>
-              <NavLink to={profile.path} className="border rounded-full">
-                <FaUserCircle size={30} color="white" />
+              <NavLink to={profile.path} className="border rounded-full overflow-hidden">
+                {profilePic ?
+                  <img src={profilePic} alt="profile_image" className="w-[28px]" />
+                  :
+                  <FaUserCircle size={23} color="white" />
+                }
               </NavLink>
             </div>
 
-            {/* Navbar Links */}
-            <div className={`w-full md:w-auto ${navbarOpen ? 'block' : 'hidden'} md:flex items-center gap-5`} id="navbar-solid-bg">
+            {/* Navbar Links for window or tablet*/}
+            <div className={`w-full md:w-auto hidden md:flex items-center gap-5`} id="navbar-solid-bg">
               <ul className="flex flex-col md:flex-row font-medium mt-4 md:mt-0 rounded-lg bg-[#650808] md:bg-transparent dark:bg-[#650808] md:dark:bg-transparent space-y-2 md:space-y-0 md:space-x-4">
                 {navLinks.map((link, index) => (
                   <li key={index}>
@@ -134,14 +127,32 @@ function Header() {
                 ))}
               </ul>
 
-              <NavLink to={profile.path} className="border rounded-full hidden md:block">
-                <FaUserCircle size={30} color="white" />
+              <NavLink to={profile.path} className="border rounded-full hidden md:block overflow-hidden">
+                {profilePic ?
+                  <img src={profilePic} alt="profile_image" className="w-[25px]" />
+                  :
+                  <FaUserCircle size={23} color="white" />
+                }
               </NavLink>
             </div>
-          </div>
-        </nav>
-      </div>
 
+            {/* Navbar for Mobile  */}
+            {
+              !navbarOpen && <div className="w-full flex flex-col gap-3 text-lg font-medium pt-2 text-white md:hidden">
+                {
+                  navLinks.map((link, index) => (
+                    <NavLink
+                      to={link.path}
+                      key={index}>
+                      {link.display}
+                    </NavLink>
+                  ))
+                }
+              </div>
+            }
+          </div>
+        </nav >
+      </div >
     </>
   );
 }

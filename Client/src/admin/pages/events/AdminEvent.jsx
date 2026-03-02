@@ -20,15 +20,15 @@ const AdminEvent = () => {
     AOS.init({ duration: 1700 })
   }, [])
 
+  const loadEvents = async () => {
+    const result = await getAdminEvent();
+    setEvents(result.data.data);
+    setOriginalEvents(result.data.data);
+    setLoading(false);
+  }
+
   // for events
   useEffect(() => {
-    const loadEvents = async () => {
-      const result = await getAdminEvent();
-      setEvents(result.data);
-      setOriginalEvents(result.data);
-      setLoading(false);
-    }
-
     loadEvents();
   }, [])
 
@@ -38,6 +38,7 @@ const AdminEvent = () => {
       const id = events[index]._id;
       const result = await deleteEvent(id);
       toast.success(result.data.message);
+      setEvents(events.filter(event => event._id !== id));
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }

@@ -12,14 +12,15 @@ const BasketballScore = () => {
     AOS.init({ duration: 1000 })
   }, [])
 
-  useEffect(() => {
-    const printScorecard = async () => {
-      const result = await getBasketballScores();
-      //Separated live and finished matches
-      setLiveBasketball(result.data.filter((item) => item.completed === "no"));
-      setCompletedBasketball(result.data.filter((item) => item.completed === "yes"))
-    }
+  const printScorecard = async () => {
+    const result = await getBasketballScores();
+    // console.log(result.data);
+    //Separated live and finished matches
+    setLiveBasketball(result.data.filter((item) => item.completed === "no").reverse());
+    setCompletedBasketball(result.data.filter((item) => item.completed === "yes").reverse())
+  }
 
+  useEffect(() => {
     printScorecard();
   }, [])
 
@@ -30,7 +31,7 @@ const BasketballScore = () => {
         {
           (liveBasketball.length > 0) && liveBasketball.map((score, index) => (
             <div
-              className="w-[320px] sm:w-[380px] bg-white/10 text-white rounded-2xl shadow-lg p-4 my-4 backdrop-blur-md"
+              className="w-[380px] bg-white/10 text-white rounded-2xl shadow-lg p-4 my-4 backdrop-blur-md"
               key={index}
               data-aos="fade-up"
             >
@@ -81,7 +82,7 @@ const BasketballScore = () => {
         {
           (completedBasketball.length > 0) && completedBasketball.map((score, index) => (
             <div
-              className="w-[320px] sm:w-[380px] bg-white/10 text-white rounded-2xl shadow-lg p-4 my-4 backdrop-blur-md"
+              className="w-[380px] bg-white/10 text-white rounded-2xl shadow-lg p-4 my-4 backdrop-blur-md"
               key={index}
               data-aos="fade-up"
             >

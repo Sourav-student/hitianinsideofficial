@@ -54,7 +54,7 @@ const VideoSubmition = () => {
 
   return (
     <>
-      <h1 className="text-white text-3xl font-semibold text-center mt-6 mb-8">
+      <h1 className="text-white min-h-screen text-3xl font-semibold text-center mt-6 mb-8">
         Submit Your Reels/Videos and Be Part of Our Almanac
       </h1>
 

@@ -50,12 +50,12 @@ function Footer() {
   };
 
   return (
-    <>
+    <div className="relative">
       {/* ========= Footer ============ */}
-      <footer className="bg-[#3f0909] h-full w-full grid grid-cols-3 pb-8 ">
+      <footer className="bg-[#3f0909] max-sm:hidden h-full w-full grid grid-cols-3 pb-8 ">
 
         {/* Contact US */}
-        <div className="contactus mt-2 col-span-3 md:col-span-1">
+        <div className="contactus mt-2 col-span-3 md:col-span-1 max-md:mb-10 max-sm:hidden">
           <h1 className="heading text-[1.5rem] font-bold text-[#f2b5b5]">Contact Us</h1>
           <form className="form mt-2 grid justify-center" ref={ref} onSubmit={
             (e) => {
@@ -152,15 +152,12 @@ function Footer() {
         </div>
       </footer>
 
-
-
-
-      <div className=" bg-[#280606] text-[#f2b5b5]">
+      <div className="max-sm:hidden w-full bg-[#280606] text-[#f2b5b5]">
         <p className="flex justify-center items-center ">
-          All <BiCopyright className="ms-2 me-2" /> Copyright reserved || 2023
+          All <BiCopyright className="ms-2 me-2" /> Copyright reserved || 2025
         </p>
       </div>
-    </>
+    </div>
   );
 }
 
