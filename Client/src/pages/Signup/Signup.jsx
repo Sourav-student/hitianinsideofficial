@@ -4,7 +4,6 @@ import googleAuth from "../../api/googleapi";
 import { useNavigate } from 'react-router-dom';
 import { useContext } from "react";
 import { isAuthenticatedContext } from "../../context/context";
-import logo from "../../assets/images/logo.png";
 import { toast } from "react-toastify";
 import { motion } from "motion/react";
 
