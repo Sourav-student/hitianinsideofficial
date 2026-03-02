@@ -101,9 +101,9 @@ function Header() {
               </button>
               <NavLink to={profile.path} className="border rounded-full overflow-hidden">
                 {profilePic ?
-                  <img src={profilePic} alt="profile_image" className="w-[35px]" />
+                  <img src={profilePic} alt="profile_image" className="w-[28px]" />
                   :
-                  <FaUserCircle size={30} color="white" />
+                  <FaUserCircle size={23} color="white" />
                 }
               </NavLink>
             </div>

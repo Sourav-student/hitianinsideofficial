@@ -28,7 +28,7 @@ function Home() {
   useEffect(() => {
     setTimeout(() => {
       setLoadingPage(false);
-    }, 1500);
+    }, 1000);
   }, [])
 
   if(loadingPage){
