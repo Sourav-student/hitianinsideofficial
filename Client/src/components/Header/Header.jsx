@@ -4,10 +4,8 @@ import logo from "../../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
 import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
 import './header.css';
-// import { motion } from "motion/react";
 
 function Header() {
-  // const [navbarOpen, setNavbarOpen] = useState(false);
   //navLinks
   const [navLinks] = useState([
     {
@@ -53,12 +51,6 @@ function Header() {
       setprofilePic(JSON.parse(user).image);
     }
   }, [])
-
-  // const changeStyle = () => {
-  //   // console.log(navbarOpen)
-  //   if (navbarOpen !== "hiddenbox") setNavbarOpen("hiddenbox");
-  // else setNavbarOpen("openbox")
-  // }
 
   const changeStyle = () => {
     setNavbarOpen(!navbarOpen);
@@ -143,7 +135,8 @@ function Header() {
                   navLinks.map((link, index) => (
                     <NavLink
                       to={link.path}
-                      key={index}>
+                      key={index}
+                      onClick={() => changeStyle()}>
                       {link.display}
                     </NavLink>
                   ))

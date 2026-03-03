@@ -36,7 +36,7 @@ userGetRouter.get("/isAdmin", async (req: Request, res: Response) => {
 userGetRouter.get("/events", async (req: Request, res: Response) => {
   try {
     const data = await EventsList.find().sort({ year: -1 });
-    res.set("Cache-Control", "public, max-age=600");
+    // res.set("Cache-Control", "public, max-age=600");
     res.status(200).json({
       success: true,
       count: data.length,

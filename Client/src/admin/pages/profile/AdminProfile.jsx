@@ -1,77 +1,116 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { isAuthenticatedContext } from '../../../context/context';
+import { motion } from 'motion/react';
 
 const AdminProfile = () => {
-
-  //class for style
-  const btnClass = "bg-[#bb1d1d] hover:bg-[#e01414] p-2 rounded-lg font-semibold w-40";
-
-  //navigate feature
   const navigate = useNavigate();
-
-  //handle states
   const [userInfo, setUserInfo] = useState(null);
   const { setIsAuthenticated } = useContext(isAuthenticatedContext);
 
-  //use useEffect to fetch data from local storage
   useEffect(() => {
     const data = localStorage.getItem('user-info');
-    const userData = JSON.parse(data);
-    setUserInfo(userData);
-  }, [])
+    if (data) {
+      setUserInfo(JSON.parse(data));
+    }
+  }, []);
 
-  //Implement logged out feature
   const handleLogout = () => {
     localStorage.removeItem('user-info');
     setIsAuthenticated(false);
     navigate('/');
-  }
+  };
+
+  // Animation Variants
+  const containerVars = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, staggerChildren: 0.1 } 
+    }
+  };
+
+  const itemVars = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1 }
+  };
+
+  const btnClass = "bg-red-700 hover:bg-red-600 transition-colors duration-300 p-3 rounded-xl font-semibold w-full shadow-md text-sm md:text-base";
 
   return (
-    <div className='p-4 m-6 mt-10 text-white flex justify-center items-center flex-col'>
-      <div className='flex justify-around items-center flex-wrap gap-4 bg-[#8c0909] w-auto p-6 rounded-lg shadow-lg border-[1px] border-[#8c0909] hover:border-orange-400'>
-        <div>
-          <img src={userInfo?.image} alt={userInfo?.name} className='rounded-md' />
+    <motion.div 
+      initial="hidden"
+      animate="visible"
+      variants={containerVars}
+      className='min-h-screen p-4 md:p-10 text-white flex flex-col items-center'
+    >
+      {/* Profile Header Card */}
+      <motion.div 
+        variants={itemVars}
+        className='flex flex-col sm:flex-row justify-around items-center gap-6 bg-gradient-to-br from-[#8c0909] to-[#5a0404] w-full max-w-2xl p-8 rounded-2xl shadow-2xl border border-white/10 hover:border-orange-500/50 transition-all'
+      >
+        <motion.img 
+          whileHover={{ scale: 1.05 }}
+          src={userInfo?.image || 'https://via.placeholder.com/150'} 
+          alt={userInfo?.name} 
+          className='w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-white/20 shadow-lg' 
+        />
+        <div className='text-center sm:text-left space-y-2'>
+          <h2 className='text-2xl md:text-3xl font-bold tracking-tight'>
+            {userInfo?.name}
+          </h2>
+          <p className='text-red-200 opacity-80 font-medium'>{userInfo?.email}</p>
+          <div className='inline-block px-3 py-1 bg-black/30 rounded-full text-xs uppercase tracking-widest'>
+            Administrator
+          </div>
         </div>
-        <div className='text-left'>
-          <h2 className='text-lg sm:text-xl font-semibold'>Name - <span className='font-normal'>{userInfo?.name}</span></h2>
-          <h3 className='text-sm sm:text-lg font-semibold'>Email - <span className='font-normal'>{userInfo?.email}</span></h3>
-        </div>
-      </div>
-      <div className='w-full p-6'>
-        <div>
-          <h2 className='text-xl font-semibold'>Hello Admin {userInfo?.name}</h2>
-          <p>I am really happy to see you again.</p>
-        </div>
-      </div>
+      </motion.div>
 
-      <div className='grid grid-cols-2 gap-8 max-sm:grid-cols-1'>
-        <NavLink to='/admin/events'>
-          <button className={btnClass}>Add Event</button>
-        </NavLink>
-        <NavLink to='/admin/add-poster'>
-          <button className={[btnClass, "font-xs"].join()}>Add Poster at Homepage</button>
-        </NavLink>
-        <NavLink to='/admin/almanac'>
-          <button className={btnClass}>Add Almanac</button>
-        </NavLink>
-        <NavLink to='/admin/matches-scorecard'>
-          <button className={btnClass}>Add Scores</button>
-        </NavLink>
-        <NavLink to='/admin/users-sent-data'>
-          <button className={btnClass}>users sent data</button>
-        </NavLink>
-      </div>
+      {/* Welcome Section */}
+      <motion.div variants={itemVars} className='w-full max-w-4xl mt-12 mb-8 text-center sm:text-left'>
+        <h2 className='text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400'>
+          Welcome Back, {userInfo?.name?.split(' ')[0]}
+        </h2>
+        <p className='text-gray-400 mt-2'>What would you like to manage today?</p>
+      </motion.div>
 
-      <div className='flex gap-8 mt-5'>
-        <NavLink to="/scorecards">
-          <button className={btnClass}>View Scores</button>
-        </NavLink>
-        <button className='bg-[#0788e4] hover:bg-[#0760e7] py-2 px-4 rounded-lg font-semibold w-40 max-sm:w-auto' onClick={handleLogout}>Logout</button>
-      </div>
-    </div>
-  )
-}
+      {/* Action Grid */}
+      <motion.div 
+        variants={containerVars}
+        className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl'
+      >
+        {[
+          { to: '/admin/events', label: 'Add Event' },
+          { to: '/admin/add-poster', label: 'Add Homepage Poster' },
+          { to: '/admin/almanac', label: 'Add Almanac' },
+          { to: '/admin/matches-scorecard', label: 'Update Scores' },
+          { to: '/admin/users-sent-data', label: 'User Submissions' },
+          { to: '/scorecards', label: 'Preview Scores', color: 'bg-blue-600 hover:bg-blue-500' },
+        ].map((link, idx) => (
+          <motion.div key={idx} variants={itemVars} whileHover={{ y: -5 }} whileTap={{ scale: 0.95 }}>
+            <NavLink to={link.to}>
+              <button className={link.color ? `${link.color} p-3 rounded-xl font-semibold w-full shadow-md` : btnClass}>
+                {link.label}
+              </button>
+            </NavLink>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Footer Actions */}
+      <motion.div variants={itemVars} className='mt-12'>
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleLogout}
+          className='bg-white/10 hover:bg-white/20 border border-white/20 px-10 py-3 rounded-full font-bold transition-all'
+        >
+          Sign Out
+        </motion.button>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 export default AdminProfile;

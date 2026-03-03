@@ -34,7 +34,7 @@ function Home() {
   if(loadingPage){
     return (
       <HomeSkeleton/>
-    )
+    );
   }
 
   return (
