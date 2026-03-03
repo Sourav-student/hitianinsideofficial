@@ -46,18 +46,18 @@ const Banner = () => {
                   className="w-full max-w-[600px] aspect-square flex-shrink-0 relative"
                 >
                   <img
-                    src={poster.eventPoster}
-                    alt={poster.eventName}
+                    src={poster.event_poster}
+                    alt={poster.event_name}
                     className="w-full h-full object-cover rounded-2xl"
                   />
 
                   {/* Overlay */}
                   <div className="absolute inset-0 flex flex-col justify-end items-center bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 sm:p-6 rounded-2xl">
                     <h2 className="text-lg sm:text-xl text-white font-bold mb-2 text-center">
-                      {poster.eventName}
+                      {poster.event_name}
                     </h2>
                     <a
-                      href={poster.eventFormLink}
+                      href={poster.event_form_link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-red-700/70 hover:bg-red-500/80 text-white font-semibold px-4 py-2 rounded-full shadow-md transition-all border border-white text-sm sm:text-base"
