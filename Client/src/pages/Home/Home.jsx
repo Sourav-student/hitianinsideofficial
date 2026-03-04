@@ -62,7 +62,7 @@ function Home() {
           </Link>
         </div> */}
 
-        <div className="text-2xl/[2.3rem] md:text-[2.2rem] pt-[20%] md:pt-10 comeExplore font-semibold text-[#ffa6a6]">
+        <div className="text-2xl/[2.3rem] md:text-[2.2rem] pt-6 md:pt-10 comeExplore font-semibold text-[#ffa6a6]">
           COME AND EXPLORE
         </div>
         <img src={name} alt="name" className="name inline w-[30%]" />
@@ -73,7 +73,7 @@ function Home() {
           data-aos="fade-up"
           src={hit}
           alt="hit"
-          className="hit mt-[30%] md:mt-10"
+          className="hit mt-6 md:mt-10"
         />
         <img src={curve} alt="curve" className="curve mt-[-8%] w-full" />
       </section>

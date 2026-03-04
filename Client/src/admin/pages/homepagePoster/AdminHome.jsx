@@ -21,6 +21,7 @@ const AdminHome = () => {
       const { data } = await getAdminHomepageData();
       sethomepageContainer(data);
       setLoading(false);
+      console.log(data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error fetching data");
     }

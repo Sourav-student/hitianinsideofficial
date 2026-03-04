@@ -155,7 +155,7 @@ function Footer() {
 
       <div className="w-full bg-[#280606] text-[#f2b5b5]">
         <p className="flex justify-center items-center ">
-          All <BiCopyright className="ms-2 me-2" /> Copyright reserved || 2025
+          All <BiCopyright className="ms-2 me-2" /> Copyright reserved || 2026
         </p>
       </div>
     </div>
