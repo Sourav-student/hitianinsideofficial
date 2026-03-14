@@ -22,7 +22,6 @@ const homepageElementListSchema = new Schema<IHomepageElement>(
     },
     event_content: { 
       type: String,
-      required: [true, "Event content is required"],
       trim: true
     },
     event_form_link: {

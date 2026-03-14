@@ -4,10 +4,9 @@ import logo from "../../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
 import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
 import './header.css';
-// import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
 function Header() {
-  // const [navbarOpen, setNavbarOpen] = useState(false);
   //navLinks
   const [navLinks] = useState([
     {
@@ -44,7 +43,7 @@ function Header() {
   ])
 
 
-  const [navbarOpen, setNavbarOpen] = useState("hiddenbox");
+  const [navbarOpen, setNavbarOpen] = useState(false);
   const [profilePic, setprofilePic] = useState('');
 
   useEffect(() => {
@@ -53,12 +52,6 @@ function Header() {
       setprofilePic(JSON.parse(user).image);
     }
   }, [])
-
-  // const changeStyle = () => {
-  //   // console.log(navbarOpen)
-  //   if (navbarOpen !== "hiddenbox") setNavbarOpen("hiddenbox");
-  // else setNavbarOpen("openbox")
-  // }
 
   const changeStyle = () => {
     setNavbarOpen(!navbarOpen);
@@ -82,14 +75,21 @@ function Header() {
             </NavLink>
 
             {/* HAMBERGER SECTION */}
-            <div className="flex items-center md:hidden">
+            <div className="flex gap-3 items-center md:hidden">
+              <NavLink to={profile.path} className="border rounded-full overflow-hidden">
+                {profilePic ?
+                  <img src={profilePic} alt="profile_image" className="w-[28px]" />
+                  :
+                  <FaUserCircle size={23} color="white" />
+                }
+              </NavLink>
               <button
                 type="button"
-                className="inline-flex items-center p-2 me-3 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-red-400 dark:hover:bg-red-700 dark:focus:ring-red-600"
+                className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-red-400 dark:hover:bg-red-700 dark:focus:ring-red-600"
                 onClick={changeStyle}
               >
                 <span className="sr-only">Toggle menu</span>
-                {!navbarOpen ? (
+                {navbarOpen ? (
                   <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path d="M18 6L12 12M12 12L6 18M12 12L18 18M12 12L6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -99,13 +99,6 @@ function Header() {
                   </svg>
                 )}
               </button>
-              <NavLink to={profile.path} className="border rounded-full overflow-hidden">
-                {profilePic ?
-                  <img src={profilePic} alt="profile_image" className="w-[28px]" />
-                  :
-                  <FaUserCircle size={23} color="white" />
-                }
-              </NavLink>
             </div>
 
             {/* Navbar Links for window or tablet*/}
@@ -137,19 +130,36 @@ function Header() {
             </div>
 
             {/* Navbar for Mobile  */}
-            {
-              !navbarOpen && <div className="w-full flex flex-col gap-3 text-lg font-medium pt-2 text-white md:hidden">
-                {
-                  navLinks.map((link, index) => (
-                    <NavLink
-                      to={link.path}
-                      key={index}>
-                      {link.display}
-                    </NavLink>
-                  ))
-                }
-              </div>
-            }
+            <AnimatePresence>
+              {navbarOpen && (
+                <motion.div
+                  initial={{ x: "-100%", opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: "-100%", opacity: 0 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                  className="fixed inset-0 top-[70px] z-50 w-full h-screen bg-[#660909]/95 backdrop-blur-lg flex flex-col gap-6 text-2xl font-bold pt-10 px-10 text-white md:hidden"
+                >
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.1 * index }}
+                    >
+                      <NavLink
+                        to={link.path}
+                        onClick={() => changeStyle()}
+                        className={({ isActive }) =>
+                          `block transition-all duration-300 ${isActive ? "text-[#FFB5B5]" : "hover:text-[#FFB5B5]"}`
+                        }
+                      >
+                        {link.display}
+                      </NavLink>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </nav >
       </div >

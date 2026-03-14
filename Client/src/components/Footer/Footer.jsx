@@ -121,7 +121,7 @@ function Footer() {
             className="mt-3 w-full bg-[#f2b5b5] h-1"
           />
           <div className="social-icons flex justify-evenly mt-5 ">
-            <a href="https://www.facebook.com/HITian.Inside" target="_blank">
+            <a href="https://www.facebook.com/HITian.Inside" target="_blank" rel="noopener noreferrer">
               {/* <i class="fa-brands fa-facebook fa-2xl icon"></i> */}
               <div className="circle rounded-full bg-[#f2b5b5] h-10 w-10 flex justify-center  items-center	 ">
                 <BiLogoFacebook className="h-8 w-8 " />
@@ -130,19 +130,20 @@ function Footer() {
             <a
               href="https://www.linkedin.com/company/hitian-inside/mycompany/"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {/* <i class="fa-brands fa-linkedin fa-2xl"></i> */}
               <div className="rounded-full bg-[#f2b5b5] h-10 w-10 flex justify-center  items-center	">
                 <BiLogoLinkedin className="h-7 w-7" />
               </div>
             </a>
-            <a href="https://www.instagram.com/hitianinside/" target="_blank">
+            <a href="https://www.instagram.com/hitianinside/" target="_blank" rel="noopener noreferrer">
               {/* <i class="fa-brands fa-square-instagram fa-2xl"></i> */}
               <div className="rounded-full bg-[#f2b5b5] h-10 w-10 flex justify-center  items-center">
                 <BsInstagram className="h-7 w-7" />
               </div>
             </a>
-            <a href="https://www.youtube.com/@hitianinside2131" target="_blank">
+            <a href="https://www.youtube.com/@hitianinside2131" target="_blank" rel="noopener noreferrer">
               {/* <i class="fa-brands fa-square-youtube fa-2xl"></i> */}
               <div className="rounded-full bg-[#f2b5b5] h-10 w-10 flex justify-center  items-center">
                 <BsYoutube className="h-7 w-7" />
@@ -152,9 +153,9 @@ function Footer() {
         </div>
       </footer>
 
-      <div className="max-sm:hidden w-full bg-[#280606] text-[#f2b5b5]">
+      <div className="w-full bg-[#280606] text-[#f2b5b5]">
         <p className="flex justify-center items-center ">
-          All <BiCopyright className="ms-2 me-2" /> Copyright reserved || 2025
+          All <BiCopyright className="ms-2 me-2" /> Copyright reserved || 2026
         </p>
       </div>
     </div>

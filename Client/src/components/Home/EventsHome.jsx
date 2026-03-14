@@ -17,13 +17,13 @@ const EventsHome = () => {
       <div className="bordeertext md:col-span-3 col-span-5 bg-[#660909] flex flex-col md:flex-row justify-center items-center pt-[3rem] md:pb-[5rem] pb-[1rem]">
         <div className="md:h-[70%%] md:w-[30%] " data-aos="fade-up">
           <InstagramEmbed
-            url="https://www.instagram.com/p/DO3uLXOjc4P/?img_index=1"
+            url="https://www.instagram.com/p/DO3uLXOjc4P/?utm_source=ig_embed&ig_rid=ab08a5dd-6bc0-4786-a6ec-8baf4adc0dd5"
             className="w-[100%] h-full"
           />
         </div>
         <div className="md:h-[50%%] md:w-[40%]" data-aos="fade-down">
           <InstagramEmbed
-            url="https://www.instagram.com/p/CybFEKehBlS/?img_index=1"
+            url="https://www.instagram.com/p/DVYyhVggbzV/?img_index=1"
             className="w-[100%] h-full"
           />
         </div>
@@ -86,4 +86,4 @@ const EventsHome = () => {
   );
 }
 
-export default EventsHome
+export default EventsHome;

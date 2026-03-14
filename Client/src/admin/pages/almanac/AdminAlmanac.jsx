@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { toast } from 'react-toastify';
 import Loader from '../../components/Loader/Loader';
 import { addAlmanac, getAdminAlmanac, deleteAlmanac } from '../../../api/adminapis';
-import { toast } from 'react-toastify';
 
 const AdminAlmanac = () => {
   const [almanac, setAlmanac] = useState({
     file: null,
     username: '',
     department: ''
-  })
+  });
 
   const [almanacData, setAlmanacData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,131 +21,180 @@ const AdminAlmanac = () => {
       setAlmanacData(response.data.data);
       setLoading(false);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "Error fetching almanac");
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    // get almanac
     getData();
-  }, [])
+  }, []);
 
-  //add almanac to database
   const handleAdd = async () => {
-    setSubmit(true);
-    if (almanac.file === null || almanac.department === '' || almanac.username === '') {
-      toast.warning("fill the required field");
+    if (!almanac.file || !almanac.department || !almanac.username) {
+      toast.warning("Please fill all required fields");
       return;
     }
 
+    setSubmit(true);
     try {
       const res = await addAlmanac(almanac);
       toast.success(res.data.message);
-      setAlmanac({
-        file: null,
-        username: '',
-        department: ''
-      })
+      setAlmanac({ file: null, username: '', department: '' });
+      getData(); // Refresh list
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
-      setSubmit(false)
+      setSubmit(false);
     }
-  }
+  };
 
-  //delete event
   const handleDelete = async (id) => {
     try {
       const res = await deleteAlmanac(id);
-      setAlmanacData(almanacData.filter(data => data._id !== id));
+      setAlmanacData(prev => prev.filter(data => data._id !== id));
       toast.success(res.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     }
-  }
+  };
+
+  // Animation Configs
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 120 } },
+    exit: { opacity: 0, scale: 0.5, transition: { duration: 0.2 } }
+  };
+
+  const inputClass = "bg-white/10 backdrop-blur-md p-3 my-2 w-full md:w-[280px] border border-white/20 rounded-xl text-white outline-none focus:border-red-500 transition-all placeholder:text-red-200/40";
 
   return (
-    <>
-      {/* Adding almanac */}
-      <div className='form'>
-        <div className="text-red-200 flex flex-wrap px-6 text-xl justify-evenly gap-4">
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      className='min-h-screen p-4 md:p-10'
+    >
+      {/* Input Section */}
+      <motion.div 
+        initial={{ y: -20 }}
+        animate={{ y: 0 }}
+        className='bg-white/5 border border-white/10 p-8 rounded-3xl shadow-2xl max-w-5xl mx-auto mb-16'
+      >
+        <h2 className='text-2xl font-bold text-red-200 mb-8 text-center'>Add To Almanac</h2>
+        <div className="flex flex-wrap justify-center gap-6">
           <div className='flex flex-col'>
-            <label htmlFor="photo" className='text-left'>Upload almanac photo</label>
+            <label className='text-red-200 text-sm ml-2 mb-1'>Almanac Photo</label>
             <input
               type="file"
-              name='file'
               onChange={(e) => setAlmanac({ ...almanac, file: e.target.files[0] })}
               accept='image/*'
-              className='p-1 my-2 w-[250px] border border-dotted rounded-2xl shadow-md'
-              required />
+              className={`${inputClass} file:bg-red-600 file:border-0 file:text-white file:rounded-md file:px-2 cursor-pointer`}
+              required 
+            />
           </div>
+          
           <div className='flex flex-col'>
-            <label htmlFor="username" className='text-left'>Name</label>
+            <label className='text-red-200 text-sm ml-2 mb-1'>Student/Staff Name</label>
             <input
               type="text"
-              name='username'
               value={almanac.username}
               onChange={(e) => setAlmanac({ ...almanac, username: e.target.value })}
-              className='bg-red-400 p-2 my-2 w-[250px] border border-dotted rounded-lg text-white shadow-md'
-              placeholder='Enter here'
-              required />
+              className={inputClass}
+              placeholder='Full Name'
+              required 
+            />
           </div>
+
           <div className='flex flex-col'>
-            <label htmlFor="department" className='text-left'>department</label>
+            <label className='text-red-200 text-sm ml-2 mb-1'>Department</label>
             <input
               type="text"
-              name='department'
               value={almanac.department}
               onChange={(e) => setAlmanac({ ...almanac, department: e.target.value })}
-              className='bg-red-400 p-2 my-2 w-[250px] border border-dotted rounded-lg text-white shadow-md'
-              placeholder='Enter here'
-              required />
+              className={inputClass}
+              placeholder='e.g. Computer Science'
+              required 
+            />
           </div>
         </div>
-        <div>
-          <button
-            type='submit'
-            className='text-red-100 bg-[#c21414] px-4 py-2 m-10 rounded-md text-lg shadow-md hover:bg-[#f00] transition-all'
-            onClick={handleAdd} disabled={submit}>
-            {submit ? "Adding almanac" : "Add almanac"}
-          </button>
-        </div>
-      </div>
 
-      {/*get all the almanac */}
-      {
-        loading ? <Loader /> :
-          <div>
-            <h1 className='text-red-200 text-4xl p-3 w-full text-center font-serif'>Best of Almanac</h1>
-            {
-              almanacData.length > 0 ?
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 m-5 bg-[#c3712958] p-2 rounded-lg'>
-                  {
-                    almanacData.map((almanac, index) => (
-                      <div
-                        className='p-3 bg-[#ec1901] rounded-lg text-red-200'
-                        key={index}>
-                        <img src={almanac.photo}
-                          alt="almanac image"
-                          className='h-52 w-full' />
-                        <h2 className='text-lg font-bold'>{almanac.username}</h2>
-                        <h3 className='font-semibold'>{almanac.department}</h3>
-                        <hr />
-                        <button
-                          type='submit'
-                          className='text-red-100 bg-[#c21414] px-4 py-2 mt-3 rounded-md text-lg shadow-md hover:bg-[#710505] transition-all'
-                          onClick={() => handleDelete(almanac._id)}>Delete</button>
-                      </div>
-                    ))
-                  }
-                </div>
-                :
-                <p className='text-red-200 text-xl'>No Almanac Found</p>
-            }
-          </div>
-      }
-    </>
-  )
-}
+        <div className='flex justify-center mt-10'>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            disabled={submit}
+            onClick={handleAdd}
+            className={`px-12 py-3 rounded-full font-bold text-white shadow-lg transition-all ${
+              submit ? 'bg-gray-600' : 'bg-red-600 hover:bg-red-500'
+            }`}
+          >
+            {submit ? "Uploading..." : "Publish to Almanac"}
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Display Section */}
+      <div className='max-w-7xl mx-auto'>
+        <div className='flex items-center gap-4 mb-10'>
+          <h1 className='text-red-200 text-3xl md:text-4xl font-serif whitespace-nowrap'>Best of Almanac</h1>
+          <div className='h-[1px] w-full bg-gradient-to-r from-red-500/50 to-transparent'></div>
+        </div>
+
+        {loading ? <Loader /> : (
+          <motion.div 
+            layout
+            className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'
+          >
+            <AnimatePresence mode='popLayout'>
+              {almanacData.length > 0 ? (
+                almanacData.map((data) => (
+                  <motion.div
+                    key={data._id}
+                    variants={cardVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    layout
+                    className='group rounded-2xl overflow-hidden border border-white/5 hover:border-red-500/40 transition-all shadow-xl'
+                  >
+                    <div className='h-64 w-full overflow-hidden'>
+                      <img 
+                        src={data.photo} 
+                        alt={data.username}
+                        className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110' 
+                      />
+                    </div>
+                    
+                    <div className='p-5 text-center'>
+                      <h2 className='text-white text-xl font-bold truncate'>{data.username}</h2>
+                      <p className='text-red-400 text-sm font-medium mb-4'>{data.department}</p>
+                      
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleDelete(data._id)}
+                        className='w-full py-2 bg-red-900/20 hover:bg-red-600 text-red-200 hover:text-white border border-red-500/30 rounded-lg text-sm transition-all'
+                      >
+                        Remove Entry
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className='col-span-full py-20 text-center bg-white/5 rounded-3xl border border-dotted border-white/20'
+                >
+                  <p className='text-red-200/40 text-lg'>The Almanac is currently empty.</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
 
 export default AdminAlmanac;

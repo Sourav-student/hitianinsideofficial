@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import CricketScore from '../../components/CricketScore/CricketScore';
 import FootballScore from '../../components/FootballScore/FootballScore';
 import VolleyballScore from "../../components/VolleyballScore/VolleyballScore";

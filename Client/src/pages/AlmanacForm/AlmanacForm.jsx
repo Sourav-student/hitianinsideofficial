@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion } from "motion/react";
 import aditi from "../../assets/images/best_of_almanac/Aditi_bera_IT.jpg";

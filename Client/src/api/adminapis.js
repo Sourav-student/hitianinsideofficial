@@ -64,7 +64,7 @@ export const addHomepageData = async (data) => {
 
 export const getAdminHomepageData = async () => {
   const res = await api.get("/api/admin/homepage-element");  
-  return res;
+  return res.data;
 }
 
 export const deleteHomepageData = async (id) => {
