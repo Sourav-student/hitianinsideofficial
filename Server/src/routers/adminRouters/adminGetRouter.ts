@@ -43,7 +43,7 @@ const fetchData = async (
       data,
     });
   } catch (error: any) {
-    console.error(`Error fetching ${modelName}:`, error);
+    // console.error(`Error fetching ${modelName}:`, error);
     return res.status(500).json({
       success: false,
       message: `Failed to fetch ${modelName}`,

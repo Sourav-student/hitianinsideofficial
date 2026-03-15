@@ -14,6 +14,7 @@ import adminGetRouter from "./routers/adminRouters/adminGetRouter";
 
 // Utils
 import { dbConn } from "./utils/dbConnection";
+import userPatchRouter from "./routers/userRouters/userPATCHRouter";
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use("/api/admin", adminPostRouter);
 app.use("/api/admin", adminPatchRouter);
 app.use("/api/admin", adminDeleteRouter);
 app.use("/api/admin", adminGetRouter);
+app.use("/api/user", userPatchRouter);
 
 // Root Route
 app.get("/", (req, res) => {

@@ -18,6 +18,7 @@ const PoemSubmition = lazy(() => import('../pages/PoemSubmition/PoemSubmition'))
 const PhotoSubmition = lazy(() => import('../pages/PhotoSubmition/PhotoSubmition'));
 const AlmanacForm = lazy(() => import('../pages/AlmanacForm/AlmanacForm'));
 const MatchesScores = lazy(() => import('../pages/MatchesScores/MatchesScores'));
+// const RecruitmentPage = lazy(() => import('../pages/RecruitmentForm/RecruitmentPage'));
 
 // admin pages
 const AdminProfile = lazy(() => import('../admin/pages/profile/AdminProfile'));
@@ -60,6 +61,7 @@ function Routers() {
         <Route path='/team' element={<Team />} />
         <Route path='/about' element={<About />} />
         <Route path='/scorecards' element={<MatchesScores />} />
+        {/* <Route path='/recruitment' element={<RecruitmentPage />} /> */}
 
         {/* almanac form pages */}
         <Route path='/almanac/almanac-form' element={<AlmanacForm />} />

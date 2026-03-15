@@ -22,7 +22,7 @@ const SignUp = () => {
         //newUser
         localStorage.setItem('user-info', JSON.stringify({ email, name, image, token }))
         setIsAuthenticated(true);
-        navigate('/');
+        navigate('/profile');
         toast.success("sign in successfully");
       }
     } catch (error) {
