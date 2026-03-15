@@ -90,7 +90,7 @@ const Banner = () => {
             <div className="w-12 h-12 border-4 border-[#d03c19] border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
-          <div className="relative h-[350px] md:h-[550px] w-full overflow-hidden rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black">
+          homepageComponent.length > 0 && <div className="relative h-[350px] md:h-[550px] w-full overflow-hidden rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black">
 
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
