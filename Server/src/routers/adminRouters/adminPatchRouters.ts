@@ -34,7 +34,7 @@ const updateDocument = async (
       data: updatedItem,
     });
   } catch (error: any) {
-    console.error(`Error updating ${itemName}:`, error);
+    // console.error(`Error updating ${itemName}:`, error);
     return res.status(500).json({
       success: false,
       message: `Failed to update ${itemName}`,

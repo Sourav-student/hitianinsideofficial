@@ -19,13 +19,19 @@ const deleteById = async (Model: mongoose.Model<any>, id: string, itemName: stri
 
     const deletedItem = await Model.findByIdAndDelete(id);
     if (!deletedItem) {
-      return res.status(404).json({ message: `${itemName} not found` });
+      return res.status(404).json({ 
+        message: `${itemName} not found` 
+      });
     }
 
-    return res.status(200).json({ message: `${itemName} deleted successfully` });
+    return res.status(200).json({ 
+      message: `${itemName} deleted successfully` 
+    });
   } catch (error : any) {
-    console.error(`Error deleting ${itemName}:`, error);
-    return res.status(500).json({ message: `Failed to delete ${itemName}`, error: error.message });
+    // console.error(`Error deleting ${itemName}:`, error);
+    return res.status(500).json({ 
+      message: `Failed to delete ${itemName}`, error: error.message 
+    });
   }
 };
 

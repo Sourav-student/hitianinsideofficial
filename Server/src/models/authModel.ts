@@ -5,6 +5,8 @@ export interface IUser extends Document {
   email: string;
   image?: string;
   admin: boolean;
+  department : string;
+  year : string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -16,6 +18,7 @@ const authSchema = new Schema<IUser>(
       required: true,
       trim: true
     },
+
     email: {
       type: String,
       required: true,
@@ -23,13 +26,28 @@ const authSchema = new Schema<IUser>(
       lowercase: true,
       trim: true
     },
+
     image: {
       type: String,
-      // default: "https://res.cloudinary.com/<your_cloud_name>/image/upload/v1730960000/default_avatar.png"
     },
+
     admin: {
       type: Boolean,
       default: false
+    },
+
+    department : {
+      type : String,
+      default : "",
+      lowercase: true,
+      trim: true
+    },
+
+    year : {
+      type : String,
+      default : "",
+      lowercase: true,
+      trim: true
     }
   },
   { timestamps: true }
