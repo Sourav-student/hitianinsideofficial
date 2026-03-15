@@ -67,6 +67,10 @@ const Banner = () => {
     })
   };
 
+  if(homepageComponent.length === 0){
+    return "";
+  }
+
   return (
     <div className="relative w-full p-4 select-none">
       <motion.div

@@ -32,34 +32,60 @@ userGetRouter.get("/isAdmin", async (req: Request, res: Response) => {
   }
 });
 
+//Get user information
+userGetRouter.get("/me", async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { email: string };
+    const userInfo = await User.findOne({ email: decoded.email }, "-admin");
+
+    if (!userInfo) return res.status(404).json({ message: "User not found" });
+
+    return res.status(200).json({
+      userData: userInfo,
+      success: true,
+      message: "Load all resources!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Invalid or expired token",
+      success: false
+    });
+  }
+});
+
 //Get all events
 userGetRouter.get("/events", async (req: Request, res: Response) => {
   try {
     const data = await EventsList.find().sort({ year: -1 });
-    // res.set("Cache-Control", "public, max-age=600");
     res.status(200).json({
       success: true,
-      count: data.length,
+      message: "Load all resources!",
       data
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server down! Try again later",
-      error: (error as Error).message
+      message: "Server down! Try again later"
     });
   }
 });
-
 
 //Get all almanac
 userGetRouter.get("/almanacs", async (req: Request, res: Response) => {
   try {
     const data = await AlmanacList.find();
-    res.json(data);
+    res.status(200).json({
+      success: true,
+      message: "Load all resources!",
+      data
+    });
   } catch (error) {
     res.status(500).json({
-      "message": "server down! try again later"
+      message: "server down! try again later",
+      success: false
     })
   }
 })
@@ -68,12 +94,16 @@ userGetRouter.get("/almanacs", async (req: Request, res: Response) => {
 userGetRouter.get("/homepage-elements", async (req: Request, res: Response) => {
   try {
     const data = await HomepageElementList.find();
-    res.json(data);
+    res.status(200).json({
+      success: true,
+      message: "Load all resources!",
+      data
+    });
   } catch (error) {
     res.status(500).json({
-      "message": "server down! try again later"
+      message: "server down! try again later",
+      success: false
     })
-
   }
 })
 
@@ -81,10 +111,15 @@ userGetRouter.get("/homepage-elements", async (req: Request, res: Response) => {
 userGetRouter.get("/cricket-scores", async (req: Request, res: Response) => {
   try {
     const data = await CricketScore.find();
-    res.json(data);
+    res.status(200).json({
+      success: true,
+      message: "Load all resources!",
+      data
+    });
   } catch (error) {
     res.status(500).json({
-      "message": "server down! try again later"
+      message: "server down! try again later",
+      success: false
     })
   }
 })
@@ -93,10 +128,15 @@ userGetRouter.get("/cricket-scores", async (req: Request, res: Response) => {
 userGetRouter.get("/football-scores", async (req: Request, res: Response) => {
   try {
     const data = await FootballScore.find();
-    res.json(data);
+    res.status(200).json({
+      data,
+      success: true,
+      message: "Load all resources!",
+    });
   } catch (error) {
     res.status(500).json({
-      "message": "server down! try again later"
+      message: "server down! try again later",
+      success: false
     })
   }
 })
@@ -105,10 +145,15 @@ userGetRouter.get("/football-scores", async (req: Request, res: Response) => {
 userGetRouter.get("/volleyball-scores", async (req: Request, res: Response) => {
   try {
     const data = await VolleyballScore.find();
-    res.json(data);
+    res.status(200).json({
+      data,
+      success: true,
+      message: "Load all resources!",
+    });
   } catch (error) {
     res.status(500).json({
-      "message": "server down! try again later"
+      message: "server down! try again later",
+      success: false
     })
   }
 })
@@ -117,21 +162,17 @@ userGetRouter.get("/volleyball-scores", async (req: Request, res: Response) => {
 userGetRouter.get("/basketball-scores", async (req: Request, res: Response) => {
   try {
     const data = await BasketballScore.find();
-    res.json(data);
+    res.status(200).json({
+      data,
+      success: true,
+      message: "Load all resources!",
+    });
   } catch (error) {
     res.status(500).json({
-      "message": "server down! try again later"
+      message: "server down! try again later",
+      success: false
     })
   }
 })
-
-//other get requests
-// userGetRouter.get("/:id", (req : Request, res : Response) => {
-//   const id = req.params.id;
-//   res.json({
-//     "data": `fetching data... -- ${id}`,
-//     "HITianInside": "working on backend..."
-//   })
-// })
 
 export default userGetRouter;

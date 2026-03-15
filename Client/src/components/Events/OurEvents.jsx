@@ -10,9 +10,8 @@ const OurEvents = () => {
   useEffect(() => {
     const loadEvents = async () => {
       try {
-        const result = await getEvents();
-        // Assuming result.data.data is the array
-        setEvents(result.data.data.reverse());
+        const { data } = await getEvents();
+        setEvents(data.reverse());
       } catch (err) {
         console.error("Failed to fetch events", err);
       } finally {
@@ -116,12 +115,15 @@ const OurEvents = () => {
                           <p className="text-[#fdd0d0]/60 text-xs font-bold uppercase tracking-widest">Date</p>
                           <p className="text-white font-medium">{event.date}</p>
                         </div>
-                        <motion.button
+                        <motion.a
                           whileTap={{ scale: 0.9 }}
+                          href={event.insta_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="bg-[#d03c19] text-white p-3 rounded-2xl shadow-lg shadow-[#d03c19]/30"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                        </motion.button>
+                        </motion.a>
                       </div>
                     </div>
                   </motion.div>
