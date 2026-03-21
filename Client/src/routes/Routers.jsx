@@ -4,6 +4,7 @@ import AdminRoute from './AdminRoute';
 import GoogleAuthWrapper from '../components/GoogleAuthWrapper/GoogleAuthWrapper'; //google sign up
 import { getAdmin } from '../api/userapis';
 import Loader from '../components/Loader/Loader';
+import ScrollToTop from '../components/ScrollToTop/ScrollToTop';
 
 const Home = lazy(() => import('../pages/Home/Home'));
 const Almanac = lazy(() => import('../pages/Almanac/Almanac'));
@@ -18,7 +19,7 @@ const PoemSubmition = lazy(() => import('../pages/PoemSubmition/PoemSubmition'))
 const PhotoSubmition = lazy(() => import('../pages/PhotoSubmition/PhotoSubmition'));
 const AlmanacForm = lazy(() => import('../pages/AlmanacForm/AlmanacForm'));
 const MatchesScores = lazy(() => import('../pages/MatchesScores/MatchesScores'));
-// const RecruitmentPage = lazy(() => import('../pages/RecruitmentForm/RecruitmentPage'));
+const RecruitmentPage = lazy(() => import('../pages/RecruitmentForm/RecruitmentPage'));
 
 // admin pages
 const AdminProfile = lazy(() => import('../admin/pages/profile/AdminProfile'));
@@ -48,8 +49,8 @@ function Routers() {
 
   return (
     <Suspense fallback={<Loader/>}>
+      <ScrollToTop />
       <Routes>
-
         <Route path='/sign-up' element={<GoogleAuthWrapper />} />
         {/* <Route path='/log-in' element={<LoginPage />} /> */}
 
@@ -61,7 +62,7 @@ function Routers() {
         <Route path='/team' element={<Team />} />
         <Route path='/about' element={<About />} />
         <Route path='/scorecards' element={<MatchesScores />} />
-        {/* <Route path='/recruitment' element={<RecruitmentPage />} /> */}
+        <Route path='/recruitment' element={<RecruitmentPage />} />
 
         {/* almanac form pages */}
         <Route path='/almanac/almanac-form' element={<AlmanacForm />} />
