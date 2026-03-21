@@ -32,7 +32,7 @@ const Profile = () => {
     }
 
     fetchUserInfo();
-  }, [isUpdated]);
+  }, [isUpdated, isAuthenticated]);
 
   const handleLogout = () => {
     localStorage.removeItem('user-info');
