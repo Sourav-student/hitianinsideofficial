@@ -13,9 +13,9 @@ const AlmanacHeader = () => {
   return (
     <>
       <section
-        className="ps-[8%] pt-[6%]">
+        className="ps-[8%] pt-4 md:pt-8">
         <div className="max-w-[90%] md:max-w-[50%] relative z-10" data-aos="fade-up">
-          <h1 className="text-3xl sm:text-5xl text-[#fdd0d0] font-bold font-hammersmith leading-tight">
+          <h1 className="text-3xl sm:text-5xl text-[#f5bcbc] font-bold font-hammersmith leading-tight uppercase">
             Almanac
           </h1>
           <p className="text-[#f2b5b5] font-medium text-sm sm:text-[1.2rem] leading-relaxed mt-3 font-hammersmith">
