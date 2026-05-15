@@ -2,7 +2,8 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { isAuthenticatedContext } from '../../context/context';
 import { motion, AnimatePresence } from 'motion/react';
-import { FiLogOut, FiBarChart2, FiUser, FiEdit2 } from 'react-icons/fi';
+import { FiLogOut, FiBarChart2, FiUser, FiEdit2} from 'react-icons/fi';
+import Loader from '../../admin/components/Loader/Loader';
 import { getUserInfo } from '../../api/userapis';
 import UpdateUserInfo from '../../components/UpdateUserInfo/UpdateUserInfo';
 
@@ -11,6 +12,7 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [allUserData, setAllUserData] = useState(null);
   const { setIsAuthenticated, isAuthenticated } = useContext(isAuthenticatedContext);
+  const [isLoading, setIsLoading] = useState(true);
   const [isUpdated, setIsUpdated] = useState(false);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ const Profile = () => {
     }
 
     fetchUserInfo();
+    setIsLoading(false);
   }, [isUpdated, isAuthenticated]);
 
   const handleLogout = () => {
@@ -58,6 +61,12 @@ const Profile = () => {
   };
 
   const buttonStyle = "w-auto flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-md transform active:scale-95";
+
+  if(isLoading){
+    return (
+      <Loader/>
+    )
+  }
 
   return (
     <div className='min-h-[40vh] overflow-x-hidden py-12 px-4 flex flex-col items-center text-gray-100 font-sans'>

@@ -1,6 +1,6 @@
 // import "./header.css";
 import { useEffect, useState } from "react";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo_1.png";
 import { NavLink } from "react-router-dom";
 import { FaUserCircle, FaHome, FaInfoCircle, FaBookOpen, FaCalendarAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
 import './header.css';

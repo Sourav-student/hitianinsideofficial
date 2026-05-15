@@ -4,10 +4,10 @@ import User from "../../models/authModel";
 import EventsList from "../../models/eventsListModel";
 import HomepageElementList from "../../models/homepageElementListModel";
 import AlmanacList from "../../models/almanacListModel";
-import CricketScore from "../../models/cricketScoreModel";
-import FootballScore from "../../models/footballScoreModel";
 import VolleyballScore from "../../models/volleyballScoreModel";
 import BasketballScore from "../../models/basketballScoreModel";
+import { getCricketScore } from "../../controllers/cricket.controller";
+import { getFootballScore } from "../../controllers/football.controller";
 
 const userGetRouter = Router();
 
@@ -108,38 +108,10 @@ userGetRouter.get("/homepage-elements", async (req: Request, res: Response) => {
 })
 
 //get all cricket scores
-userGetRouter.get("/cricket-scores", async (req: Request, res: Response) => {
-  try {
-    const data = await CricketScore.find();
-    res.status(200).json({
-      success: true,
-      message: "Load all resources!",
-      data
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "server down! try again later",
-      success: false
-    })
-  }
-})
+userGetRouter.get("/cricket-scores", getCricketScore);
 
 //get all football scores
-userGetRouter.get("/football-scores", async (req: Request, res: Response) => {
-  try {
-    const data = await FootballScore.find();
-    res.status(200).json({
-      data,
-      success: true,
-      message: "Load all resources!",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "server down! try again later",
-      success: false
-    })
-  }
-})
+userGetRouter.get("/football-scores", getFootballScore);
 
 //get all vollyball scores
 userGetRouter.get("/volleyball-scores", async (req: Request, res: Response) => {
