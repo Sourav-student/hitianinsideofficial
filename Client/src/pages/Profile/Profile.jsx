@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { isAuthenticatedContext } from '../../context/context';
 import { motion, AnimatePresence } from 'motion/react';
@@ -19,7 +19,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdated, setIsUpdated] = useState(false);
 
-  const fetchUserInfo = async () => {
+  const fetchUserInfo = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -30,7 +30,6 @@ const Profile = () => {
 
       const { userData } = await getUserInfo();
 
-      // If no user data found
       if (!userData) {
         localStorage.removeItem('user-info');
         setIsAuthenticated(false);
@@ -49,11 +48,11 @@ const Profile = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isAuthenticated, navigate, setIsAuthenticated]);
 
   useEffect(() => {
     fetchUserInfo();
-  }, [isUpdated, isAuthenticated, fetchUserInfo]);
+  }, [isUpdated, fetchUserInfo]);
 
   const handleLogout = () => {
     localStorage.removeItem('user-info');
