@@ -71,8 +71,8 @@ const Blogs = () => {
   // ERROR UI
   if (error) {
     return (
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-[#0f172a] border border-red-500/20 rounded-3xl p-8 text-center">
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-md w-full border border-red-500/20 rounded-3xl p-8 text-center">
           <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6">
             <FiAlertCircle className="text-red-500 text-4xl" />
           </div>
