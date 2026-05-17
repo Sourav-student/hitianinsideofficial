@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { motion } from "motion/react";
-import { FiArrowRight, FiExternalLink, FiLoader, FiRefreshCcw, FiAlertCircle, FiTrendingUp } from "react-icons/fi";
+import { FiLoader, FiRefreshCcw, FiAlertCircle, FiTrendingUp } from "react-icons/fi";
 import axios from "axios";
 import BlogCard from "../../components/Blogs/BlogCard";
 

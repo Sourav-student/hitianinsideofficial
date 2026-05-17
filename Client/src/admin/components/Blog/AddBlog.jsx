@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {useState} from "react";
 import { motion } from "motion/react";
-import { FiFileText, FiType, FiAlignLeft, FiLink, FiEdit3, FiSave, FiTrash2, } from "react-icons/fi";
+import { FiFileText, FiType, FiAlignLeft, FiLink, FiEdit3, FiSave } from "react-icons/fi";
 
 import axios from "axios";
 import { toast } from "react-toastify";

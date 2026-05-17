@@ -53,7 +53,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, [isUpdated, isAuthenticated]);
+  }, [isUpdated, isAuthenticated, fetchUserInfo]);
 
   const handleLogout = () => {
     localStorage.removeItem('user-info');

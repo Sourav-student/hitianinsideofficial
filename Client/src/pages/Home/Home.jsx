@@ -11,7 +11,6 @@ import Banner from '../../components/Banner/Banner';
 import HomeSkeleton from "../../components/Home/HomeSkeleton";
 import AboutusHome from "../../components/Home/AboutusHome";
 import GellaryHome from "../../components/Home/GalleryHome";
-import EventsHome from "../../components/Home/EventsHome";
 import StoriesForHome from "../../components/Home/StoriesForHome";
 import ScoresForHome from "../../components/Home/ScoresForHome";
 

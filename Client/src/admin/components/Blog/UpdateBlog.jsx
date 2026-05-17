@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { motion } from "motion/react";
-import { FiFileText, FiType, FiAlignLeft, FiLink, FiEdit3, FiSave, FiTrash2, } from "react-icons/fi";
-
+import { FiSave, FiTrash2, } from "react-icons/fi";
 import axios from "axios";
 import { toast } from "react-toastify";
-import AddBlog from "./AddBlog";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
