@@ -96,6 +96,7 @@ const AdminProfile = () => {
           { to: '/admin/almanac', label: 'Add Almanac' },
           { to: '/admin/matches-scorecard', label: 'Update Scores' },
           { to: '/admin/users-sent-data', label: 'User Submissions' },
+          { to: '/admin/add-blog', label: 'Add Blog' },
           { to: '/scorecards', label: 'Preview Scores', color: 'bg-blue-600 hover:bg-blue-500' },
         ].map((link, idx) => (
           <motion.div key={idx} variants={itemVars} whileHover={{ y: -5 }} whileTap={{ scale: 0.95 }}>

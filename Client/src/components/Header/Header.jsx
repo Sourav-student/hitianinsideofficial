@@ -25,8 +25,8 @@ function Header() {
       icon: <FaCalendarAlt />
     },
     {
-      path: "/merchandise",
-      display: "Merchandise",
+      path: "/stories",
+      display: "Stories",
       icon: <FaShoppingBag />
     },
     {

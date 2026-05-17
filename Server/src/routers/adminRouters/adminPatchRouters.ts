@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { updateCricketScore } from "../../controllers/cricket.controller";
 import { updateFootballDetails } from "../../controllers/football.controller";
 import { updateEvent } from "../../controllers/user.controller";
+import { updateBlog } from "../../controllers/blog.controller";
 
 const adminPatchRouter = Router();
 
@@ -16,5 +17,8 @@ adminPatchRouter.patch("/cricket-scores", updateCricketScore);
 
 // Update Football Score
 adminPatchRouter.patch("/football-scores", updateFootballDetails);
+
+//Update Blog info
+adminPatchRouter.patch("/update-blog/:id", updateBlog);
 
 export default adminPatchRouter;

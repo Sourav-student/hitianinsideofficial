@@ -6,6 +6,7 @@ import { addFootballScore } from "../../controllers/football.controller";
 import { addBasketballScore } from "../../controllers/basketball.controller";
 import { addAlmanac, addEvent, addHomepageBanner } from "../../controllers/user.controller";
 import { addVolleyballScore } from "../../controllers/volleyball.controller";
+import { addBlog } from "../../controllers/blog.controller";
 
 const adminPostRouter = Router();
 
@@ -29,5 +30,7 @@ adminPostRouter.post("/volleyball-scores", upload.fields([{ name: "team1Logo", m
 
 //ADD BASKETBALL SCORE
 adminPostRouter.post("/basketball-scores", upload.fields([{ name: "team1Logo", maxCount: 1 }, { name: "team2Logo", maxCount: 1 }]), addBasketballScore);
+
+adminPostRouter.post("/add-blog", addBlog);
 
 export default adminPostRouter;

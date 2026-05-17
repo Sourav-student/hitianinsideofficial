@@ -8,6 +8,7 @@ import HomepageElementList from "../../models/homepageElementListModel";
 import { deleteCricketScore } from "../../controllers/cricket.controller";
 import { deleteFootballScore } from "../../controllers/football.controller";
 import { deleteBasketballScore } from "../../controllers/basketball.controller";
+import { deleteBlog } from "../../controllers/blog.controller";
 
 const adminDeleteRouter = Router();
 
@@ -68,5 +69,8 @@ adminDeleteRouter.delete("/volleyball-scores", async (req: Request, res: Respons
 
 // Delete Basketball Score
 adminDeleteRouter.delete("/basketball-scores", deleteBasketballScore);
+
+// Delete Blog 
+adminDeleteRouter.delete("/delete-blog/:id", deleteBlog);
 
 export default adminDeleteRouter;

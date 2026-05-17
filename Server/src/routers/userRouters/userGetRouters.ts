@@ -8,6 +8,7 @@ import VolleyballScore from "../../models/volleyballScoreModel";
 import BasketballScore from "../../models/basketballScoreModel";
 import { getCricketScore } from "../../controllers/cricket.controller";
 import { getFootballScore } from "../../controllers/football.controller";
+import { getBlog, getBlogById } from "../../controllers/blog.controller";
 
 const userGetRouter = Router();
 
@@ -146,5 +147,11 @@ userGetRouter.get("/basketball-scores", async (req: Request, res: Response) => {
     })
   }
 })
+
+//get all blogs
+userGetRouter.get("/blogs", getBlog);
+
+//get blog by `${id}`
+userGetRouter.get("/blogs/:id", getBlogById);
 
 export default userGetRouter;
