@@ -54,6 +54,10 @@ const StoriesForHome = () => {
     );
   }
 
+  if(blogs.length === 0){
+    return null;
+  }
+
   return (
     <section className="relative my-8 px-4 md:px-10 overflow-hidden">
       <div className="relative max-w-7xl mx-auto">
@@ -76,70 +80,61 @@ const StoriesForHome = () => {
         </div>
 
         {/* STORIES */}
-        {blogs.length === 0 ? (
-          <div className="text-center py-20">
-            <h3 className="text-2xl font-bold text-white">
-              No Stories Available
-            </h3>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {blogs.map((blog, index) => (
-              <motion.div
-                key={blog._id}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.4,
-                  delay: index * 0.1,
-                }}
-                viewport={{ once: true }}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {blogs.map((blog, index) => (
+            <motion.div
+              key={blog._id}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.1,
+              }}
+              viewport={{ once: true }}
+            >
+              <Link
+                to={`/stories/${blog.slug}?id=${blog._id}`}
               >
-                <Link
-                  to={`/stories/${blog.slug}?id=${blog._id}`}
-                >
-                  <div className="group relative overflow-hidden rounded-[30px] bg-red-800/60 border border-white/10 hover:border-red-500/20 transition-all duration-500">
-                    {/* MEDIA */}
-                    <div className="relative h-[240px] overflow-hidden">
-                      {blog.social_media_link ? (
-                        <InstagramEmbed url={blog.social_media_link} className="w-[100%] h-full"/>
-                      ) : (
+                <div className="group relative overflow-hidden rounded-[30px] bg-red-800/60 border border-white/10 hover:border-red-500/20 transition-all duration-500">
+                  {/* MEDIA */}
+                  <div className="relative h-[240px] overflow-hidden">
+                    {blog.social_media_link ? (
+                      <InstagramEmbed url={blog.social_media_link} className="w-[100%] h-full" />
+                    ) : (
 
-                        <div className="w-full h-full bg-gradient-to-br from-red-600 via-red-500 to-orange-500 flex items-center justify-center">
-                          <h2 className="text-4xl font-black text-white/10 uppercase text-center px-8">
-                            {blog.title}
-                          </h2>
-                        </div>
-                      )}
-
-                      {/* OVERLAY */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-black/20 to-transparent" />
-                    </div>
-
-                    {/* CONTENT */}
-                    <div className="p-6">
-                      <h3 className="text-2xl font-black text-white group-hover:text-red-400 transition-all duration-300 line-clamp-2">
-                        {blog.title}
-                      </h3>
-                      <p className="text-gray-400 leading-relaxed mt-4 line-clamp-2">
-                        {blog.excerpt}
-                      </p>
-
-                      {/* FOOTER */}
-                      <div className="flex items-center justify-between mt-6">
-                        <span className="text-red-200 font-semibold">
-                          Read Story
-                        </span>
-                        <FiArrowRight className="text-red-200 text-xl group-hover:translate-x-1 transition-all duration-300" />
+                      <div className="w-full h-full bg-gradient-to-br from-red-600 via-red-500 to-orange-500 flex items-center justify-center">
+                        <h2 className="text-4xl font-black text-white/10 uppercase text-center px-8">
+                          {blog.title}
+                        </h2>
                       </div>
+                    )}
+
+                    {/* OVERLAY */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-black/20 to-transparent" />
+                  </div>
+
+                  {/* CONTENT */}
+                  <div className="p-6">
+                    <h3 className="text-2xl font-black text-white group-hover:text-red-400 transition-all duration-300 line-clamp-2">
+                      {blog.title}
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed mt-4 line-clamp-2">
+                      {blog.excerpt}
+                    </p>
+
+                    {/* FOOTER */}
+                    <div className="flex items-center justify-between mt-6">
+                      <span className="text-red-200 font-semibold">
+                        Read Story
+                      </span>
+                      <FiArrowRight className="text-red-200 text-xl group-hover:translate-x-1 transition-all duration-300" />
                     </div>
                   </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-
-        )}
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
 
         {/* MOBILE BUTTON */}
         <div className="flex justify-center mt-10 md:hidden">

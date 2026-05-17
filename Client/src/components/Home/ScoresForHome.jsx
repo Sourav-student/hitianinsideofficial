@@ -45,6 +45,10 @@ const ScoresForHome = () => {
     );
   }
 
+  if(scores.length === 0){
+    return null;
+  }
+
   return (
     <section className="relative py-10 px-4 md:px-10 overflow-hidden">
       <div className="relative max-w-7xl mx-auto">
@@ -69,92 +73,87 @@ const ScoresForHome = () => {
         </div>
 
         {/* SCORES */}
-        {scores.length === 0 ? (
-          null
-        ) : (
-          <div className="grid grid-cols-2 gap-5">
-            {scores.map((score, index) => {
-              const isLive =
-                score.match_status?.toLowerCase() === "live";
-              return (
-                <motion.div
-                  key={score._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: index * 0.1,
-                  }}
-                  viewport={{ once: true }}
-                >
-                  <Link to={`/scorecards`}>
-                    <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-red-800/70 hover:border-red-500/20 transition-all duration-500 p-5 h-[180px]">
-                      {/* GLOW */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-b from-red-500/[0.05] to-transparent" />
-                      {/* TOP */}
-                      <div className="flex items-center justify-between mb-5">
-                        <span className="text-red-200 uppercase tracking-[0.2em] text-[11px] font-bold">
-                          {score.match_type}
-                        </span>
-                        {isLive && (
-                          <div className="flex items-center gap-2 text-red-400">
-                            <span className="relative flex h-2 w-2">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                            </span>
-                            <span className="text-[11px] font-bold uppercase">
-                              Live
-                            </span>
-                          </div>
-                        )}
+        <div className="grid grid-cols-2 gap-5">
+          {scores.map((score, index) => {
+            const isLive =
+              score.match_status?.toLowerCase() === "live";
+            return (
+              <motion.div
+                key={score._id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.1,
+                }}
+                viewport={{ once: true }}
+              >
+                <Link to={`/scorecards`}>
+                  <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-red-800/70 hover:border-red-500/20 transition-all duration-500 p-5 h-[180px]">
+                    {/* GLOW */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-b from-red-500/[0.05] to-transparent" />
+                    {/* TOP */}
+                    <div className="flex items-center justify-between mb-5">
+                      <span className="text-red-200 uppercase tracking-[0.2em] text-[11px] font-bold">
+                        {score.match_type}
+                      </span>
+                      {isLive && (
+                        <div className="flex items-center gap-2 text-red-400">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                          </span>
+                          <span className="text-[11px] font-bold uppercase">
+                            Live
+                          </span>
+                        </div>
+                      )}
 
+                    </div>
+                    {/* TEAMS */}
+                    <div className="space-y-4">
+                      {/* TEAM 1 */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={score.team1_details.team_logo}
+                            alt={score.team1_details.team_name}
+                            className="w-10 h-10 rounded-full object-cover border border-white/10"
+                          />
+                          <h3 className="text-white font-bold text-sm line-clamp-1">
+                            {score.team1_details.team_name}
+                          </h3>
+                        </div>
+                        <h2 className="text-lg font-black text-white">
+                          {score.team1_details.team_run}/
+                          {score.team1_details.team_wicket_loss}
+                        </h2>
                       </div>
-                      {/* TEAMS */}
-                      <div className="space-y-4">
-                        {/* TEAM 1 */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={score.team1_details.team_logo}
-                              alt={score.team1_details.team_name}
-                              className="w-10 h-10 rounded-full object-cover border border-white/10"
-                            />
-                            <h3 className="text-white font-bold text-sm line-clamp-1">
-                              {score.team1_details.team_name}
-                            </h3>
-                          </div>
-                          <h2 className="text-lg font-black text-white">
-                            {score.team1_details.team_run}/
-                            {score.team1_details.team_wicket_loss}
-                          </h2>
-                        </div>
 
-                        {/* TEAM 2 */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={score.team2_details.team_logo}
-                              alt={score.team2_details.team_name}
-                              className="w-10 h-10 rounded-full object-cover border border-white/10"
-                            />
-                            <h3 className="text-white font-bold text-sm line-clamp-1">
-                              {score.team2_details.team_name}
-                            </h3>
-                          </div>
-                          <h2 className="text-lg font-black text-white">
-                            {score.team2_details.team_run}/
-                            {score.team2_details.team_wicket_loss}
-                          </h2>
+                      {/* TEAM 2 */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={score.team2_details.team_logo}
+                            alt={score.team2_details.team_name}
+                            className="w-10 h-10 rounded-full object-cover border border-white/10"
+                          />
+                          <h3 className="text-white font-bold text-sm line-clamp-1">
+                            {score.team2_details.team_name}
+                          </h3>
                         </div>
+                        <h2 className="text-lg font-black text-white">
+                          {score.team2_details.team_run}/
+                          {score.team2_details.team_wicket_loss}
+                        </h2>
                       </div>
                     </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
         {/* MOBILE BUTTON */}
         <div className="flex justify-center mt-10 md:hidden">
           <Link to="/scores">
