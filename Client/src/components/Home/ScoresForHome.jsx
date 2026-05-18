@@ -55,7 +55,7 @@ const ScoresForHome = () => {
         {/* HEADER */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <p className="text-red-400 uppercase tracking-[0.2em] text-sm font-semibold">
+            <p className="text-red-200 uppercase tracking-[0.2em] text-sm font-semibold">
               Cricket Updates
             </p>
             <h2 className="text-lg font-black text-white">
