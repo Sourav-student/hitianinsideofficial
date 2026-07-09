@@ -72,4 +72,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### Creating Backend
 
-creating backend of this website using node.js express.js and use MongoDB as a Data base 
+creating backend of this website using node.js express.js and use MongoDB as a Database 

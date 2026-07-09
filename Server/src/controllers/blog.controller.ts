@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import Blogs from "../models/blogsModel";
+import { redis } from "../config/redisConnection";
+import { redisKey } from "../utils/redisKeys";
 
 export const addBlog = async (req: Request, res: Response) => {
   try {
@@ -21,6 +23,8 @@ export const addBlog = async (req: Request, res: Response) => {
         success: false
       });
     }
+
+    await redis.del(redisKey.blogKey);
 
     return res.status(201).json({
       message: "created new blog",
@@ -62,6 +66,16 @@ export const getBlogForAdmin = async (req: Request, res: Response) => {
 
 export const getBlog = async (req: Request, res: Response) => {
   try {
+    const cacheBlogs = await redis.get(redisKey.blogKey); //GET FROM CACHE STORAGE
+
+    if (cacheBlogs) {
+      return res.status(200).json({
+        message: "load all blogs",
+        success: true,
+        blogs: JSON.parse(cacheBlogs)
+      });
+    }
+
     const blogs = await Blogs.find({ status: "published" }).sort({ createdAt: -1 }).select("-createdAt -updatedAt -__v -totalVisits");
 
     if (!blogs) {
@@ -70,6 +84,8 @@ export const getBlog = async (req: Request, res: Response) => {
         success: false
       });
     }
+
+    await redis.set(redisKey.blogKey, JSON.stringify(blogs), 'EX', 1800);
 
     return res.status(200).json({
       message: "load all blogs",
@@ -87,6 +103,17 @@ export const getBlog = async (req: Request, res: Response) => {
 export const getBlogById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const REDIS_KEY = redisKey.blogByIdKey(id);
+    const cacheBlogsById = await redis.get(REDIS_KEY);
+
+    if (cacheBlogsById) {
+      return res.status(200).json({
+        message: "load blog",
+        success: true,
+        blog : JSON.parse(cacheBlogsById)
+      });
+    }
+
     const blog = await Blogs.findById(id).select("-createdAt -updatedAt -__v");
 
     if (!blog) {
@@ -97,7 +124,9 @@ export const getBlogById = async (req: Request, res: Response) => {
     }
 
     blog.totalVisits += 1;
-    await blog.save({validateBeforeSave : true});
+    await blog.save({ validateBeforeSave: true });
+
+    await redis.set(REDIS_KEY, JSON.stringify(blog), 'EX', 1800);
 
     return res.status(200).json({
       message: "load blog",
@@ -116,6 +145,8 @@ export const getBlogById = async (req: Request, res: Response) => {
 export const updateBlog = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const REDIS_KEY = redisKey.blogKey;
+
     const { title, content, excerpt, status, social_media_link } = req.body;
 
     const blog = await Blogs.findById(id);
@@ -135,6 +166,8 @@ export const updateBlog = async (req: Request, res: Response) => {
 
     await blog.save({ validateBeforeSave: true });
 
+    await redis.del(REDIS_KEY);
+
     return res.status(200).json({
       message: "load blog",
       success: true,
@@ -151,6 +184,7 @@ export const updateBlog = async (req: Request, res: Response) => {
 export const deleteBlog = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const REDIS_KEY = redisKey.blogKey;
 
     const isblogDelete = await Blogs.findByIdAndDelete(id);
 
@@ -160,6 +194,8 @@ export const deleteBlog = async (req: Request, res: Response) => {
         success: false
       });
     }
+
+    await redis.del(REDIS_KEY);
 
     return res.status(200).json({
       message: "deleted blog successfully",

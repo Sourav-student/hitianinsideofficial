@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { validateBody } from "../../middleware/validateBody.middleware";
-import upload from "../../utils/multerCloudinaryConfig";
+import upload from "../../config/multerCloudinaryConfig";
 import { addCricketScore } from "../../controllers/cricket.controller";
 import { addFootballScore } from "../../controllers/football.controller";
 import { addBasketballScore } from "../../controllers/basketball.controller";
-import { addAlmanac, addEvent, addHomepageBanner } from "../../controllers/user.controller";
+import { addAlmanac, addEvent, addHomepageBanner } from "../../controllers/admin.controller";
 import { addVolleyballScore } from "../../controllers/volleyball.controller";
 import { addBlog } from "../../controllers/blog.controller";
 

@@ -7,9 +7,12 @@ import Contact from "../models/contactModel";
 import Photos from "../models/photoModel";
 import Poems from "../models/poemModel";
 import Artwork from "../models/artworkModel";
+import { redisKey } from "../utils/redisKeys";
+import { redis } from "../config/redisConnection";
 
 type MulterRequest = Request & { file?: Express.Multer.File };
 
+//POST CONTROLLERS (ADMIN)
 export const addEvent = async (req: Request, res: Response) => {
   try {
     const { instaURL, eventName, year, date }: EventType = req.body;
@@ -20,6 +23,15 @@ export const addEvent = async (req: Request, res: Response) => {
       year,
       date,
     });
+
+    if (!newEvent) {
+      return res.status(400).json({
+        message: "Failed to save event",
+        success: false
+      })
+    }
+
+    await redis.del(redisKey.eventKey);
 
     return res.status(201).json({
       message: "Event saved successfully.",
@@ -40,8 +52,9 @@ export const addAlmanac = async (req: Request, res: Response) => {
     const photo = (req as MulterRequest).file?.path;
     const publicId = (req as MulterRequest).file?.filename;
 
-    if (!photo)
+    if (!photo) {
       return res.status(400).json({ success: false, message: "Photo file is required." });
+    }
 
     const almanac = await AlmanacList.create({
       photo,
@@ -49,6 +62,15 @@ export const addAlmanac = async (req: Request, res: Response) => {
       username,
       department,
     });
+
+    if (!almanac) {
+      return res.status(400).json({
+        message: "Failed to save almanac entry",
+        success: false
+      })
+    }
+
+    await redis.del(redisKey.almanacKey);
 
     return res.status(201).json({
       message: "Almanac entry saved successfully.",
@@ -69,8 +91,9 @@ export const addHomepageBanner = async (req: Request, res: Response) => {
     const eventPoster = (req as MulterRequest).file?.path;
     const publicId = (req as MulterRequest).file?.filename;
 
-    if (!eventPoster)
+    if (!eventPoster) {
       return res.status(400).json({ success: false, message: "Poster file is required." });
+    }
 
     const homepageElement = await HomepageElementList.create({
       event_name: eventName,
@@ -79,6 +102,15 @@ export const addHomepageBanner = async (req: Request, res: Response) => {
       event_content: eventContent,
       event_form_link: eventFormLink,
     });
+
+    if (!homepageElement) {
+      return res.status(400).json({
+        message: "Failed to save homepage element",
+        success: false
+      })
+    }
+
+    await redis.del(redisKey.homepageElementKey);
 
     return res.status(201).json({
       message: "Homepage element saved successfully.",
@@ -92,6 +124,7 @@ export const addHomepageBanner = async (req: Request, res: Response) => {
   }
 }
 
+// UPDATE CONTROLLERS (ADMIN)
 export const updateEvent = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
@@ -105,6 +138,8 @@ export const updateEvent = async (req: Request, res: Response) => {
         message: "can't update, try again later"
       });
     }
+
+    await redis.del(redisKey.eventKey);
 
     return res.status(200).json({
       success: true,
@@ -132,6 +167,8 @@ export const updateAlmanac = async (req: Request, res: Response) => {
       });
     }
 
+    await redis.del(redisKey.almanacKey);
+
     return res.status(200).json({
       success: true,
       message: "update successfully"
@@ -144,42 +181,50 @@ export const updateAlmanac = async (req: Request, res: Response) => {
   }
 }
 
+//GET CONTROLLERS (ADMIN)
 export const getEvents = async (req: Request, res: Response) => {
   try {
+    // IF NOT IN CACHE(REDIS) FETCH FROM DB
     const data = await EventsList.find();
 
-    if (!data) {
-      return res.status(400).json({
-        message: "not fetch",
-        success: false
-      })
+    // RETURN [] ARRAY IF NOTHING EXIST
+    if (data.length === 0) {
+      return res.status(200).json({
+        message: "No events found",
+        success: true,
+        data: []
+      });
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "fetch successfully",
       success: true,
       data
     })
+
   } catch (error) {
     return res.status(500).json({
       message: "something went wrong",
-      success: false
+      success: false,
+      data: null
     })
   }
 }
 
 export const getAlmanac = async (req: Request, res: Response) => {
   try {
+    // GET ALL ALMANAC DATA FROM DB
     const data = await AlmanacList.find();
 
-    if (!data) {
-      return res.status(400).json({
-        message: "not fetch",
-        success: false
+    if (data.length === 0) {
+      return res.status(200).json({
+        message: "NO Almanac Found",
+        success: true,
+        data: []
       })
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "fetch successfully",
       success: true,
       data
@@ -196,14 +241,15 @@ export const getHomepageElement = async (req: Request, res: Response) => {
   try {
     const data = await HomepageElementList.find();
 
-    if (!data) {
-      return res.status(400).json({
-        message: "not fetch",
-        success: false
+    if (data.length === 0) {
+      return res.status(200).json({
+        message: "No Element Found",
+        success: true,
+        data: []
       })
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "fetch successfully",
       success: true,
       data
@@ -309,5 +355,73 @@ export const getArtwork = async (req: Request, res: Response) => {
       message: "something went wrong",
       success: false
     })
+  }
+}
+
+
+//DELETE CONTROLLERS (ADMIN)
+export const deleteHomepageElement = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.query;
+
+    const deletedItem = await HomepageElementList.findByIdAndDelete(id);
+
+    if (!deletedItem) {
+      return res.status(404).json({
+        message: "not found"
+      });
+    }
+
+    redis.del(redisKey.homepageElementKey);
+
+    return res.status(200).json({
+      message: "Deleted successfully"
+    });
+  } catch (error: any) {
+    return res.status(500).json({ message: `Failed to delete`, error: error.message });
+  }
+}
+
+export const deleteEvent = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.query;
+
+    const deletedItem = await EventsList.findByIdAndDelete(id);
+
+    if (!deletedItem) {
+      return res.status(404).json({
+        message: "not found"
+      });
+    }
+
+    redis.del(redisKey.eventKey);
+
+    return res.status(200).json({
+      message: "Deleted successfully"
+    });
+  } catch (error: any) {
+    return res.status(500).json({ message: `Failed to delete`, error: error.message });
+  }
+}
+
+export const deleteAlmanac = async (req: Request, res: Response) =>{
+  try {
+    const { id } = req.query;
+
+    const deletedItem = await HomepageElementList.findByIdAndDelete(id);
+
+    if (!deletedItem) {
+      return res.status(404).json({
+        message: "not found"
+      });
+    }
+
+    redis.del(redisKey.almanacKey);
+
+    return res.status(200).json({
+      message: "Deleted successfully"
+    });
+  } catch (error: any) {
+    return res.status(500).json({ message: `Failed to delete`, error: error.message });
   }
 }

@@ -2,17 +2,36 @@ import { Request, Response } from "express";
 import BasketballScore from "../models/basketballScoreModel";
 import { BasketballScoreType } from "../types/datatypes";
 import { toNum, getTeamLogos } from "../utils/handler.utils";
+import { redis } from "../config/redisConnection";
+import { redisKey } from "../utils/redisKeys";
 
+//GET ALL BASKETBALL DATA FOR USER AND ADMIN BOTH
 export const getBasketballScore = async (req: Request, res: Response) => {
   try {
+    const cacheBasketballData = await redis.get(redisKey.basketballKey); // USE REDIS FOR CACHE STORAGE
+
+    // CACHE HIT
+    if (cacheBasketballData) {
+      return res.status(200).json({
+        message: "fetch successfully",
+        success: true,
+        data: JSON.parse(cacheBasketballData)
+      })
+    }
+
+    // WHEN CACHE MISS THEN FETCH FROM DB
     const basketballData = await BasketballScore.find();
 
     if (!basketballData) {
       return res.status(400).json({
-        message: "can't fetch",
-        success: true
+        message: "No data found",
+        success: true,
+        data : []
       });
     }
+
+    //STORE IN CACHE BEFORE RETURN AND USE TTL EXPIRE AFTER 30 MIN
+    await redis.set(redisKey.basketballKey, JSON.stringify(basketballData), 'EX', 1800);
 
     return res.status(200).json({
       message: "fetch successfully",
@@ -27,6 +46,7 @@ export const getBasketballScore = async (req: Request, res: Response) => {
   }
 }
 
+//ADD NEW BASKETBALL MATCH DETAIL
 export const addBasketballScore = async (req: Request, res: Response) => {
   try {
     const { matchType, team1Name, team2Name, team1Score, team2Score, completed }: BasketballScoreType = req.body;
@@ -51,10 +71,13 @@ export const addBasketballScore = async (req: Request, res: Response) => {
       completed,
     });
 
+    // DELETE FROM CACHE TO AVOID WRONG OUTCOMES
+    await redis.del(redisKey.basketballKey);
+
     return res.status(201).json({
-      message : "Basketball score saved successfully.",
-      success : true,
-      id : basketball._id
+      message: "Basketball score saved successfully.",
+      success: true,
+      id: basketball._id
     })
   } catch (error) {
     return res.status(500).send({
@@ -64,6 +87,7 @@ export const addBasketballScore = async (req: Request, res: Response) => {
   }
 }
 
+//DELETE BASKETBALL SCORE
 export const deleteBasketballScore = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
@@ -83,6 +107,9 @@ export const deleteBasketballScore = async (req: Request, res: Response) => {
         success: false
       })
     }
+
+    // DELETE FROM CACHE STORAGE TO AVOID WRONG OUTCOMES
+    await redis.del(redisKey.basketballKey);
 
     return res.status(200).json({
       message: "delete successfully",

@@ -1,31 +1,41 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { motion } from "motion/react";
-import { FiArrowLeft, FiExternalLink, FiAlertCircle, FiRefreshCcw, FiEye } from "react-icons/fi";
+import { motion, AnimatePresence } from "motion/react";
+import { FiArrowLeft, FiExternalLink, FiAlertCircle, FiRefreshCcw } from "react-icons/fi";
 import axios from "axios";
 import { InstagramEmbed } from "react-social-media-embed";
 import { Link, useSearchParams } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-const BlogDetails = () => {
+// --- Animation Variants ---
+const fadeVariant = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.4 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
+};
 
-  // ROUTER
+const slideUpVariant = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring", stiffness: 80, damping: 20 } 
+  }
+};
+
+const BlogDetails = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
 
-  // STATES
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // FETCH BLOG
   const fetchBlog = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get(
-        `${API_URL}/api/user/blogs/${id}`
-      );
+      const res = await axios.get(`${API_URL}/api/user/blogs/${id}`);
       if (!res.data.success) {
         throw new Error(res.data.message);
       }
@@ -33,10 +43,7 @@ const BlogDetails = () => {
     } catch (error) {
       console.error(error);
       if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.data?.message ||
-          "Failed to load blog"
-        );
+        setError(error.response?.data?.message || "Failed to load blog");
       } else {
         setError("Something went wrong");
       }
@@ -46,174 +53,173 @@ const BlogDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    if (id) {
-      fetchBlog();
-    }
+    if (id) fetchBlog();
   }, [fetchBlog, id]);
 
-  // LOADING UI
-  if (loading) {
+  // ERROR UI
+  if (error || (!loading && !blog)) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex flex-col items-center gap-5"
+      <div className="min-h-screen bg-[#660909] flex items-center justify-center px-4 font-inter">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full border border-red-500/20 bg-red-950/40 rounded-[32px] p-10 text-center shadow-2xl"
         >
-          <div className="w-20 h-20 rounded-full border-4 border-red-500/20 border-t-red-500 animate-spin" />
-          <div className="text-center">
-            <h2 className="text-white text-2xl font-bold">
-              Loading Story
-            </h2>
-            <p className="text-gray-400 mt-2">
-              Fetching media club article...
-            </p>
+          <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6">
+            <FiAlertCircle className="text-red-400 text-4xl" />
           </div>
+          <h2 className="text-white text-3xl font-black font-hammersmith mb-4">
+            Failed to Load
+          </h2>
+          <p className="text-red-200/70 leading-relaxed mb-8">
+            {error || "The story you are looking for could not be found."}
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={fetchBlog}
+            className="inline-flex items-center gap-2 bg-red-600 shadow-[0_4px_14px_rgba(220,38,38,0.4)] px-8 py-3.5 rounded-full font-semibold text-white transition-colors hover:bg-red-500"
+          >
+            <FiRefreshCcw />
+            Retry Connection
+          </motion.button>
         </motion.div>
       </div>
     );
   }
 
-  // ERROR UI
-  if (error || !blog) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="max-w-md w-full border border-red-500/20 rounded-3xl p-8 text-center">
-          <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6">
-            <FiAlertCircle className="text-red-500 text-4xl" />
-          </div>
-          <h2 className="text-white text-3xl font-bold">
-            Failed to Load
-          </h2>
-          <p className="text-gray-400 mt-4 leading-relaxed">
-            {error || "Blog not found"}
-          </p>
-          <button
-            onClick={fetchBlog}
-            className="mt-8 inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 transition-all duration-300 px-6 py-3 rounded-2xl font-semibold text-white"
-          >
-            <FiRefreshCcw />
-            Retry Again
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen text-white overflow-hidden">
-      {/* BACKGROUND */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-red-500/10 blur-[140px]" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-red-500/10 blur-[140px]" />
+    // Replaced overflow-hidden with overflow-x-hidden to allow vertical scrolling
+    <div className="min-h-screen bg-[#660909] text-white overflow-x-hidden font-inter pb-20">
+      
+      {/* Ambient Background Lights */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-red-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-orange-500/10 blur-[120px] rounded-full" />
       </div>
 
-      {/* HERO */}
-      <section className="relative px-4 md:px-10 pt-6 pb-8">
-        <div className="max-w-6xl mx-auto">
-          {/* BACK BUTTON */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <Link
-              to="/stories"
-              className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-all duration-300 mb-6"
-            >
-              <FiArrowLeft />
-              Back to Stories
-            </Link>
-          </motion.div>
-
-          {/* HERO CARD */}
-          <motion.div
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="relative overflow-hidden rounded-[40px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl"
-          >
-            {/* GLOW */}
-            <div className="absolute inset-0 bg-gradient-to-br from-red-500/[0.08] to-transparent" />
-            {/* MEDIA */}
-            <div className="relative h-[420px] overflow-hidden">
-              {blog.social_media_link ? (
-                <InstagramEmbed url={blog.social_media_link} className="w-[100%] h-full" />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-red-600 via-red-500 to-orange-500 flex items-center justify-center">
-                  <h1 className="text-6xl md:text-8xl font-black text-white/10 uppercase tracking-widest text-center px-10">
-                    {blog.title}
-                  </h1>
+      <div className="relative z-10">
+        <AnimatePresence mode="wait">
+          {loading ? (
+            
+            /* --- SKELETON LOADER --- */
+            <motion.div key="skeleton" variants={fadeVariant} initial="initial" animate="animate" exit="exit" className="pt-10 px-4 md:px-10 max-w-6xl mx-auto">
+              {/* Back Button Skeleton */}
+              <div className="w-32 h-6 bg-red-950 rounded mb-8 animate-pulse" />
+              
+              {/* Hero Skeleton */}
+              <div className="relative h-[400px] md:h-[500px] rounded-[40px] bg-red-950/50 border border-white/5 overflow-hidden mb-12">
+                <motion.div animate={{ x: ["-100%", "200%"] }} transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }} className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12" />
+                <div className="absolute bottom-12 left-12 space-y-4 w-full">
+                  <div className="w-2/3 h-10 md:h-14 bg-white/10 rounded-lg" />
+                  <div className="w-1/2 h-10 md:h-14 bg-white/10 rounded-lg" />
+                  <div className="w-40 h-12 bg-white/10 rounded-full mt-6" />
                 </div>
-              )}
+              </div>
 
-              {/* OVERLAY */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/20 to-transparent" />
-            </div>
+              {/* Content Skeleton */}
+              <div className="max-w-3xl mx-auto space-y-5">
+                <div className="w-1/4 h-5 bg-red-950 rounded mb-8" />
+                <div className="w-full h-4 bg-red-950 rounded" />
+                <div className="w-full h-4 bg-red-950 rounded" />
+                <div className="w-5/6 h-4 bg-red-950 rounded" />
+                <div className="w-full h-4 bg-red-950 rounded mt-8" />
+                <div className="w-4/5 h-4 bg-red-950 rounded" />
+              </div>
+            </motion.div>
 
-            {/* CONTENT */}
-            <div className="relative p-8 md:p-12">
-              {/* TITLE */}
-              <h1 className="text-4xl md:text-6xl font-black leading-tight max-w-5xl">
-                {blog.title}
-              </h1>
+          ) : (
 
-              {/* STATS */}
-              <div className="flex flex-wrap items-center gap-6 mt-10">
-                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/[0.04] border border-white/10">
-                  <FiEye className="text-red-400 text-xl" />
-                  <div className="flex gap-2 justify-center items-center">
-                    <p className="text-sm text-gray-400">
-                      Total Visits
-                    </p>
-                    <h3 className="font-bold text-lg">
-                      {blog.totalVisits || 0}
-                    </h3>
-                  </div>
+            /* --- ACTUAL CONTENT --- */
+            <motion.div key="content" variants={fadeVariant} initial="initial" animate="animate" className="pt-8 md:pt-12">
+              
+              {/* HERO SECTION */}
+              <section className="px-4 md:px-10 mb-12">
+                <div className="max-w-6xl mx-auto">
+                  
+                  {/* BACK BUTTON */}
+                  <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
+                    <Link to="/stories" className="inline-flex items-center gap-2 text-red-200/70 hover:text-white transition-colors duration-300 mb-6 font-semibold group">
+                      <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" />
+                      Back to Stories
+                    </Link>
+                  </motion.div>
+
+                  {/* HERO CARD */}
+                  <motion.div variants={slideUpVariant} initial="hidden" animate="visible" className="relative overflow-hidden rounded-[40px] border border-white/10 bg-red-950/80 shadow-2xl">
+                    
+                    <div className="relative min-h-[400px] md:h-[500px] overflow-hidden flex flex-col justify-end">
+                      
+                      {/* MEDIA BACKGROUND */}
+                      <div className="absolute inset-0 z-0 bg-black/40 flex items-center justify-center">
+                        {blog.social_media_link ? (
+                          <div className="w-full h-full flex justify-center items-center py-6">
+                            <InstagramEmbed url={blog.social_media_link} className="w-full max-w-[360px] shadow-2xl" />
+                          </div>
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-red-800 via-red-600 to-orange-700 flex items-center justify-center">
+                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise-pattern-with-subtle-cross-lines.png')] opacity-20 mix-blend-overlay"></div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* GRADIENT OVERLAY (Protects text readability) */}
+                      <div className="absolute inset-0 z-10 bg-gradient-to-t from-red-950 via-red-950/60 to-transparent pointer-events-none" />
+
+                      {/* HERO TEXT & BUTTON */}
+                      <div className="relative z-20 p-8 md:p-12 w-full">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight max-w-4xl text-white font-hammersmith drop-shadow-lg">
+                          {blog.title}
+                        </h1>
+
+                        {blog.social_media_link && (
+                          <div className="mt-8">
+                            <a href={blog.social_media_link} target="_blank" rel="noopener noreferrer">
+                              <motion.button 
+                                whileHover={{ scale: 1.05 }} 
+                                whileTap={{ scale: 0.95 }}
+                                className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-red-600 shadow-[0_4px_14px_rgba(220,38,38,0.4)] transition-colors hover:bg-red-500 font-semibold text-white"
+                              >
+                                View Original Post
+                                <FiExternalLink />
+                              </motion.button>
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
                 </div>
+              </section>
 
-                {blog.social_media_link && (
-                  <a
-                    href={blog.social_media_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-red-600 hover:bg-red-500 transition-all duration-300 font-semibold"
-                  >Visit Media
-                    <FiExternalLink />
-                  </a>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              {/* ARTICLE CONTENT SECTION */}
+              <section className="px-4 md:px-10">
+                {/* Changed max-w-5xl to max-w-3xl for optimal reading width */}
+                <div className="max-w-3xl mx-auto">
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
+                    
+                    <div className="mb-8">
+                      <p className="text-red-400 uppercase tracking-[0.25em] text-xs font-bold mb-2">
+                        Article Content
+                      </p>
+                      <div className="w-12 h-1 bg-red-600 rounded-full"></div>
+                    </div>
 
-      {/* BLOG CONTENT */}
-      <section className="relative px-4 md:px-10 pb-8">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="relative overflow-hidden rounded-[40px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 md:p-14"
-          >
-            {/* TOP BAR */}
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-red-400 uppercase tracking-[0.25em] text-sm font-bold">
-                  Article Content
-                </p>
-                <h2 className="text-3xl md:text-4xl font-black mt-3">
-                  Full Story
-                </h2>
-              </div>
-            </div>
-            {/* CONTENT */}
-            <p className="text-gray-200 text-[16px] whitespace-pre-wrap">
-              {blog.content}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+                    {/* Highly readable typographic scale */}
+                    <article className="prose prose-invert prose-lg md:prose-xl max-w-none">
+                      <p className="text-red-50/90 leading-loose whitespace-pre-wrap font-medium tracking-wide">
+                        {blog.content}
+                      </p>
+                    </article>
+
+                  </motion.div>
+                </div>
+              </section>
+
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

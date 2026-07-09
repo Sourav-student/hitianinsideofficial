@@ -4,17 +4,15 @@ import User from "../../models/authModel";
 import EventsList from "../../models/eventsListModel";
 import HomepageElementList from "../../models/homepageElementListModel";
 import AlmanacList from "../../models/almanacListModel";
-import VolleyballScore from "../../models/volleyballScoreModel";
-import BasketballScore from "../../models/basketballScoreModel";
 import { getCricketScore } from "../../controllers/cricket.controller";
 import { getFootballScore } from "../../controllers/football.controller";
 import { getBlog, getBlogById } from "../../controllers/blog.controller";
+import { getVolleyballScore } from "../../controllers/volleyball.controller";
+import { getBasketballScore } from "../../controllers/basketball.controller";
+import { redisKey } from "../../utils/redisKeys";
+import { redis } from "../../config/redisConnection";
 
 const userGetRouter = Router();
-
-userGetRouter.get("/health", (req: Request, res: Response) => {
-  res.send("Hello, Server is working!!");
-})
 
 //CHECK THAT THE USER IS ADMIN OR NOT
 userGetRouter.get("/isAdmin", async (req: Request, res: Response) => {
@@ -40,9 +38,28 @@ userGetRouter.get("/me", async (req: Request, res: Response) => {
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { email: string };
+
+    const REDIS_KEY = redisKey.userInfoKey(decoded.email);
+    const cacheUserInfo = await redis.get(REDIS_KEY);
+
+    if (cacheUserInfo) {
+      return res.status(200).json({
+        userData: JSON.parse(cacheUserInfo),
+        success: true,
+        message: "Load all resources!",
+      });
+    }
+
     const userInfo = await User.findOne({ email: decoded.email }, "-admin");
 
-    if (!userInfo) return res.status(404).json({ message: "User not found" });
+    if (!userInfo) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false
+      });
+    }
+
+    await redis.set(REDIS_KEY, JSON.stringify(userInfo));
 
     return res.status(200).json({
       userData: userInfo,
@@ -60,8 +77,20 @@ userGetRouter.get("/me", async (req: Request, res: Response) => {
 //Get all events
 userGetRouter.get("/events", async (req: Request, res: Response) => {
   try {
+    const eventData = await redis.get(redisKey.eventKey);
+
+    if (eventData) {
+      return res.status(200).json({
+        success: true,
+        message: "Load all resources!",
+        data: JSON.parse(eventData)
+      });
+    }
+
     const data = await EventsList.find().sort({ year: -1 });
-    res.status(200).json({
+
+    await redis.set(redisKey.eventKey, JSON.stringify(data));
+    return res.status(200).json({
       success: true,
       message: "Load all resources!",
       data
@@ -77,8 +106,21 @@ userGetRouter.get("/events", async (req: Request, res: Response) => {
 //Get all almanac
 userGetRouter.get("/almanacs", async (req: Request, res: Response) => {
   try {
+    const almanacData = await redis.get(redisKey.almanacKey);
+
+    if (almanacData) {
+      return res.status(200).json({
+        success: true,
+        message: "Load all resources!",
+        data: JSON.parse(almanacData)
+      });
+    }
+
     const data = await AlmanacList.find();
-    res.status(200).json({
+
+    await redis.set(redisKey.almanacKey, JSON.stringify(data));
+
+    return res.status(200).json({
       success: true,
       message: "Load all resources!",
       data
@@ -94,8 +136,21 @@ userGetRouter.get("/almanacs", async (req: Request, res: Response) => {
 //get all homepage elements
 userGetRouter.get("/homepage-elements", async (req: Request, res: Response) => {
   try {
+    const homepageElementData = await redis.get(redisKey.homepageElementKey);
+
+    if (homepageElementData) {
+      return res.status(200).json({
+        success: true,
+        message: "Load all resources!",
+        data: JSON.parse(homepageElementData)
+      });
+    }
+
     const data = await HomepageElementList.find();
-    res.status(200).json({
+
+    await redis.set(redisKey.homepageElementKey, JSON.stringify(data));
+    
+    return res.status(200).json({
       success: true,
       message: "Load all resources!",
       data
@@ -115,38 +170,10 @@ userGetRouter.get("/cricket-scores", getCricketScore);
 userGetRouter.get("/football-scores", getFootballScore);
 
 //get all vollyball scores
-userGetRouter.get("/volleyball-scores", async (req: Request, res: Response) => {
-  try {
-    const data = await VolleyballScore.find();
-    res.status(200).json({
-      data,
-      success: true,
-      message: "Load all resources!",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "server down! try again later",
-      success: false
-    })
-  }
-})
+userGetRouter.get("/volleyball-scores", getVolleyballScore)
 
 //get all basketball scores
-userGetRouter.get("/basketball-scores", async (req: Request, res: Response) => {
-  try {
-    const data = await BasketballScore.find();
-    res.status(200).json({
-      data,
-      success: true,
-      message: "Load all resources!",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "server down! try again later",
-      success: false
-    })
-  }
-})
+userGetRouter.get("/basketball-scores", getBasketballScore)
 
 //get all blogs
 userGetRouter.get("/blogs", getBlog);

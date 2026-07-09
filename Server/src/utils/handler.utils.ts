@@ -1,4 +1,3 @@
-
 import { Response, Request } from "express";
 
 interface MulterRequest extends Request {

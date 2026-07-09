@@ -11,10 +11,10 @@ import adminPostRouter from "./routers/adminRouters/adminPostRouters";
 import adminPatchRouter from "./routers/adminRouters/adminPatchRouters";
 import adminDeleteRouter from "./routers/adminRouters/adminDeleteRouters";
 import adminGetRouter from "./routers/adminRouters/adminGetRouter";
-
-// Utils
-import { dbConn } from "./utils/dbConnection";
 import userPatchRouter from "./routers/userRouters/userPATCHRouter";
+
+// Config
+import { dbConn } from "./config/dbConnection";
 
 dotenv.config();
 
@@ -48,8 +48,8 @@ app.use("/api/admin", adminGetRouter);
 app.use("/api/user", userPatchRouter);
 
 // Root Route
-app.get("/", (req, res) => {
-  res.send("🚀 HITian Inside Server is Running Successfully!");
+app.get("/api/health", (req, res) => {
+  res.json({message : "HITian Inside Server is Running Successfully!"});
 });
 
 // 404 Handler
@@ -59,5 +59,5 @@ app.use((req, res) => {
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

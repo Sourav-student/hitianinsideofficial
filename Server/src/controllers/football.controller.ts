@@ -2,7 +2,10 @@ import { FootballScoreType } from "../types/datatypes";
 import FootballScore from "../models/footballScoreModel";
 import { Request, Response } from "express";
 import { sendSuccess, sendError, getTeamLogos, toNum, } from "../utils/handler.utils";
+import { redis } from "../config/redisConnection";
+import { redisKey } from "../utils/redisKeys";
 
+// ADD NEW FOOTBALL SCORE
 export const addFootballScore = async (req: Request, res: Response) => {
   try {
     const {
@@ -37,15 +40,31 @@ export const addFootballScore = async (req: Request, res: Response) => {
       completed,
     });
 
+    await redis.del(redisKey.footballKey);
+
     sendSuccess(res, "Football score saved successfully.", { id: football._id });
   } catch (error) {
     sendError(res, "Failed to save football score", error);
   }
 }
 
+// GET ALL FOOTBALL SCORES
 export const getFootballScore = async (req: Request, res: Response) => {
   try {
+    const cacheFootballScore = await redis.get(redisKey.footballKey);
+
+    if (cacheFootballScore) {
+      res.status(200).json({
+        data : JSON.parse(cacheFootballScore),
+        success: true,
+        message: "Load all resources!",
+      });
+    }
+
     const data = await FootballScore.find().select('-team1_details.team_logo_id -team2_details.team_logo_id');
+
+    await redis.set(redisKey.footballKey, JSON.stringify(data));
+
     res.status(200).json({
       data,
       success: true,
@@ -59,6 +78,7 @@ export const getFootballScore = async (req: Request, res: Response) => {
   }
 }
 
+// UPDATE FOOTBALL SCORE
 export const updateFootballDetails = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
@@ -89,6 +109,8 @@ export const updateFootballDetails = async (req: Request, res: Response) => {
       return res.status(404).json({ success: false, message: "cricket score is not found" });
     }
 
+    await redis.del(redisKey.footballKey);
+
     return res.status(200).json({
       success: true,
       message: "football score updated successfully",
@@ -103,6 +125,7 @@ export const updateFootballDetails = async (req: Request, res: Response) => {
   }
 }
 
+//DELETE FOOTBALL SCORE
 export const deleteFootballScore = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
@@ -114,6 +137,8 @@ export const deleteFootballScore = async (req: Request, res: Response) => {
         success: false
       })
     }
+
+    await redis.del(redisKey.footballKey);
 
     return res.status(200).json({
       message: "deleted successfully",

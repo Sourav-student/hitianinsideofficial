@@ -1,86 +1,88 @@
-import React from "react";
+import { motion } from "motion/react";
 
-export default function HomeSkeleton() {
+const HomeSkeleton = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center bg-[#6A0000] text-center overflow-hidden">
-      {/* Top heading */}
-      <h2 className="text-3xl text-white font-semibold mt-8 mb-2 animate-pulse">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      // The exit prop ensures this fades out beautifully when the real data loads
+      exit={{ opacity: 0, transition: { duration: 0.4, ease: "easeOut" } }}
+      className="min-h-screen flex flex-col items-center bg-[#6A0000] text-center overflow-hidden"
+    >
+      {/* Top Heading */}
+      <h2 className="text-3xl text-white/50 font-semibold mt-12 mb-4 animate-pulse font-hammersmith">
         COME AND EXPLORE
       </h2>
 
-      {/* Subheading/logo */}
-      <div className="w-44 h-6 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer mb-8"></div>
+      {/* Subheading / Logo Placeholder */}
+      <div className="w-44 h-8 rounded-md bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer mb-8"></div>
 
-      {/* Bridge illustration skeleton */}
-      <div className="w-full h-32 bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"></div>
+      {/* Hero Image / Bridge Illustration Skeleton */}
+      <div className="w-full h-40 md:h-56 bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer shadow-inner"></div>
 
-      {/* Pink content area */}
-      <div className="w-full bg-[#f8c8c8] mt-[-1px] flex flex-col items-center py-10 px-6 rounded-t-3xl">
-        {/* About us heading */}
-        <div className="w-32 h-5 rounded bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer mb-6"></div>
+      {/* Middle Content Area (Pink) */}
+      <div className="w-full bg-gradient-to-b from-[#FFB5B5] to-[#f8c8c8] -mt-2 flex flex-col items-center py-16 px-6 rounded-t-[40px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-10">
+        
+        {/* About Us Heading Placeholder */}
+        <div className="w-40 h-8 rounded-md bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer mb-8"></div>
 
-        {/* Paragraph skeleton */}
-        <div className="w-full max-w-md flex flex-col items-center gap-3 mb-6">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div
-              key={i}
-              className="w-[90%] h-3 rounded bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer"
-            ></div>
-          ))}
+        {/* Paragraph Skeleton */}
+        <div className="w-full max-w-2xl flex flex-col items-center gap-4 mb-10">
+          <div className="w-full h-4 rounded-full bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer"></div>
+          <div className="w-[90%] h-4 rounded-full bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer"></div>
+          <div className="w-[95%] h-4 rounded-full bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer"></div>
+          <div className="w-[70%] h-4 rounded-full bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer"></div>
         </div>
 
-        {/* Button skeleton */}
-        <div className="w-32 h-9 rounded-full bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer mb-10"></div>
+        {/* Button Placeholder */}
+        <div className="w-40 h-12 rounded-full bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer mb-16"></div>
 
-        {/* Gallery Image Skeletons */}
-        <div className="w-full max-w-6xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 justify-items-center">
+        {/* Image Grid Skeletons */}
+        <div className="w-full max-w-6xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 justify-items-center">
           {Array.from({ length: 5 }).map((_, i) => (
             <div
-              key={i}
-              className="w-[95%] aspect-square rounded-lg bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer"
+              key={`grid-skel-${i}`}
+              className="w-full aspect-[4/5] rounded-xl bg-gradient-to-r from-[#d28b8b] via-[#e9b2b2] to-[#d28b8b] shimmer shadow-md"
             ></div>
           ))}
         </div>
       </div>
 
-      {/* NEW GALLERY SECTION SKELETON */}
-      <div className="w-full flex flex-col md:flex-row bg-[#6A0000] py-12 px-8 md:px-16 items-center gap-10">
-        {/* Left text section */}
-        <div className="flex flex-col items-center md:items-start text-center md:text-left md:w-1/2">
-          <div className="w-40 h-8 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer mb-6"></div>
+      {/* Bottom Gallery Section Skeleton */}
+      <div className="w-full flex flex-col md:flex-row bg-[#660909] py-16 px-8 md:px-16 items-center gap-12">
+        
+        {/* Left Text Skeleton */}
+        <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-2/5">
+          <div className="w-48 h-10 rounded-md bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer mb-8"></div>
 
-          <div className="flex flex-col gap-3 mb-6 w-[90%]">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-full h-5 rounded bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"
-              ></div>
-            ))}
+          <div className="flex flex-col gap-4 w-full mb-10">
+            <div className="w-full h-4 rounded-full bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"></div>
+            <div className="w-[90%] h-4 rounded-full bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"></div>
+            <div className="w-[85%] h-4 rounded-full bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"></div>
           </div>
 
-          <div className="w-32 h-9 rounded-full bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"></div>
+          <div className="w-40 h-12 rounded-full bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"></div>
         </div>
 
-        {/* Right gallery preview skeleton */}
-        <div
-          className="w-full aspect-square rounded-lg bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer"
-        ></div>
+        {/* Right Gallery Preview Skeleton */}
+        <div className="w-full md:w-3/5 h-64 md:h-[400px] rounded-xl bg-gradient-to-r from-[#7a2b2b] via-[#9e4c4c] to-[#7a2b2b] shimmer shadow-xl"></div>
       </div>
 
-      {/* Shimmer animation */}
-      <style>
-        {`
-          @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-          }
-
-          .shimmer {
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite linear;
-          }
-        `}
-      </style>
-    </div>
+      {/* Hardware-Accelerated Shimmer Animation */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        .shimmer {
+          background-size: 200% 100%;
+          animation: shimmer 1.8s infinite linear;
+          /* Will-change hints to the browser to put this on the GPU */
+          will-change: background-position; 
+        }
+      `}} />
+    </motion.div>
   );
-}
+};
+
+export default HomeSkeleton;

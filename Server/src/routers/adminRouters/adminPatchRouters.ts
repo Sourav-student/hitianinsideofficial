@@ -1,7 +1,7 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { updateCricketScore } from "../../controllers/cricket.controller";
 import { updateFootballDetails } from "../../controllers/football.controller";
-import { updateEvent } from "../../controllers/user.controller";
+import { updateEvent } from "../../controllers/admin.controller";
 import { updateBlog } from "../../controllers/blog.controller";
 
 const adminPatchRouter = Router();

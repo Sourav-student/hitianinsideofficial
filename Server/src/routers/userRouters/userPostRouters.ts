@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import upload from "../../utils/multerCloudinaryConfig";
+import upload from "../../config/multerCloudinaryConfig";
 import Artwork from "../../models/artworkModel";
 import Contact from "../../models/contactModel";
 import Photos from "../../models/photoModel";

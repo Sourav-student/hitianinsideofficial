@@ -2,11 +2,14 @@ import { Request, Response } from "express";
 import CricketScore from "../models/cricketScoreModel";
 import { CricketScoreType } from "../types/datatypes";
 import { sendSuccess, sendError, getTeamLogos, toNum, } from "../utils/handler.utils";
+import { redis } from "../config/redisConnection";
+import { redisKey } from "../utils/redisKeys";
 
+//UPDATE CRICKET SCORE
 export const updateCricketScore = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
-    const { team1Run, team2Run, team1OverPlayed, team2OverPlayed, team1WicketLoss, team2WicketLoss, completed: completedRaw}: CricketScoreType = req.body;
+    const { team1Run, team2Run, team1OverPlayed, team2OverPlayed, team1WicketLoss, team2WicketLoss, completed: completedRaw }: CricketScoreType = req.body;
 
     const completed = completedRaw === "yes" || completedRaw === "no" ? completedRaw : "no";
 
@@ -32,7 +35,9 @@ export const updateCricketScore = async (req: Request, res: Response) => {
     existingScore.team2_details.team_wicket_loss = toNum(team2WicketLoss!);
     existingScore.completed = completed;
 
-    existingScore.save({validateBeforeSave : true});
+    existingScore.save({ validateBeforeSave: true });
+
+    await redis.del(redisKey.cricketKey);
 
     return res.status(200).json({
       success: true,
@@ -49,22 +54,27 @@ export const updateCricketScore = async (req: Request, res: Response) => {
   }
 }
 
+//GET CRICKET SCORE
 export const getCricketScore = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const data = await CricketScore.find().select('-team1_details.team_logo_id -team1_details.team_logo_id');
+    const cacheCricketData = await redis.get(redisKey.cricketKey); //GET DATA FROM CACHE MEMORY
 
-    if (data.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No cricket scores found!",
-        data: [],
+    if (cacheCricketData) {
+      return res.status(200).json({
+        success: true,
+        message: "cricket scores found!",
+        data: JSON.parse(cacheCricketData),
       });
     }
+
+    const data = await CricketScore.find().select('-team1_details.team_logo_id -team1_details.team_logo_id');
+
+    await redis.set(redisKey.cricketKey, JSON.stringify(data || []), 'EX', 1800); // STORE IN CACHE MEMORY
 
     return res.status(200).json({
       success: true,
       message: "All cricket scores loaded successfully",
-      data,
+      data: data || [],
     });
   } catch (error) {
     console.error("Get Cricket Score Error:", error);
@@ -76,27 +86,18 @@ export const getCricketScore = async (req: Request, res: Response): Promise<Resp
   }
 };
 
+//ADD NEW CRICKET SCORE
 export const addCricketScore = async (req: Request, res: Response) => {
   try {
-    const {
-      matchType,
-      team1Name,
-      team2Name,
-      team1Run,
-      team2Run,
-      team1OverPlayed,
-      team2OverPlayed,
-      team1WicketLoss,
-      team2WicketLoss,
-      completed,
-    }: CricketScoreType = req.body;
+    const { matchType, team1Name, team2Name, team1Run, team2Run, team1OverPlayed, team2OverPlayed, team1WicketLoss, team2WicketLoss, completed }: CricketScoreType = req.body;
 
     const { team1Logo, team2Logo, team1PublicId, team2PublicId } = getTeamLogos(req);
 
     if (!team1Logo || !team2Logo) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Both team logos are required." });
+      return res.status(400).json({
+        success: false,
+        message: "Both team logos are required."
+      });
     }
 
     const cricket = await CricketScore.create({
@@ -120,12 +121,15 @@ export const addCricketScore = async (req: Request, res: Response) => {
       completed
     });
 
+    await redis.del(redisKey.cricketKey);
+
     sendSuccess(res, "Cricket score saved successfully.", { id: cricket._id });
   } catch (error) {
     sendError(res, "Failed to save cricket score", error);
   }
 };
 
+//DELETE CRICKET SCORE
 export const deleteCricketScore = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
@@ -138,6 +142,8 @@ export const deleteCricketScore = async (req: Request, res: Response) => {
         message: "scorecard not deleted!"
       });
     }
+
+    await redis.del(redisKey.cricketKey);
 
     return res.status(200).json({
       success: true,

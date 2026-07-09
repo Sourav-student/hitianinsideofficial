@@ -1,5 +1,7 @@
 import { Response, Request, Router } from "express";
 import User from "../../models/authModel";
+import { redisKey } from "../../utils/redisKeys";
+import { redis } from "../../config/redisConnection";
 
 const userPatchRouter = Router();
 
@@ -19,6 +21,8 @@ userPatchRouter.patch("/update", async (req : Request, res : Response) => {
       year,
       name
     });
+
+    await redis.del(redisKey.userInfoKey(email));
 
     return res.status(200).json({
       message : "updated successfully!",
